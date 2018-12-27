@@ -1,5 +1,6 @@
 package com.demyanovsky.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -7,7 +8,7 @@ import java.util.Objects;
 //Model
 @Component
 public class User {
-
+    @JsonProperty
     private int id;
 
     private String name;

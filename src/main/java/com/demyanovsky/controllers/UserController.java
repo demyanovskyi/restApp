@@ -11,25 +11,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 
 @RestController
 public class UserController {
 
+    /**
+     * Private final constructor
+     */
+    private final UserService userService;
     @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     // Get all users controller
+
     @RequestMapping(value = CRUDConstants.GET_ALL_USERS, method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<User>> listAllUsers() {
-        ArrayList<User> users = userService.getAll();
-        return new ResponseEntity<ArrayList<User>>(users, HttpStatus.OK);
+    private ResponseEntity<List<User>> listAllUsers() {
+        List<User> users = userService.getAll();
+        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
 
 
     // Get user by id controller
     @RequestMapping(value = CRUDConstants.GET_USER, method = RequestMethod.GET)
-    public ResponseEntity<User> userById(@PathVariable("id") int id) {
+    private ResponseEntity<User> userById(@PathVariable("id") int id) {
         User user = userService.getById(id);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
@@ -37,16 +45,15 @@ public class UserController {
 
     // Delete controller
     @RequestMapping(value = CRUDConstants.DELETE_USER, method = RequestMethod.DELETE)
-    public ResponseEntity deleteUserById(@PathVariable("id") int id) {
+    private ResponseEntity deleteUserById(@PathVariable("id") int id) {
         userService.deliteById(id);
         return new ResponseEntity<User>(HttpStatus.OK);
-
     }
 
 
     //Add new user controller
     @RequestMapping(value = CRUDConstants.CREATE_USER, method = RequestMethod.POST)
-    public ResponseEntity<User> createNewUser(@RequestBody User user) {
+    private ResponseEntity<User> createNewUser(@RequestBody User user) {
         userService.save(user);
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }

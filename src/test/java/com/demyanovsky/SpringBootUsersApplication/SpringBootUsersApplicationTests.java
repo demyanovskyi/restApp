@@ -24,8 +24,8 @@ import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -34,71 +34,53 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class SpringBootUsersApplicationTests {
 
-    /*  private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
-              MediaType.APPLICATION_JSON.getSubtype(),
-              Charset.forName("utf8"));
-  */
-    @Resource
-    private WebApplicationContext webApplicationContext;
-
+    @Autowired
     private MockMvc mockMvc;
 
-    @Before
-    public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
-
-
-    static RestTemplate restTemplate = new RestTemplate();
 
     @Autowired
     UserService userServiсe;
 
 
     @Before
-    public void init() {
-        User user = new User(1, "Tomm");
-        URI uri = restTemplate.postForLocation("http://localhost:8080/" + "/user/", user, User.class);
-        User user1 = new User(2, "Bill");
-        URI uri1 = restTemplate.postForLocation("http://localhost:8080/" + "/user/", user1, User.class);
+    public void init() throws Exception {
+        mockMvc.perform(post("/user/").content("{ \"id\" : 12 , \"name\" : \"aaa\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
+        );
+        mockMvc.perform(post("/user/").content("{ \"id\" : 10 , \"name\" : \"aaa\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
+        );
     }
-
 
     @Test
     public void userById() throws Exception {
-
-        mockMvc
-                .perform(get("/user/{id}", "1"))
-                .andExpect(handler().handlerType(UserController.class))
+        mockMvc.perform(get("/user/{id}", 12))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
                 .andReturn();
+        mockMvc.perform(get("/user/{id}", 10))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(handler().methodName("userById"))
+                .andReturn();
+
     }
 
     @Test
     public void listAllUsers() throws Exception {
-        ResponseEntity<ArrayList<User>> responsEntity = restTemplate.exchange("http://localhost:8080//user/",
-                HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<User>>() {
-                });
-        ArrayList<User> actuaalList = responsEntity.getBody();
-        Assert.assertEquals(actuaalList.size(), 2);
-
-
         mockMvc
                 .perform(get("http://localhost:8080//user/"))
                 .andExpect(handler().handlerType(UserController.class))
-                .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk());
+                .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+
+        ;
 
     }
-
     @Test
     public void deleteUserById() throws Exception {
-        ResponseEntity<ArrayList<User>> responsEntity = restTemplate.exchange("http://localhost:8080//user/",
-                HttpMethod.GET, null, new ParameterizedTypeReference<ArrayList<User>>() {
-                });
-        ArrayList<User> actuaalList = responsEntity.getBody();
-        Assert.assertEquals(actuaalList.get(1).getName(), "Bill");
         mockMvc
-                .perform(delete("http://localhost:8080//user/2")).andExpect(handler().handlerType(UserController.class))
+                .perform(delete("http://localhost:8080//user/10"))
+                .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("deleteUserById")).andExpect(status().isOk());
 
 

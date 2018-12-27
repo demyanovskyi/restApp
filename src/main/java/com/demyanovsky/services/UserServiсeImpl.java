@@ -1,6 +1,9 @@
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
+import com.demyanovsky.exceptions.UserIdNotContainException;
+import com.demyanovsky.exceptions.UserNotFoundException;
+import com.demyanovsky.exceptions.UserWithSuchIdAlreadyExistsException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,8 +23,8 @@ public class UserServiсeImpl implements UserService {
     }
 
     @Override
-    public ArrayList<User> getAll() {
-        return (ArrayList<User>) users;
+    public List<User> getAll() {
+        return  users;
     }
 
 
@@ -32,9 +35,8 @@ public class UserServiсeImpl implements UserService {
                 return user;
             }
         }
-        return null;
+        throw new UserNotFoundException(id);
     }
-
 
     @Override
     public User modify(User user) {
@@ -48,7 +50,7 @@ public class UserServiсeImpl implements UserService {
         if (user != null)
             for (User temp : users) {
                 if (temp.equals(user)) {
-                    return null;
+                    throw new UserWithSuchIdAlreadyExistsException(user);
                 }
             }
         users.add(user);
@@ -57,16 +59,21 @@ public class UserServiсeImpl implements UserService {
 
     @Override
     public void deliteById(int id) {
-
-
+      try {
+          User user1 = getById(id);
+      }catch (UserNotFoundException e){
+          throw new UserNotFoundException(id);
+      }
+       /* if(getById(id) == null) {
+            throw new UserIdNotContainException(id);
+        }*/
         for (Iterator<User> iterator = users.iterator(); iterator.hasNext(); ) {
             User user = iterator.next();
             if (user.getId() == id) {
                 iterator.remove();
             }
         }
+
     }
-
-
 }
 
