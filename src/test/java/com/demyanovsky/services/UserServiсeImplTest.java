@@ -1,17 +1,12 @@
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
-import com.demyanovsky.exceptions.UserIdNotContainException;
 import com.demyanovsky.exceptions.UserNotFoundException;
-import com.demyanovsky.exceptions.UserWithSuchIdAlreadyExistsException;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
 
 public class UserServiсeImplTest {
     @Mock

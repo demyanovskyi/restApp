@@ -1,7 +1,6 @@
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
-import com.demyanovsky.exceptions.UserIdNotContainException;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.exceptions.UserWithSuchIdAlreadyExistsException;
 import org.springframework.stereotype.Service;
