@@ -33,9 +33,7 @@ public class UserServiсeImpl implements UserService {
 
     @Override
     public User getById(long id) {
-        User user;
-        user = userDao.getUserById(id);
-        return user;
+        return  userDao.getUserById(id);
 
     }
 
@@ -48,8 +46,8 @@ public class UserServiсeImpl implements UserService {
 
     @Override
     public User save(User user) {
-        userDao.save(user);
-        return user;
+userDao.save(user);
+        return  user;
 
 
     }
@@ -57,7 +55,8 @@ public class UserServiсeImpl implements UserService {
 
     @Override
     public void deliteById(long id) {
-userDao.deliteById(id);
+userDao.deliteUsebyIDr(id);
+return;
 
     }
 }

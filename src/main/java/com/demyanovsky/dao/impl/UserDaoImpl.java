@@ -14,15 +14,16 @@ import java.util.List;
 
 
 @Repository
-public class UserDaoImpl  implements UserDao {
+public class UserDaoImpl implements UserDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
 
     @Override
     public void save(User user) {
+
         String sql = "INSERT INTO users " +
-                "(ID, NAME) VALUES ( ?, ?)" ;
+                "(ID, NAME) VALUES ( ?, ?)";
         jdbcTemplate.update(sql, new Object[]{
                 user.getId(), user.getName()
         });
@@ -47,23 +48,18 @@ public class UserDaoImpl  implements UserDao {
     }
 
 
-
     @Override
-    public void deliteById(long id) {
-          String sql = "DELETE FROM users WHERE id = ?";
-jdbcTemplate.update(sql, id);
+    public void deliteUsebyIDr(long id) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+
     }
-
-
-
-
-
 
 
     @Override
     public User getUserById(long id) {
         String sql = "SELECT * FROM users WHERE ID = ?";
-        return (User)jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<User>(){
+        return (User) jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet resultSet, int rwNumber) throws SQLException {
                 User user = new User();

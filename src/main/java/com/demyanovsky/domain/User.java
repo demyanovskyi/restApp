@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class User {
     @JsonProperty
-    private Long id;
+    private long id;
 
     private String name;
 
@@ -24,7 +24,7 @@ public class User {
         this.name = name;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

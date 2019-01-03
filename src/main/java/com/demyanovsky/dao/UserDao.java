@@ -7,9 +7,12 @@ import java.util.List;
 
 public interface UserDao {
     void save(User cus);
+
     List<User> getAll();
+
     User getUserById(long id);
-   void deliteById(long id);
+
+    void deliteUsebyIDr(long id);
 
 }
 
