@@ -1,19 +1,18 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 //Model
-@Component
+
 public class User {
     @JsonProperty
-    private int id;
+    private Long id;
 
     private String name;
 
-    public User(int id, String firstName) {
+    public User(Long id, String firstName) {
         this.id = id;
         this.name = firstName;
     }
@@ -21,11 +20,15 @@ public class User {
     public User() {
     }
 
-    public int getId() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

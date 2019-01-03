@@ -1,6 +1,7 @@
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
+
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public interface UserService {
      * Delete the user by it's id.
      * @param id the id
      */
-    void deliteById(int id);
+    void deliteById(long id);
 
     /**
      * Get the list of users.
@@ -35,7 +36,7 @@ public interface UserService {
      * @param id
      * @return user
      */
-    User getById(int id);
+    User getById(long id);
 
     User modify(User user);
 }
