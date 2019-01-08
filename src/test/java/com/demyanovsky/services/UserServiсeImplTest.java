@@ -1,4 +1,3 @@
-/*
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
@@ -12,15 +11,15 @@ import static org.junit.Assert.*;
 
 public class UserServiсeImplTest {
     @Mock
-    UserServiсeImpl userService = new UserServiсeImpl();
+    UserService userService = new UserServiсeImpl();
 
 
     @Test
     public void getAll() {
-        User user1 = new User(222, "Bill");
-        User user2 = new User(7722, "Stiv");
-        User user3 = new User(332, "Ivan");
-        User user4 = new User(132, "Andy");
+        User user1 = new User((long) 222, "Bill");
+        User user2 = new User((long) 7722, "Stiv");
+        User user3 = new User((long) 332, "Ivan");
+        User user4 = new User((long) 132, "Andy");
         userService.save(user1);
         userService.save(user2);
         userService.save(user3);
@@ -31,16 +30,16 @@ public class UserServiсeImplTest {
 
     @Test
     public void getById() {
-        User user1 = new User(22, "Bill");
-        User user2 = new User(772, "Stiv");
-        User user3 = new User(33, "Ivan");
+        User user1 = new User((long) 22, "Bill");
+        User user2 = new User((long) 772, "Stiv");
+        User user3 = new User((long) 33, "Ivan");
         userService.save(user1);
         userService.save(user2);
         userService.save(user3);
         assertNotNull(userService);
-        assertEquals(userService.getById(22), user1);
-        assertEquals(userService.getById(772), user2);
-        assertEquals(userService.getById(33), user3);
+        assertEquals(userService.getById((long) 22), user1);
+        assertEquals(userService.getById((long) 772), user2);
+        assertEquals(userService.getById((long) 33), user3);
 
 
     }
@@ -48,14 +47,14 @@ public class UserServiсeImplTest {
 
     @Test
     public void deliteById() {
-        User user1 = new User(42, "Ivan");
+        User user1 = new User((long) 42, "Ivan");
         userService.save(user1);
-        assertEquals(userService.getById(42), user1);
-        userService.deliteById(42);
+        assertEquals(userService.getById((long) 42), user1);
+        userService.deliteById((long) 42);
         try {
-            userService.getById(42);
+            userService.getById((long) 42);
         } catch (UserNotFoundException id) {
         }
 
     }
-}*/
+}

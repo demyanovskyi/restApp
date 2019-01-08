@@ -3,6 +3,7 @@ package com.demyanovsky.dao.impl;
 
 import com.demyanovsky.dao.UserDao;
 import com.demyanovsky.domain.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,16 +13,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @Repository
 public class UserDaoImpl implements UserDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+/*
+    @Bean
+    public DataSource dataSource(){
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
+        dataSource.setUrl("your url");
+        dataSource.setUsername( "username" );
+        dataSource.setPassword( "password" );
+        return dataSource;
+    }*/
 
     @Override
     public void save(User user) {
-
         String sql = "INSERT INTO users " +
                 "(ID, NAME) VALUES ( ?, ?)";
         jdbcTemplate.update(sql, new Object[]{
@@ -29,6 +38,7 @@ public class UserDaoImpl implements UserDao {
         });
 
     }
+
 
     @Override
     public List<User> getAll() {
@@ -49,7 +59,7 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
-    public void deliteUsebyIDr(long id) {
+    public void deliteUsebyID(long id) {
         String sql = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sql, id);
 
@@ -57,7 +67,7 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
-    public User getUserById(long id) {
+    public User getUserById(Long id) {
         String sql = "SELECT * FROM users WHERE ID = ?";
         return (User) jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<User>() {
             @Override
@@ -67,10 +77,10 @@ public class UserDaoImpl implements UserDao {
                 user.setName(resultSet.getString("name"));
 
                 return user;
+
+
             }
         });
     }
 }
-
-
 

@@ -1,7 +1,10 @@
 package com.demyanovsky.services;
 
-import com.demyanovsky.domain.User;
 
+import com.demyanovsky.domain.User;
+import com.demyanovsky.exceptions.UserNotFoundException;
+
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -19,14 +22,14 @@ public interface UserService {
      *
      * @param user
      */
-    User save(User user);
+    void save(User user);
 
     /**
      * Delete the user by it's id.
      *
      * @param id the id
      */
-    void deliteById(long id);
+    void deliteById(Long id);
 
     /**
      * Get the list of users.
@@ -41,7 +44,7 @@ public interface UserService {
      * @param id
      * @return user
      */
-    User getById(long id);
+    User getById(Long id);
 
     User modify(User user);
 }

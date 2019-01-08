@@ -1,7 +1,10 @@
 package com.demyanovsky.services.impl;
 
+
 import com.demyanovsky.dao.UserDao;
 import com.demyanovsky.domain.User;
+import com.demyanovsky.exceptions.UserNotFoundException;
+import com.demyanovsky.exceptions.UserWithSuchIdAlreadyExistsException;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +14,7 @@ import java.util.List;
 
 
 @Service
-public class UserServiсeImpl implements UserService {
-
+public  class UserServiсeImpl implements UserService {
 
     @Autowired
     UserDao userDao;
@@ -26,16 +28,21 @@ public class UserServiсeImpl implements UserService {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAll(){
         return userDao.getAll();
     }
 
 
     @Override
-    public User getById(long id) {
-        return  userDao.getUserById(id);
+    public User getById(Long id)  {
+        try {
+            return userDao.getUserById(id);
+        } catch (Exception e) {
+            throw  new UserNotFoundException(id);
+        }
 
     }
+
 
     @Override
     public User modify(User user) {
@@ -45,18 +52,26 @@ public class UserServiсeImpl implements UserService {
 
 
     @Override
-    public User save(User user) {
-userDao.save(user);
-        return  user;
+    public void save(User user) {
+        try {
+            if (user.getId()!=null&&user.getName()!=null){
+            userDao.save(user);}
+        } catch (Exception e) {
+            throw  new UserWithSuchIdAlreadyExistsException(user.getId());
 
-
+        }
     }
 
 
+
     @Override
-    public void deliteById(long id) {
-userDao.deliteUsebyIDr(id);
-return;
+    public void deliteById(Long id){
+        try {
+            if (userDao.getUserById(id)!=null)
+            userDao.deliteUsebyID(id);
+        }catch (Exception e){
+            throw new UserNotFoundException(id);
+        }
 
     }
 }

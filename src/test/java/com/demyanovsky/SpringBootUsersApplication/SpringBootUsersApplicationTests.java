@@ -24,11 +24,6 @@ public class SpringBootUsersApplicationTests {
     @Autowired
     private MockMvc mockMvc;
 
-
-    @Autowired
-    UserService userServiсe;
-
-
     @Before
     public void init() throws Exception {
         mockMvc.perform(post("/user/").content("{ \"id\" : 12 , \"name\" : \"aaa\"}").contentType(MediaType.APPLICATION_JSON_UTF8)

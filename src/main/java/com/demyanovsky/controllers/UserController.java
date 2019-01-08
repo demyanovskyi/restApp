@@ -1,5 +1,6 @@
 package com.demyanovsky.controllers;
 
+
 import com.demyanovsky.domain.User;
 import com.demyanovsky.services.CRUDConstants;
 import com.demyanovsky.services.UserService;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -20,14 +22,14 @@ public class UserController {
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    private UserController(UserService userService) {
         this.userService = userService;
     }
 
     // Get all users controller
 
     @RequestMapping(value = CRUDConstants.GET_ALL_USERS, method = RequestMethod.GET)
-    private ResponseEntity<List<User>> listAllUsers() {
+    private ResponseEntity<List<User>> listAllUsers() throws SQLException {
         List<User> users = userService.getAll();
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
@@ -35,15 +37,18 @@ public class UserController {
 
     // Get user by id controller
     @RequestMapping(value = CRUDConstants.GET_USER, method = RequestMethod.GET)
-    private ResponseEntity<User> userById(@PathVariable("id") int id) {
+    private ResponseEntity<User> userById(@PathVariable("id") Long id) throws Throwable {
+
         User user = userService.getById(id);
         return new ResponseEntity<User>(user, HttpStatus.OK);
+
+
     }
 
 
     // Delete controller
     @RequestMapping(value = CRUDConstants.DELETE_USER, method = RequestMethod.DELETE)
-    private ResponseEntity deleteUserById(@PathVariable("id") int id) {
+    private ResponseEntity deleteUserById(@PathVariable("id") Long id) throws SQLException {
         userService.deliteById(id);
         return new ResponseEntity<User>(HttpStatus.OK);
     }
@@ -51,7 +56,7 @@ public class UserController {
 
     //Add new user controller
     @RequestMapping(value = CRUDConstants.CREATE_USER, method = RequestMethod.POST)
-    private ResponseEntity<User> createNewUser(@RequestBody User user) {
+    private ResponseEntity<User> createNewUser(@RequestBody User user) throws Exception {
         userService.save(user);
         return new ResponseEntity<User>(user, HttpStatus.CREATED);
     }
