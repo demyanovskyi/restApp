@@ -55,7 +55,7 @@ public  class UserServiсeImpl implements UserService {
     public void save(User user) {
         try {
             if (user.getId()!=null&&user.getName()!=null){
-            userDao.save(user);}
+                userDao.save(user);}
         } catch (Exception e) {
             throw  new IncorrectUserException(user.getId());
 
@@ -68,11 +68,10 @@ public  class UserServiсeImpl implements UserService {
     public void deliteById(Long id){
         try {
             if (userDao.getUserById(id)!=null)
-            userDao.deliteUsebyID(id);
+                userDao.deliteUsebyID(id);
         }catch (Exception e){
             throw new UserNotFoundException(id);
         }
 
     }
 }
-

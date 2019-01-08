@@ -2,9 +2,7 @@ package com.demyanovsky.services;
 
 
 import com.demyanovsky.domain.User;
-import com.demyanovsky.exceptions.UserNotFoundException;
 
-import java.sql.SQLException;
 import java.util.List;
 
 /**

@@ -18,16 +18,7 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-/*
-    @Bean
-    public DataSource dataSource(){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-        dataSource.setUrl("your url");
-        dataSource.setUsername( "username" );
-        dataSource.setPassword( "password" );
-        return dataSource;
-    }*/
+
 
     @Override
     public void save(User user) {
@@ -83,4 +74,3 @@ public class UserDaoImpl implements UserDao {
         });
     }
 }
-

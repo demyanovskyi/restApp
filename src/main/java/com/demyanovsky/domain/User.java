@@ -1,5 +1,6 @@
 package com.demyanovsky.domain;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 //Model
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
     @JsonProperty
+
 
     private Long id;
 

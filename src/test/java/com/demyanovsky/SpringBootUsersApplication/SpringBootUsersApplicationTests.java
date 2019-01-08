@@ -33,7 +33,7 @@ public class SpringBootUsersApplicationTests {
         );
         mockMvc.perform(post("/user/").content("{ \"id\" : 10 , \"name\" : \"Bob\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
         );
-      
+
     }
     @After
     public void destroy() throws Exception {
