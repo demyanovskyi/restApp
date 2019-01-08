@@ -24,6 +24,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class SpringBootUsersApplicationTests {
 
+    /*
+    @Bean
+    public DataSource dataSource(){
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/user");
+        dataSource.setUsername( “user" );
+        dataSource.setPassword( “root" );
+        return dataSource;
+    }*/
+
+
     @Autowired
     private MockMvc mockMvc;
 
