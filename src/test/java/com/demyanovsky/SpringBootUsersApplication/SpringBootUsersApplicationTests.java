@@ -2,6 +2,8 @@ package com.demyanovsky.SpringBootUsersApplication;
 
 import com.demyanovsky.controllers.UserController;
 import com.demyanovsky.services.UserService;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -26,9 +29,18 @@ public class SpringBootUsersApplicationTests {
 
     @Before
     public void init() throws Exception {
-        mockMvc.perform(post("/user/").content("{ \"id\" : 12 , \"name\" : \"aaa\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
+        mockMvc.perform(post("/user/").content("{ \"id\" : 12 , \"name\" : \"Stiv\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
         );
-        mockMvc.perform(post("/user/").content("{ \"id\" : 10 , \"name\" : \"aaa\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
+        mockMvc.perform(post("/user/").content("{ \"id\" : 10 , \"name\" : \"Bob\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
+        );
+      
+    }
+    @After
+    public void destroy() throws Exception {
+        mockMvc.perform(delete("/user/12")
+        );
+
+        mockMvc.perform(delete("/user/10")
         );
     }
 
@@ -53,9 +65,10 @@ public class SpringBootUsersApplicationTests {
                 .perform(get("http://localhost:8080//user/"))
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
 
-        ;
+
+
 
     }
     @Test

@@ -4,7 +4,7 @@ package com.demyanovsky.services.impl;
 import com.demyanovsky.dao.UserDao;
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
-import com.demyanovsky.exceptions.UserWithSuchIdAlreadyExistsException;
+import com.demyanovsky.exceptions.IncorrectUserException;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public  class UserServiсeImpl implements UserService {
             if (user.getId()!=null&&user.getName()!=null){
             userDao.save(user);}
         } catch (Exception e) {
-            throw  new UserWithSuchIdAlreadyExistsException(user.getId());
+            throw  new IncorrectUserException(user.getId());
 
         }
     }
