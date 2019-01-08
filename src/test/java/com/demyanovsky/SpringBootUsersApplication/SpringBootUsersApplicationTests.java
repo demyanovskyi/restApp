@@ -58,7 +58,7 @@ public class SpringBootUsersApplicationTests {
 
     @Test
     public void userById() throws Exception {
-        mockMvc.perform(get("/user/{id}", 12))
+        mockMvc.perform(get("/user/{id}", 21))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
@@ -89,6 +89,8 @@ public class SpringBootUsersApplicationTests {
                 .perform(delete("http://localhost:8080//user/10"))
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("deleteUserById")).andExpect(status().isOk());
+        mockMvc.perform(get("/user/{id}", 10))
+                .andExpect(status().isNotFound());
 
 
     }

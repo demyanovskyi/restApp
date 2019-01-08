@@ -5,7 +5,7 @@ import com.demyanovsky.domain.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserDao<T> {
     void save(User cus);
 
     List<User> getAll();

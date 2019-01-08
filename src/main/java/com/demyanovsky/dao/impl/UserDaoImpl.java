@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl implements UserDao<User> {
     @Autowired
     JdbcTemplate jdbcTemplate;
 

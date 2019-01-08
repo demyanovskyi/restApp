@@ -1,6 +1,7 @@
 package com.demyanovsky.services;
 
 
+import com.demyanovsky.dao.impl.UserDaoImpl;
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.services.impl.UserServiсeImpl;
@@ -8,10 +9,18 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.jdbc.JdbcTestUtils;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class UserServiсeImplTest {
+    @Autowired
+    private UserDaoImpl userDao;
+
+
 
 
 
@@ -27,7 +36,7 @@ public void setUp() {
 
     @Test
     public void getAll() {
-        User user1 = new User((long) 222, "Bill");
+       /* User user1 = new User((long) 222, "Bill");
         User user2 = new User((long) 7722, "Stiv");
         User user3 = new User((long) 332, "Ivan");
         User user4 = new User((long) 132, "Andy");
@@ -36,7 +45,10 @@ public void setUp() {
         userService.save(user3);
         userService.save(user4);
         Assert.assertNotNull(userService);
-        assertEquals(userService.getAll().size(), 1);
+        assertEquals(userService.getAll().size(), 1);*/
+
+        List<User> list = userDao.getAll();
+        Assert.assertTrue(list.size() == 4);
     }
 
     @Test
