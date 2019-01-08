@@ -1,9 +1,10 @@
-package com.demyanovsky.dao.impl;
+package com.demyanovsky.repository.impl;
 
 
-import com.demyanovsky.dao.UserDao;
+import com.demyanovsky.repository.UserDao;
 import com.demyanovsky.domain.User;
 
+import com.demyanovsky.repository.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,11 +14,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+
 @Repository
 public class UserDaoImpl implements UserDao<User> {
+
     @Autowired
     JdbcTemplate jdbcTemplate;
-
 
 
     @Override
@@ -34,15 +36,7 @@ public class UserDaoImpl implements UserDao<User> {
     @Override
     public List<User> getAll() {
         final String sql = "SELECT * FROM users";
-        List<User> usersList = jdbcTemplate.query(sql, new RowMapper<User>() {
-            @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                User user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setName(resultSet.getString("name"));
-
-                return user;
-            }
+        List<User> usersList = jdbcTemplate.query(sql, new UserMapper() {
         });
         return usersList;
 
@@ -60,17 +54,7 @@ public class UserDaoImpl implements UserDao<User> {
     @Override
     public User getUserById(Long id) {
         String sql = "SELECT * FROM users WHERE ID = ?";
-        return (User) jdbcTemplate.queryForObject(sql, new Object[]{id}, new RowMapper<User>() {
-            @Override
-            public User mapRow(ResultSet resultSet, int rwNumber) throws SQLException {
-                User user = new User();
-                user.setId(resultSet.getLong("id"));
-                user.setName(resultSet.getString("name"));
-
-                return user;
-
-
-            }
+        return (User) jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserMapper() {
         });
     }
 }

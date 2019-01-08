@@ -1,0 +1,7 @@
+
+
+CREATE TABLE usersTest (
+        id        int8       PRIMARY KEY,
+        name           VARCHAR(100) NOT NULL
+        );
+

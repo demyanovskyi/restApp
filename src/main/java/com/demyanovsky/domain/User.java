@@ -7,15 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 public class User {
+
+
     @JsonProperty
-
-
     private Long id;
 
 
     private String name;
 
-    public User(Long id,String firstName) {
+    public User(Long id, String firstName) {
         this.id = id;
         this.name = firstName;
     }

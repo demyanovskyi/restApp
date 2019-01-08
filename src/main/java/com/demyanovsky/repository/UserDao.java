@@ -1,4 +1,4 @@
-package com.demyanovsky.dao;
+package com.demyanovsky.repository;
 
 
 import com.demyanovsky.domain.User;

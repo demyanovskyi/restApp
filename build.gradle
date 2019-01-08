@@ -25,6 +25,8 @@ repositories {
 
 
 dependencies {
+// https://mvnrepository.com/artifact/com.h2database/h2
+	testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
 
 	compile("org.springframework:spring-jdbc")
 	implementation('org.springframework.boot:spring-boot-starter-web')
