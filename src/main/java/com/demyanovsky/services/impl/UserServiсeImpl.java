@@ -37,7 +37,6 @@ public class UserServiсeImpl implements UserService {
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }
-
     }
 
     @Override
@@ -54,7 +53,6 @@ public class UserServiсeImpl implements UserService {
             }
         } catch (Exception e) {
             throw new IncorrectUserException(user.getId());
-
         }
     }
 
@@ -66,6 +64,5 @@ public class UserServiсeImpl implements UserService {
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }
-
     }
 }
