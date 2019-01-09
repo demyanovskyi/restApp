@@ -14,7 +14,6 @@ import java.util.List;
  * @method getById(int id)
  */
 public interface UserService {
-
     /**
      * Add the user .
      *

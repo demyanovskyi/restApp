@@ -15,7 +15,7 @@ public class User {
         this.name = firstName;
     }
 
-    public User() {}
+    public User(){}
 
     public Long getId() {
         return id;
