@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public class UserRepository {
-
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -18,22 +17,18 @@ public class UserRepository {
         String sql = "INSERT INTO users " +
                 "(ID, NAME) VALUES ( ?, ?)";
         jdbcTemplate.update(sql, new Object[]{
-                user.getId(), user.getName()
-        });
-
+                user.getId(), user.getName()});
     }
 
     public List<User> getAll() {
         final String sql = "SELECT * FROM users";
         List<User> usersList = jdbcTemplate.query(sql, new UserMapper());
         return usersList;
-
     }
 
     public void deliteUsebyID(long id) {
         String sql = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sql, id);
-
     }
 
     public User getUserById(Long id) {
