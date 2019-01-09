@@ -5,13 +5,15 @@ import com.demyanovsky.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 
 @Repository
 public class UserRepository {
-    @Autowired
+   @Autowired
     JdbcTemplate jdbcTemplate;
+
     public void save(User user) {
         String sql = "INSERT INTO users " +
                 "(ID, NAME) VALUES ( ?, ?)";
