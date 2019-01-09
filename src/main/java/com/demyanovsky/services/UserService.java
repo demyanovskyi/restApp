@@ -27,7 +27,7 @@ public interface UserService {
      *
      * @param id the id
      */
-    void deliteById(Long id);
+    void deleteById(Long id);
 
     /**
      * Get the list of users.

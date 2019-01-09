@@ -1,7 +1,7 @@
 package com.demyanovsky.services;
 
 
-import com.demyanovsky.repository.impl.UserDaoImpl;
+import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.services.impl.UserServiсeImpl;
@@ -21,7 +21,7 @@ public class UserServiсeImplTest {
     JdbcTemplate jdbcTemplate;
 
     @Autowired
-    private UserDaoImpl userDao;
+    private UserRepository userDao;
 
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
@@ -83,7 +83,7 @@ public class UserServiсeImplTest {
         User user1 = new User((long) 42, "Ivan");
         userService.save(user1);
         assertEquals(userService.getById((long) 42), user1);
-        userService.deliteById((long) 42);
+        userService.deleteById((long) 42);
         try {
             userService.getById((long) 42);
         } catch (UserNotFoundException id) {

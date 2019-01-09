@@ -1,18 +1,13 @@
 package com.demyanovsky.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 //Model
-
-
 public class User {
-
-
     @JsonProperty
     private Long id;
-
-
     private String name;
 
     public User(Long id, String firstName) {
@@ -20,8 +15,7 @@ public class User {
         this.name = firstName;
     }
 
-    public User() {
-    }
+    public User() {}
 
     public Long getId() {
         return id;
@@ -31,7 +25,6 @@ public class User {
         this.id = id;
     }
 
-
     public String getName() {
         return name;
     }
@@ -40,11 +33,24 @@ public class User {
         this.name = name;
     }
 
-
     @Override
     public String toString() {
         return String.format(
                 "User[id=%d, name='%s']",
                 id, name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId()) &&
+                Objects.equals(getName(), user.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 }

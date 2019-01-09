@@ -1,10 +1,10 @@
 package com.demyanovsky.services.impl;
 
 
-import com.demyanovsky.repository.UserDao;
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.exceptions.IncorrectUserException;
+import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,9 @@ import java.util.List;
 public class UserServiсeImpl implements UserService {
 
     @Autowired
-    UserDao userDao;
-
+    UserRepository userRepository;
 
     private static List<User> users = new ArrayList<>();
-
 
     public static List<User> getUsers() {
         return users;
@@ -29,20 +27,18 @@ public class UserServiсeImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        return userDao.getAll();
+        return userRepository.getAll();
     }
-
 
     @Override
     public User getById(Long id) {
         try {
-            return userDao.getUserById(id);
+            return userRepository.getUserById(id);
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }
 
     }
-
 
     @Override
     public User modify(User user) {
@@ -54,7 +50,7 @@ public class UserServiсeImpl implements UserService {
     public void save(User user) {
         try {
             if (user.getId() != null && user.getName() != null) {
-                userDao.save(user);
+                userRepository.save(user);
             }
         } catch (Exception e) {
             throw new IncorrectUserException(user.getId());
@@ -63,10 +59,10 @@ public class UserServiсeImpl implements UserService {
     }
 
     @Override
-    public void deliteById(Long id) {
+    public void deleteById(Long id) {
         try {
-            if (userDao.getUserById(id) != null)
-                userDao.deliteUsebyID(id);
+            if (userRepository.getUserById(id) != null)
+                userRepository.deliteUsebyID(id);
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }
