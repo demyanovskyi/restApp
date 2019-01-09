@@ -14,7 +14,6 @@ public class UserRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-
     public void save(User user) {
         String sql = "INSERT INTO users " +
                 "(ID, NAME) VALUES ( ?, ?)";
@@ -36,7 +35,6 @@ public class UserRepository {
         jdbcTemplate.update(sql, id);
 
     }
-
 
     public User getUserById(Long id) {
         String sql = "SELECT * FROM users WHERE ID = ?";
