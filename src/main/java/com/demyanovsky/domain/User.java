@@ -3,7 +3,6 @@ package com.demyanovsky.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
-
 //Model
 public class User {
     @JsonProperty

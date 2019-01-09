@@ -18,34 +18,26 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class SpringBootUsersApplicationTests {
-
-
     @Autowired
     private MockMvc mockMvc;
-
     @Before
     public void init() throws Exception {
         mockMvc.perform(post("/user/").content("{ \"id\" : 12 , \"name\" : \"Stiv\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
         );
         mockMvc.perform(post("/user/").content("{ \"id\" : 10 , \"name\" : \"Bob\"}").contentType(MediaType.APPLICATION_JSON_UTF8)
         );
-
     }
-
     @After
     public void destroy() throws Exception {
         mockMvc.perform(delete("/user/12")
         );
-
         mockMvc.perform(delete("/user/10")
         );
     }
-
     @Test
     public void userById() throws Exception {
         mockMvc.perform(get("/user/{id}", 12))
@@ -58,9 +50,7 @@ public class SpringBootUsersApplicationTests {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
                 .andReturn();
-
     }
-
     @Test
     public void listAllUsers() throws Exception {
         mockMvc
@@ -68,10 +58,7 @@ public class SpringBootUsersApplicationTests {
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
-
-
     }
-
     @Test
     public void deleteUserById() throws Exception {
         mockMvc
@@ -80,10 +67,7 @@ public class SpringBootUsersApplicationTests {
                 .andExpect(handler().methodName("deleteUserById")).andExpect(status().isOk());
         mockMvc.perform(get("/user/{id}", 10))
                 .andExpect(status().isNotFound());
-
-
     }
-
 }
 
 
