@@ -1,6 +1,5 @@
 package com.demyanovsky.repository;
 
-
 import com.demyanovsky.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,10 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
 @Repository
 public class UserRepository {
-   @Autowired
+    @Autowired
     JdbcTemplate jdbcTemplate;
 
     public void save(User user) {
@@ -32,8 +30,13 @@ public class UserRepository {
         jdbcTemplate.update(sql, id);
     }
 
-    public User getUserById(Long id) {
+    public User getUserById(long id) {
         String sql = "SELECT * FROM users WHERE ID = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserMapper());
+    }
+
+    public void modify(User user) {
+        String sql = "UPDATE users SET  name = ? " + " WHERE id = " + user.getId();
+        jdbcTemplate.update(sql, user.getName());
     }
 }

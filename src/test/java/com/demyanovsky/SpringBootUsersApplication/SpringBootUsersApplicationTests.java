@@ -1,6 +1,7 @@
 package com.demyanovsky.SpringBootUsersApplication;
 
 import com.demyanovsky.controllers.UserController;
+import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.services.UserService;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -70,10 +73,16 @@ public class SpringBootUsersApplicationTests {
                 .perform(delete("http://localhost:8080//user/10"))
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("deleteUserById")).andExpect(status().isOk());
-        mockMvc.perform(get("/user/{id}", 10))
-                .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void modifyUser() throws Exception {
+        mockMvc.perform(put("/user/{id}", 12).content("{\"id\":12,\"name\":\"Edvard\"}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(handler().methodName("modifyUser"))
+                .andExpect(status().isAccepted())
+                .andExpect(content().string("{\"id\":12,\"name\":\"Edvard\"}"));
+    }
+
+
 }
-
-
-

@@ -3,6 +3,7 @@ package com.demyanovsky.repository;
 
 import com.demyanovsky.domain.User;
 import org.springframework.jdbc.core.RowMapper;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

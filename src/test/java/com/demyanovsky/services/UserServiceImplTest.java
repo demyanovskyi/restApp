@@ -7,7 +7,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,19 +19,16 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @ActiveProfiles("test")
 public class UserServiceImplTest {
-    static final long FIRSTUSERID = 222;
-    static final long SECONDUSERID = 7722;
+    static final long FIRST_USER_ID = 222;
+    static final long SECOND_USER_ID = 7722;
+    static User user2 = new User(SECOND_USER_ID, "Stiv");
+    static User user1 = new User(FIRST_USER_ID, "Bill");
+
     @Autowired
     JdbcTemplate jdbcTemplate;
-    static User user2 = new User(SECONDUSERID, "Stiv");
-    static User user1 = new User(FIRSTUSERID, "Bill");
 
     @Autowired
     private UserRepository userRepository;
-
-    public JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
-    }
 
     @Before
     public void init() throws Exception {
@@ -55,14 +51,22 @@ public class UserServiceImplTest {
 
     @Test
     public void getById() {
-        assertEquals(userRepository.getUserById(FIRSTUSERID), user1);
-        assertEquals(userRepository.getUserById(SECONDUSERID), user2);
+        assertEquals(userRepository.getUserById(FIRST_USER_ID), user1);
+        assertEquals(userRepository.getUserById(SECOND_USER_ID), user2);
     }
 
     @Test
     public void deliteUsebyID() {
-        userRepository.deliteUsebyID(SECONDUSERID);
+        userRepository.deliteUsebyID(SECOND_USER_ID);
         assertEquals(userRepository.getAll().size(), 1);
+
+    }
+
+    @Test
+    public void modifyUser() {
+        User user3 = new User(FIRST_USER_ID, "Victor");
+        userRepository.modify(user3);
+        assertEquals(userRepository.getUserById(FIRST_USER_ID).getName(), "Victor");
 
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -40,8 +39,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User modify(User user) {
-        //TODO
-        return null;
+        if (user.getId() != null && user.getName() != null) {
+            userRepository.modify(user);
+        }
+        return userRepository.getUserById(user.getId());
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.demyanovsky.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
+
 //Model
 public class User {
     @JsonProperty
@@ -14,7 +15,8 @@ public class User {
         this.name = firstName;
     }
 
-    public User(){}
+    public User() {
+    }
 
     public Long getId() {
         return id;
