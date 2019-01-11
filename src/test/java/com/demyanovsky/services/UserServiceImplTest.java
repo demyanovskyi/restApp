@@ -13,14 +13,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
 public class UserServiceImplTest {
-    static final long FIRST_USER_ID = 222;
-    static final long SECOND_USER_ID = 7722;
+    static final UUID FIRST_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad1");
+    static final UUID SECOND_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad2");
     static User user2 = new User(SECOND_USER_ID, "Stiv");
     static User user1 = new User(FIRST_USER_ID, "Bill");
 
@@ -32,7 +34,7 @@ public class UserServiceImplTest {
 
     @Before
     public void init() throws Exception {
-        String sql = "CREATE TABLE users ( id  INT  PRIMARY KEY, name   VARCHAR(100)  NOT NULL);";
+        String sql = "CREATE TABLE users ( id  UUID  PRIMARY KEY, name   VARCHAR(100)  NOT NULL);";
         jdbcTemplate.execute(sql);
         userRepository.save(user1);
         userRepository.save(user2);
@@ -56,10 +58,9 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void deliteUsebyID() {
+    public void deliteUserByID() {
         userRepository.deliteUsebyID(SECOND_USER_ID);
         assertEquals(userRepository.getAll().size(), 1);
-
     }
 
     @Test
@@ -67,6 +68,5 @@ public class UserServiceImplTest {
         User user3 = new User(FIRST_USER_ID, "Victor");
         userRepository.modify(user3);
         assertEquals(userRepository.getUserById(FIRST_USER_ID).getName(), "Victor");
-
     }
 }

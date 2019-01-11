@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class UserController {
@@ -34,14 +35,14 @@ public class UserController {
 
     // Get user by id controller
     @RequestMapping(value = CRUDConstants.GET_USER, method = RequestMethod.GET)
-    private ResponseEntity<User> userById(@PathVariable("id") Long id) {
+    private ResponseEntity<User> userById(@PathVariable("id") UUID id) {
         User user = userService.getById(id);
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     // Delete controller
     @RequestMapping(value = CRUDConstants.DELETE_USER, method = RequestMethod.DELETE)
-    private ResponseEntity deleteUserById(@PathVariable("id") Long id) {
+    private ResponseEntity deleteUserById(@PathVariable("id") UUID id) {
         userService.deleteById(id);
         return new ResponseEntity<User>(HttpStatus.OK);
     }
@@ -55,7 +56,7 @@ public class UserController {
 
     //Modify user controller
     @RequestMapping(value = CRUDConstants.UPDATE_USER, method = RequestMethod.PUT)
-    private ResponseEntity modifyUser(@PathVariable("id") Long id, @RequestBody User user) {
+    private ResponseEntity modifyUser(@PathVariable("id") UUID id, @RequestBody User user) {
 
         if (!user.getId().equals(id)) {
             throw new IncorrectUserException(id);

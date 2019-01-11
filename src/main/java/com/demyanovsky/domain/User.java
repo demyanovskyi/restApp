@@ -3,14 +3,15 @@ package com.demyanovsky.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
+import java.util.UUID;
 
 //Model
 public class User {
     @JsonProperty
-    private Long id;
+    private UUID id;
     private String name;
 
-    public User(Long id, String firstName) {
+    public User(UUID id, String firstName) {
         this.id = id;
         this.name = firstName;
     }
@@ -18,11 +19,11 @@ public class User {
     public User() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -54,4 +55,6 @@ public class User {
     public int hashCode() {
         return Objects.hash(getId(), getName());
     }
+
+
 }

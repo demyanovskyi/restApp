@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class UserRepository {
@@ -25,18 +26,18 @@ public class UserRepository {
         return usersList;
     }
 
-    public void deliteUsebyID(long id) {
+    public void deliteUsebyID(UUID id) {
         String sql = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 
-    public User getUserById(long id) {
+    public User getUserById(UUID id) {
         String sql = "SELECT * FROM users WHERE ID = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserMapper());
     }
 
     public void modify(User user) {
-        String sql = "UPDATE users SET  name = ? " + " WHERE id = " + user.getId();
-        jdbcTemplate.update(sql, user.getName());
+        String sql = "UPDATE users SET  name = ? " + " WHERE id = ?";
+        jdbcTemplate.update(sql, user.getName(), user.getId());
     }
 }
