@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(UUID id) {
         try {
-            return  userRepository.getUserById(id);
+            return userRepository.getUserById(id);
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }
@@ -60,8 +60,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(UUID id) {
         try {
-            if (userRepository.getUserById(id) != null)
-                userRepository.deliteUsebyID(id);
+            userRepository.deliteUsebyID(id);
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }

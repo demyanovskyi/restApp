@@ -1,6 +1,5 @@
 package com.demyanovsky.services;
 
-
 import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.domain.User;
 import org.junit.After;
@@ -65,8 +64,8 @@ public class UserServiceImplTest {
 
     @Test
     public void modifyUser() {
-        User user3 = new User(FIRST_USER_ID, "Victor");
+        User user3 = new User(FIRST_USER_ID, "Edvard");
         userRepository.modify(user3);
-        assertEquals(userRepository.getUserById(FIRST_USER_ID).getName(), "Victor");
+        assertEquals(userRepository.getUserById(FIRST_USER_ID).getName(), "Edvard");
     }
 }

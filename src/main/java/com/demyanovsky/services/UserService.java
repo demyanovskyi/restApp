@@ -13,6 +13,7 @@ import java.util.UUID;
  * @method deliteById(int id)
  * @method getAll()
  * @method getById(int id)
+ * @method modify(User user)
  */
 public interface UserService {
     /**
@@ -40,6 +41,11 @@ public interface UserService {
      * @return user
      */
     User getById(UUID id);
-
+    /**
+     * Update the User.
+     *
+     * @param user
+     * @return user
+     */
     User modify(User user);
 }
