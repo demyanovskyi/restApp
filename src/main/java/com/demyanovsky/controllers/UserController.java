@@ -3,6 +3,7 @@ package com.demyanovsky.controllers;
 
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.IncorrectUserException;
+import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.services.CRUDConstants;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,10 +60,10 @@ public class UserController {
     private ResponseEntity modifyUser(@PathVariable("id") UUID id, @RequestBody User user) {
 
         if (!user.getId().equals(id)) {
-            throw new IncorrectUserException(id);
+            throw new UserNotFoundException(id);
         } else {
             userService.modify(user);
-            return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
+            return new ResponseEntity<User>(user, HttpStatus.OK);
         }
     }
 }

@@ -40,8 +40,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User modify(User user) {
-        if (user.getId() != null && user.getName() != null) {
-            userRepository.modify(user);
+try {
+    userRepository.modify(user);
+}catch (Exception e){
+            throw new IncorrectUserException(user.getId());
         }
         return userRepository.getUserById(user.getId());
     }
