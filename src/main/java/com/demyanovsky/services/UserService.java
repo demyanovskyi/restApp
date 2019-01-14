@@ -4,6 +4,8 @@ package com.demyanovsky.services;
 import com.demyanovsky.domain.User;
 
 import java.util.List;
+import java.util.UUID;
+
 /**
  * CRUD interface for User
  *
@@ -11,6 +13,7 @@ import java.util.List;
  * @method deliteById(int id)
  * @method getAll()
  * @method getById(int id)
+ * @method modify(User user)
  */
 public interface UserService {
     /**
@@ -24,7 +27,7 @@ public interface UserService {
      *
      * @param id the id
      */
-    void deleteById(Long id);
+    void deleteById(UUID id);
     /**
      * Get the list of users.
      *
@@ -37,7 +40,12 @@ public interface UserService {
      * @param id
      * @return user
      */
-    User getById(Long id);
-
+    User getById(UUID id);
+    /**
+     * Update the User.
+     *
+     * @param user
+     * @return user
+     */
     User modify(User user);
 }

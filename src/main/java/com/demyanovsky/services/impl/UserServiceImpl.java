@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(Long id) {
+    public User getById(UUID id) {
         try {
             return userRepository.getUserById(id);
         } catch (Exception e) {
@@ -40,8 +40,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User modify(User user) {
-        //TODO
-        return null;
+        if (user.getId() != null && user.getName() != null) {
+            userRepository.modify(user);
+        }
+        return userRepository.getUserById(user.getId());
     }
 
     @Override
@@ -56,10 +58,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(UUID id) {
         try {
-            if (userRepository.getUserById(id) != null)
-                userRepository.deliteUsebyID(id);
+            userRepository.deliteUsebyID(id);
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }
