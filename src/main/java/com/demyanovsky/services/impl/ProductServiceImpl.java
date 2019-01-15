@@ -56,9 +56,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product modifyName(Product product) {
+    public Product modify(Product product) {
         try {
-            productRepository.modifyName(product);
+            productRepository.modify(product);
         }catch (Exception e){
             throw new IncorrectProductException(product.getId());
         }

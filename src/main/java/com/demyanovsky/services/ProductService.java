@@ -42,5 +42,5 @@ public interface ProductService {
      * @param product
      * @return product
      */
-    Product modifyName(Product product);
+    Product modify(Product product);
 }

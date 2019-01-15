@@ -34,7 +34,7 @@ public class ProductRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new ProductMapper());
     }
 
-    public void modifyName(Product product) {
+    public void modify(Product product) {
         String sql = "UPDATE product SET  product_name = ?, price = ?  WHERE id = ?";
         jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getId());
     }

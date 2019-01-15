@@ -49,7 +49,7 @@ public class ProductController {
     @RequestMapping(value = ProductCRUDConstants.UPDATE_PRODUCT, method = RequestMethod.PUT)
     private ResponseEntity<Product> updateName(@PathVariable ("id") UUID id, @RequestBody Product product) {
         if(product.getId().equals(id)) {
-            productService.modifyName(product);
+            productService.modify(product);
         }else{
             throw new ProductNotFoundException(id);
         }

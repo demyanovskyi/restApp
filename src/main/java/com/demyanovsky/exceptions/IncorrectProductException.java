@@ -1,7 +1,5 @@
 package com.demyanovsky.exceptions;
 
-import org.omg.SendingContext.RunTime;
-
 import java.util.UUID;
 
 public class IncorrectProductException extends RuntimeException {
