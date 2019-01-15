@@ -1,5 +1,4 @@
 package com.demyanovsky.exceptions;
-
 import java.util.UUID;
 
 public class UserNotFoundException extends RuntimeException {

@@ -26,7 +26,7 @@ public class UserRepository {
         return usersList;
     }
 
-    public void deliteUsebyID(UUID id) {
+    public void deleteUserByID(UUID id) {
         String sql = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }

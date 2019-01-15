@@ -1,6 +1,5 @@
 package com.demyanovsky.exceptions;
 
-
 import java.util.UUID;
 
 public class IncorrectUserException extends RuntimeException {

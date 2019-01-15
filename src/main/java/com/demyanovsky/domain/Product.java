@@ -8,11 +8,20 @@ import java.util.UUID;
 public class Product {
     @JsonProperty
     private UUID id;
-    private String name;
-    private double price;
+    private String productName;
+    private Double price;
 
     public UUID getId() {
         return id;
+    }
+
+    public Product(UUID id, String productName, Double price) {
+        this.id = id;
+        this.productName = productName;
+        this.price = price;
+    }
+
+    public Product() {
     }
 
     public void setId(UUID id) {
@@ -20,18 +29,18 @@ public class Product {
     }
 
     public String getName() {
-        return name;
+        return productName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.productName = name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -54,7 +63,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + productName + '\'' +
                 ", price=" + price +
                 '}';
     }

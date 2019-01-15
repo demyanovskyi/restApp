@@ -58,7 +58,7 @@ public class UserServiceImplTest {
 
     @Test
     public void deliteUserByID() {
-        userRepository.deliteUsebyID(SECOND_USER_ID);
+        userRepository.deleteUserByID(SECOND_USER_ID);
         assertEquals(userRepository.getAll().size(), 1);
     }
 

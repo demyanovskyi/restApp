@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public class Order {
     private UUID id;
-    private UUID user_id;
-    private UUID product_id;
+    private UUID userId;
+    private UUID productId;
 
     public UUID getId() {
         return id;
@@ -17,19 +17,19 @@ public class Order {
     }
 
     public UUID getUser_id() {
-        return user_id;
+        return userId;
     }
 
     public void setUser_id(UUID user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
     public UUID getProduct_id() {
-        return product_id;
+        return productId;
     }
 
     public void setProduct_id(UUID product_id) {
-        this.product_id = product_id;
+        this.productId = product_id;
     }
 
     @Override
@@ -51,8 +51,8 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", user_id=" + user_id +
-                ", product_id=" + product_id +
+                ", user_id=" + userId +
+                ", product_id=" + productId +
                 '}';
     }
 }

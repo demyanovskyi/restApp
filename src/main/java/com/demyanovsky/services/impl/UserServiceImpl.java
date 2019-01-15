@@ -62,7 +62,7 @@ try {
     @Override
     public void deleteById(UUID id) {
         try {
-            userRepository.deliteUsebyID(id);
+            userRepository.deleteUserByID(id);
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }
