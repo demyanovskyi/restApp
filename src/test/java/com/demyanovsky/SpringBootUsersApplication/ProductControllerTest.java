@@ -53,11 +53,13 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getProduct"))
+                .andExpect(content().string("{\"id\":\"" + FIRST_PRODUCT_ID + "\",\"price\":542.43,\"name\":\"iPhone X\"}"))
                 .andReturn();
         mockMvc.perform(get("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getProduct"))
+                .andExpect(content().string("{\"id\":\"" + SECOND_PRODUCT_ID + "\",\"price\":2332.44,\"name\":\"MacBook Pro\"}"))
                 .andReturn();
     }
 
@@ -83,11 +85,11 @@ public class ProductControllerTest {
 
     @Test
     public void modifyProduct() throws Exception {
-        mockMvc.perform(put("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID).content("{ \"id\" : \"" + SECOND_PRODUCT_ID + "\" , \"name\" : \"Edvard\" , \"price\" : 231.43}")
+        mockMvc.perform(put("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID).content("{ \"id\" : \"" + SECOND_PRODUCT_ID + "\" , \"name\" : \"iPhone XS\" , \"price\" : 931.43}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("updateProduct"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"id\":\"" + SECOND_PRODUCT_ID + "\",\"price\":231.43,\"name\":\"Edvard\"}"))
+                .andExpect(content().string("{\"id\":\"" + SECOND_PRODUCT_ID + "\",\"price\":931.43,\"name\":\"iPhone XS\"}"))
                 .andReturn();
     }
 
