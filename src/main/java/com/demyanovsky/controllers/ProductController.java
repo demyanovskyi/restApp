@@ -1,7 +1,7 @@
 package com.demyanovsky.controllers;
 
 import com.demyanovsky.domain.Product;
-import com.demyanovsky.exceptions.ProductNotFoundException;
+import com.demyanovsky.exceptions.ProductNotValidException;
 import com.demyanovsky.services.ProductCRUDConstants;
 import com.demyanovsky.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class ProductController {
         if(product.getId().equals(id)) {
             productService.modify(product);
         }else{
-            throw new ProductNotFoundException(id);
+            throw new ProductNotValidException(id);
         }
         return new ResponseEntity<Product>(product, HttpStatus.OK);
     }

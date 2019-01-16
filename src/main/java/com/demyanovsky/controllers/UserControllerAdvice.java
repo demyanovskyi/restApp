@@ -21,8 +21,8 @@ public class UserControllerAdvice {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(IncorrectProductException.class)
-    public ResponseEntity<ErrorResponse>handleThereIsIncorrectProductException (IncorrectProductException e){
+    @ExceptionHandler(ProductNotValidException.class)
+    public ResponseEntity<ErrorResponse>handleThereIsIncorrectProductException (ProductNotValidException e){
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 

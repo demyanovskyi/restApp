@@ -1,5 +1,6 @@
 package com.demyanovsky.domain;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -7,6 +8,18 @@ public class Order {
     private UUID id;
     private UUID userId;
     private UUID productId;
+    private static List<Product> products;
+
+
+    public Order(UUID id, UUID userId, UUID productId) {
+        this.id = id;
+        this.userId = userId;
+        this.productId = productId;
+
+    }
+
+    public Order() {
+    }
 
     public UUID getId() {
         return id;
@@ -16,20 +29,37 @@ public class Order {
         this.id = id;
     }
 
-    public UUID getUser_id() {
+    public UUID getUserId() {
         return userId;
     }
 
-    public void setUser_id(UUID user_id) {
-        this.userId = user_id;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
-    public UUID getProduct_id() {
+    public UUID getProductId() {
         return productId;
     }
 
-    public void setProduct_id(UUID product_id) {
-        this.productId = product_id;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
+    }
+
+    public static List<Product> getProducts() {
+        return products;
+    }
+
+    public static void setProducts(List<Product> products) {
+        Order.products = products;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", productId=" + productId +
+                '}';
     }
 
     @Override
@@ -38,21 +68,12 @@ public class Order {
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
         return getId().equals(order.getId()) &&
-                getUser_id().equals(order.getUser_id()) &&
-                getProduct_id().equals(order.getProduct_id());
+                getUserId().equals(order.getUserId()) &&
+                getProductId().equals(order.getProductId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser_id(), getProduct_id());
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", user_id=" + userId +
-                ", product_id=" + productId +
-                '}';
+        return Objects.hash(getId(), getUserId(), getProductId());
     }
 }

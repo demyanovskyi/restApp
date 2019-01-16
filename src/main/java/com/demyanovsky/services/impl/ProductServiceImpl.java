@@ -1,7 +1,6 @@
 package com.demyanovsky.services.impl;
 
 import com.demyanovsky.domain.Product;
-import com.demyanovsky.exceptions.IncorrectProductException;
 import com.demyanovsky.exceptions.ProductNotFoundException;
 import com.demyanovsky.repository.ProductRepository;
 import com.demyanovsky.services.ProductService;
@@ -28,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             productRepository.save(product);
         } catch (Exception e) {
-            throw new IncorrectProductException(product.getId());
+            throw new ProductNotFoundException(product.getId());
         }
     }
 
@@ -60,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             productRepository.modify(product);
         } catch (Exception e) {
-            throw new IncorrectProductException(product.getId());
+            throw new ProductNotFoundException(product.getId());
         }
         return productRepository.getProductById(product.getId());
 
