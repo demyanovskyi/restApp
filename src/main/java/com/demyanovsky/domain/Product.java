@@ -9,6 +9,7 @@ public class Product {
     @JsonProperty
     private UUID id;
     private String productName;
+    @JsonProperty
     private Double price;
 
     public UUID getId() {

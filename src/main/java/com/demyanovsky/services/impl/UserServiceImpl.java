@@ -40,9 +40,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User modify(User user) {
-try {
-    userRepository.modify(user);
-}catch (Exception e){
+        try {
+            userRepository.modify(user);
+        } catch (Exception e) {
             throw new IncorrectUserException(user.getId());
         }
         return userRepository.getUserById(user.getId());

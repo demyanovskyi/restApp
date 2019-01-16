@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteById(UUID id) {
         try {
-            productRepository.deletebyID(id);
+            productRepository.deleteByID(id);
         } catch (Exception e) {
             throw new ProductNotFoundException(id);
         }
@@ -59,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     public Product modify(Product product) {
         try {
             productRepository.modify(product);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IncorrectProductException(product.getId());
         }
         return productRepository.getProductById(product.getId());

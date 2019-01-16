@@ -24,7 +24,7 @@ public class ProductRepository {
         return productList;
     }
 
-    public void deletebyID(UUID id) {
+    public void deleteByID(UUID id) {
         String sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }

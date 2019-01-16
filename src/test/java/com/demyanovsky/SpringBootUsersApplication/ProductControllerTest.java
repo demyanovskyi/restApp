@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 
@@ -24,16 +24,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ProductControllerTest {
-@Autowired
-  private  MockMvc mockMvc;
-@Autowired
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
     private ProductService productService;
 
 
     static final UUID FIRST_PRODUCT_ID = UUID.fromString("4431b533-ba17-4787-98a3-f2df37de2ad1");
     static final UUID SECOND_PRODUCT_ID = UUID.fromString("4531b533-ba17-4787-98a3-f2df37de2ad2");
-    static Product product1 = new Product(SECOND_PRODUCT_ID, "Stiv", 232.44);
-    static Product product2 = new Product(FIRST_PRODUCT_ID, "Bill", 5442.43);
+    static Product product1 = new Product(SECOND_PRODUCT_ID, "MacBook Pro", 2332.44);
+    static Product product2 = new Product(FIRST_PRODUCT_ID, "iPhone X", 542.43);
 
     @Before
     public void init() throws Exception {
@@ -46,26 +46,49 @@ public class ProductControllerTest {
         productService.deleteById(FIRST_PRODUCT_ID);
         productService.deleteById(SECOND_PRODUCT_ID);
     }
+
     @Test
-    public void userById() throws Exception {
-        mockMvc.perform(get("product/{id}",FIRST_PRODUCT_ID ))
+    public void productById() throws Exception {
+        mockMvc.perform(get("http://localhost:8080//product/{id}", FIRST_PRODUCT_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getProduct"))
                 .andReturn();
-        mockMvc.perform(get("product/{id}", SECOND_PRODUCT_ID))
+        mockMvc.perform(get("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getProduct"))
                 .andReturn();
     }
+
     @Test
-    public void listAllUsers() throws Exception {
+    public void getProductList() throws Exception {
         mockMvc.perform(get("http://localhost:8080//product/"))
                 .andExpect(handler().handlerType(ProductController.class))
                 .andExpect(handler().methodName("getProductList")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
+    @Test
+    public void deleteProductById() throws Exception {
+        mockMvc.perform(delete("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID))
+                .andExpect(handler().methodName("deleteProduct"))
+                .andExpect(status().isOk())
+                .andExpect(handler().handlerType(ProductController.class));
+        mockMvc.perform(delete("http://localhost:8080//product/{id}", FIRST_PRODUCT_ID))
+                .andExpect(handler().methodName("deleteProduct"))
+                .andExpect(status().isOk())
+                .andExpect(handler().handlerType(ProductController.class));
+    }
+
+    @Test
+    public void modifyProduct() throws Exception {
+        mockMvc.perform(put("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID).content("{ \"id\" : \"" + SECOND_PRODUCT_ID + "\" , \"name\" : \"Edvard\" , \"price\" : 231.43}")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(handler().methodName("updateProduct"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("{\"id\":\"" + SECOND_PRODUCT_ID + "\",\"price\":231.43,\"name\":\"Edvard\"}"))
+                .andReturn();
+    }
 
 }

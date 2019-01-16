@@ -47,7 +47,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = ProductCRUDConstants.UPDATE_PRODUCT, method = RequestMethod.PUT)
-    private ResponseEntity<Product> updateName(@PathVariable ("id") UUID id, @RequestBody Product product) {
+    private ResponseEntity<Product> updateProduct(@PathVariable ("id") UUID id, @RequestBody Product product) {
         if(product.getId().equals(id)) {
             productService.modify(product);
         }else{
