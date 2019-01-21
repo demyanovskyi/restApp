@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Product {
     @JsonProperty
     private UUID id;
+    @JsonProperty
     private String productName;
     @JsonProperty
     private Double price;
@@ -21,6 +22,7 @@ public class Product {
         this.productName = productName;
         this.price = price;
     }
+
 
     public Product() {
     }

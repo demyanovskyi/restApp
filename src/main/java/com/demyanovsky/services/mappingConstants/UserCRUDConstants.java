@@ -1,4 +1,4 @@
-package com.demyanovsky.services;
+package com.demyanovsky.services.mappingConstants;
 
 // Constants for User mapping
 public class UserCRUDConstants {

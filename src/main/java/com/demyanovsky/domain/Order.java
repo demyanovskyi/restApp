@@ -1,24 +1,35 @@
 package com.demyanovsky.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Order {
+    @JsonProperty
     private UUID id;
+
+    @JsonProperty
     private UUID userId;
-    private UUID productId;
-    private static List<Product> products;
+    @JsonIgnore
+    private UUID productID;
+    @JsonProperty
+    private List<UUID> listProductID;
 
-
-    public Order(UUID id, UUID userId, UUID productId) {
+    public Order(UUID id, UUID userId) {
         this.id = id;
         this.userId = userId;
-        this.productId = productId;
-
     }
 
     public Order() {
+    }
+
+    public Order(UUID id, UUID userId, List<UUID> listProductID) {
+        this.id = id;
+        this.userId = userId;
+        this.listProductID = listProductID;
     }
 
     public UUID getId() {
@@ -37,29 +48,21 @@ public class Order {
         this.userId = userId;
     }
 
-    public UUID getProductId() {
-        return productId;
+    public UUID getProductID() {
+        return productID;
     }
 
-    public void setProductId(UUID productId) {
-        this.productId = productId;
+    public void setProductID(UUID productID) {
+        this.productID = productID;
     }
 
-    public static List<Product> getProducts() {
-        return products;
+
+    public List<UUID> getListProductID() {
+        return listProductID;
     }
 
-    public static void setProducts(List<Product> products) {
-        Order.products = products;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", productId=" + productId +
-                '}';
+    public void setListProductID(List<UUID> listProductID) {
+        this.listProductID = listProductID;
     }
 
     @Override
@@ -67,13 +70,25 @@ public class Order {
         if (this == o) return true;
         if (!(o instanceof Order)) return false;
         Order order = (Order) o;
-        return getId().equals(order.getId()) &&
-                getUserId().equals(order.getUserId()) &&
-                getProductId().equals(order.getProductId());
+        return Objects.equals(getId(), order.getId()) &&
+                Objects.equals(getUserId(), order.getUserId()) &&
+                Objects.equals(getProductID(), order.getProductID()) &&
+                Objects.equals(getListProductID(), order.getListProductID());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getProductId());
+        return Objects.hash(getId(), getUserId(), getProductID(), getListProductID());
+    }
+
+    @Override
+    public String
+    toString() {
+        return "Order{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", productID=" + productID +
+                ", listProductID=" + listProductID +
+                '}';
     }
 }

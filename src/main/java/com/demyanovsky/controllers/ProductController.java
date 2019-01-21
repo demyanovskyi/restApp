@@ -2,7 +2,7 @@ package com.demyanovsky.controllers;
 
 import com.demyanovsky.domain.Product;
 import com.demyanovsky.exceptions.ProductNotValidException;
-import com.demyanovsky.services.ProductCRUDConstants;
+import com.demyanovsky.services.mappingConstants.ProductCRUDConstants;
 import com.demyanovsky.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class ProductController {
     @RequestMapping(value = ProductCRUDConstants.CREATE_PRODUCT, method = RequestMethod.POST)
     private ResponseEntity<Product> createProduct(@RequestBody Product product) {
         productService.save(product);
-        return new ResponseEntity<Product>(product, HttpStatus.CREATED);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = ProductCRUDConstants.GET_ALL_PRODUCTS, method = RequestMethod.GET)
@@ -37,13 +37,13 @@ public class ProductController {
     @RequestMapping(value = ProductCRUDConstants.GET_PRODUCT, method = RequestMethod.GET)
     private ResponseEntity<Product> getProduct(@PathVariable("id") UUID id) {
         Product product = productService.getById(id);
-        return new ResponseEntity<Product>(product, HttpStatus.OK);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @RequestMapping(value = ProductCRUDConstants.DELETE_PRODUCT, method = RequestMethod.DELETE)
     private ResponseEntity<Product> deleteProduct(@PathVariable("id") UUID id) {
         productService.deleteById(id);
-        return new ResponseEntity<Product>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = ProductCRUDConstants.UPDATE_PRODUCT, method = RequestMethod.PUT)
@@ -53,6 +53,6 @@ public class ProductController {
         }else{
             throw new ProductNotValidException(id);
         }
-        return new ResponseEntity<Product>(product, HttpStatus.OK);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 }

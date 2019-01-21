@@ -1,4 +1,4 @@
-package com.demyanovsky.services;
+package com.demyanovsky.services.mappingConstants;
 
 public class ProductCRUDConstants {
     // Constants for Product mapping
