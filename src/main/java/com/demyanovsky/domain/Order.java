@@ -1,6 +1,5 @@
 package com.demyanovsky.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -13,8 +12,6 @@ public class Order {
 
     @JsonProperty
     private UUID userId;
-    @JsonIgnore
-    private UUID productID;
     @JsonProperty
     private List<UUID> listProductID;
 
@@ -48,15 +45,6 @@ public class Order {
         this.userId = userId;
     }
 
-    public UUID getProductID() {
-        return productID;
-    }
-
-    public void setProductID(UUID productID) {
-        this.productID = productID;
-    }
-
-
     public List<UUID> getListProductID() {
         return listProductID;
     }
@@ -72,23 +60,21 @@ public class Order {
         Order order = (Order) o;
         return Objects.equals(getId(), order.getId()) &&
                 Objects.equals(getUserId(), order.getUserId()) &&
-                Objects.equals(getProductID(), order.getProductID()) &&
                 Objects.equals(getListProductID(), order.getListProductID());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getProductID(), getListProductID());
+        return Objects.hash(getId(), getUserId(), getListProductID());
     }
 
     @Override
-    public String
-    toString() {
+    public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", productID=" + productID +
                 ", listProductID=" + listProductID +
                 '}';
     }
 }
+

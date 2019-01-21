@@ -1,6 +1,7 @@
 package com.demyanovsky.repository;
 
 import com.demyanovsky.domain.Order;
+import com.demyanovsky.exceptions.IncorrectOrderException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,10 +25,14 @@ public class OrderRepository {
     public void save(Order order) {
         String sqlCreateOrder = "INSERT INTO \"order\" (id, user_id) VALUES(?, ?)";
         String sqlInsertIntoProductOrder = "INSERT INTO public.order_product (order_id, product_id) VALUES(?, ?);";
-        jdbcTemplate.update(sqlCreateOrder, new Object[]{order.getId(), order.getUserId()});
-        List<UUID> tmp = order.getListProductID();
-        for (UUID productId : tmp) {
-            jdbcTemplate.update(sqlInsertIntoProductOrder, new Object[]{order.getId(), productId});
+        if(order.getUserId()!=null&&order.getId()!=null&&order.getListProductID()!=null) {
+            jdbcTemplate.update(sqlCreateOrder, new Object[]{order.getId(), order.getUserId()});
+            List<UUID> tmp = order.getListProductID();
+            for (UUID productId : tmp) {
+                jdbcTemplate.update(sqlInsertIntoProductOrder, new Object[]{order.getId(), productId});
+            }
+        }else {
+            throw new IncorrectOrderException(order);
         }
 
     }

@@ -33,6 +33,7 @@ public class UserRepository {
 
     public User getUserById(UUID id) {
         String sql = "SELECT * FROM users WHERE ID = ?";
+
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserMapper());
     }
 

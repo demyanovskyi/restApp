@@ -22,12 +22,22 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(ProductNotValidException.class)
-    public ResponseEntity<ErrorResponse>handleThereIsIncorrectProductException (ProductNotValidException e){
+    public ResponseEntity<ErrorResponse> handleThereIsIncorrectProductException(ProductNotValidException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleThereIsNoSuchProductException(ProductNotFoundException e){
+    public ResponseEntity<ErrorResponse> handleThereIsNoSuchProductException(ProductNotFoundException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IncorrectOrderException.class)
+    public ResponseEntity<ErrorResponse> handleIncorrectOrderException(IncorrectOrderException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IncorrectOrderException.class)
+    public ResponseEntity<ErrorResponse> handleOrderNotFoundException(OrderNotFoundException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 }
