@@ -22,28 +22,27 @@ public class OrderRepository {
     UserRepository userRepository;
 
     public void save(Order order) {
-        String sql = "INSERT INTO \"order\" (id, user_id) VALUES(?, ?)";
-        String sql1 = "INSERT INTO public.order_product (order_id, product_id[]) VALUES(?, ?);";
-        jdbcTemplate.update(sql, new Object[]{order.getId(), order.getUserId()});
+        String sqlCreateOrder = "INSERT INTO \"order\" (id, user_id) VALUES(?, ?)";
+        String sqlInsertIntoProductOrder = "INSERT INTO public.order_product (order_id, product_id) VALUES(?, ?);";
+        jdbcTemplate.update(sqlCreateOrder, new Object[]{order.getId(), order.getUserId()});
         List<UUID> tmp = order.getListProductID();
-        for (UUID id : tmp) {
-            jdbcTemplate.update(sql1, new Object[]{order.getId(), id});
+        for (UUID productId : tmp) {
+            jdbcTemplate.update(sqlInsertIntoProductOrder, new Object[]{order.getId(), productId});
         }
-        List<UUID> orders = order.getListProductID();
 
     }
 
-    public List<Order> getAll() {
+  /*  public List<Order> getAll() {
 
         final String sql = "SELECT id, user_id FROM \"order\"";
         List<Order> orderList = jdbcTemplate.query(sql, new OrderMapper());
         return orderList;
 
-    }
+    }*/
 
     public Order getOrder(UUID orderID) {
         String sql1 = "SELECT user_id FROM public.\"order\" where \"order\".id = " + "'" + orderID + "'" + " ;";
-        List<InnerProducts> orderList = getProductsIdFromORder(orderID);
+        List<InnerProducts> orderList = getProductsIdFromOrder(orderID);
         List<UUID> userID = jdbcTemplate.query(sql1, (resultSet, rwNumber) -> {
             UUID userID1;
             String tm = resultSet.getString("user_id");
@@ -64,7 +63,7 @@ public class OrderRepository {
     }
 
 
-    public List<InnerProducts> getProductsIdFromORder(UUID orderID) {
+    public List<InnerProducts> getProductsIdFromOrder(UUID orderID) {
         String sql = "SELECT * FROM \"order\" join order_product on \"order\".id = order_product.order_id " +
                 " where \"order\".id = " + "'" + orderID + "'" + " ;";
 
