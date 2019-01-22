@@ -19,7 +19,6 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-
     @RequestMapping(value = OrderCRUDConstants.GET_ORDER, method = RequestMethod.GET)
     private ResponseEntity<Order> getOrder(@PathVariable("id") UUID id) {
         Order order = orderService.getOrder(id);
@@ -35,6 +34,4 @@ public class OrderController {
         }
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
-
-
 }

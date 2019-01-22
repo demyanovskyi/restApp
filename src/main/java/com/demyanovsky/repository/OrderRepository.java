@@ -34,7 +34,6 @@ public class OrderRepository {
         } else {
             throw new IncorrectOrderException(order);
         }
-
     }
 
     public Order getOrder(UUID orderID) {
@@ -63,7 +62,6 @@ public class OrderRepository {
         String sql = "SELECT * FROM \"order\" join order_product on \"order\".id = order_product.order_id " +
                 " where \"order\".id = " + "'" + orderID + "'" + " ;";
         List<InnerProducts> productList = jdbcTemplate.query(sql, new UUIDMapper());
-
         return productList;
     }
 

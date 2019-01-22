@@ -26,7 +26,7 @@ public class OrderServiceTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
     @Autowired
-   OrderService orderService;
+    OrderService orderService;
     @Autowired
     ProductService productService;
     @Autowired
@@ -42,7 +42,7 @@ public class OrderServiceTest {
     static User user1 = new User(FIRST_USER_ID, "Bill");
 
     static final UUID FIRST_ORDER_ID = UUID.fromString("436c2730-1cdd-11e9-ab14-d663bd873d93");
-   static List<UUID> productsID = new ArrayList<>();
+    static List<UUID> productsID = new ArrayList<>();
 
     static Order order1 = new Order();
 
@@ -86,8 +86,6 @@ public class OrderServiceTest {
         order1.setUserId(FIRST_USER_ID);
         order1.setId(FIRST_ORDER_ID);
         orderService.save(order1);
-
-
     }
 
     @After
@@ -105,9 +103,7 @@ public class OrderServiceTest {
     @Test
     public void getById() {
         assertEquals(orderService.getOrder(FIRST_ORDER_ID), order1);
-        assertEquals(orderService.getOrder(FIRST_ORDER_ID).getUserId(),FIRST_USER_ID );
-        assertEquals(orderService.getOrder(FIRST_ORDER_ID).getListProductID(),productsID);
+        assertEquals(orderService.getOrder(FIRST_ORDER_ID).getUserId(), FIRST_USER_ID);
+        assertEquals(orderService.getOrder(FIRST_ORDER_ID).getListProductID(), productsID);
     }
-
-
 }
