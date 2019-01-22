@@ -15,7 +15,7 @@ public class UserRepository {
 
     public void save(User user) {
         String sql = "INSERT INTO users " +
-                "(ID, NAME) VALUES ( ?, ?)";
+                "(id, name) VALUES ( ?, ?)";
         jdbcTemplate.update(sql, new Object[]{
                 user.getId(), user.getName()});
     }
@@ -26,13 +26,14 @@ public class UserRepository {
         return usersList;
     }
 
-    public void deliteUsebyID(UUID id) {
+    public void deleteUserByID(UUID id) {
         String sql = "DELETE FROM users WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     public User getUserById(UUID id) {
         String sql = "SELECT * FROM users WHERE ID = ?";
+
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new UserMapper());
     }
 

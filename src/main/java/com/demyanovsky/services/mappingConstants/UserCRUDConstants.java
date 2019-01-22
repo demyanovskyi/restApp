@@ -1,7 +1,7 @@
-package com.demyanovsky.services;
+package com.demyanovsky.services.mappingConstants;
 
-// Constants for mapping
-public class CRUDConstants {
+// Constants for User mapping
+public class UserCRUDConstants {
     public static final String GET_ALL_USERS = "/user";
     public static final String GET_USER = "/user/{id}";
     public static final String CREATE_USER = "/user";

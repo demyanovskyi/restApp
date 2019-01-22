@@ -40,8 +40,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User modify(User user) {
-        if (user.getId() != null && user.getName() != null) {
+        try {
             userRepository.modify(user);
+        } catch (Exception e) {
+            throw new IncorrectUserException(user.getId());
         }
         return userRepository.getUserById(user.getId());
     }
@@ -60,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(UUID id) {
         try {
-            userRepository.deliteUsebyID(id);
+            userRepository.deleteUserByID(id);
         } catch (Exception e) {
             throw new UserNotFoundException(id);
         }

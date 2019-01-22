@@ -73,7 +73,7 @@ public class SpringBootUsersApplicationTests {
         mockMvc.perform(put("/user/{id}", SECOND_USER_ID).content("{ \"id\" : \"" + SECOND_USER_ID + "\",\"name\":\"Edvard\"}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("modifyUser"))
-                .andExpect(status().isAccepted())
+                .andExpect(status().isOk())
                 .andExpect(content().string("{\"id\":\"" + SECOND_USER_ID + "\",\"name\":\"Edvard\"}"))
                 .andReturn();
     }
