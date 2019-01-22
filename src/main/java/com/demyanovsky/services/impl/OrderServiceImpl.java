@@ -26,14 +26,6 @@ public class OrderServiceImpl implements OrderService {
             throw new IncorrectOrderException(order);
         }
     }
-/*
-
-    @Override
-    public List<Order> getAll() {
-
-        return orderRepository.getAll();
-    }
-*/
 
     @Override
     public Order getOrder(UUID id) {

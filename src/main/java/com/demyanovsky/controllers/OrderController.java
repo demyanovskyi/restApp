@@ -18,11 +18,6 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-  /*  @RequestMapping(value = OrderCRUDConstants.GET_ALL_ORDERS, method = RequestMethod.GET)
-    private ResponseEntity<List<Order>> getAll() {
-        List<Order> orders = orderService.getAll();
-        return new ResponseEntity<>(orders, HttpStatus.OK);
-    }*/
 
     @RequestMapping(value = OrderCRUDConstants.GET_ORDER, method = RequestMethod.GET)
     private ResponseEntity<Order> getOrder(@PathVariable("id") UUID id) {

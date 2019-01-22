@@ -37,6 +37,7 @@ public class ProductServiceTest {
     @Before
     public void init() throws Exception {
         String sql = "CREATE TABLE product ( id  UUID  PRIMARY KEY, product_name   VARCHAR(100)  NOT NULL, price numeric );";
+
         jdbcTemplate.execute(sql);
         productRepository.save(product1);
         productRepository.save(product2);
