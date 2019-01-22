@@ -2,7 +2,6 @@ package com.demyanovsky.services;
 
 
 import com.demyanovsky.domain.Product;
-import com.demyanovsky.repository.ProductRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,44 +31,45 @@ public class ProductServiceTest {
     JdbcTemplate jdbcTemplate;
 
     @Autowired
-    ProductRepository productRepository;
+    ProductService productService;
 
     @Before
     public void init() throws Exception {
         String sql = "CREATE TABLE product ( id  UUID  PRIMARY KEY, product_name   VARCHAR(100)  NOT NULL, price numeric );";
 
         jdbcTemplate.execute(sql);
-        productRepository.save(product1);
-        productRepository.save(product2);
+        productService.save(product1);
+        productService.save(product2);
     }
 
     @After
-    public void destroy(){
+    public void destroy() {
         String sql = "DROP TABLE product";
         jdbcTemplate.execute(sql);
     }
+
     @Test
     public void getAll() {
-        assertEquals(productRepository.getAll().size(), 2);
+        assertEquals(productService.getAll().size(), 2);
     }
 
     @Test
     public void getById() {
-        assertEquals(productRepository.getProductById(FIRST_PRODUCT_ID), product2);
-        assertEquals(productRepository.getProductById(SECOND_PRODUCT_ID), product1);
+        assertEquals(productService.getById(FIRST_PRODUCT_ID), product2);
+        assertEquals(productService.getById(SECOND_PRODUCT_ID), product1);
     }
 
     @Test
     public void deliteProductByID() {
-        productRepository.deleteByID(SECOND_PRODUCT_ID);
-        assertEquals(productRepository.getAll().size(), 1);
+        productService.deleteById(SECOND_PRODUCT_ID);
+        assertEquals(productService.getAll().size(), 1);
     }
 
     @Test
     public void modifyProduct() {
         Product product3 = new Product(FIRST_PRODUCT_ID, "iPhone X ref", 921.44);
-        productRepository.modify(product3);
-        assertEquals(productRepository.getProductById(FIRST_PRODUCT_ID).getName(), "iPhone X ref");
-        assertTrue(productRepository.getProductById(FIRST_PRODUCT_ID).getPrice()==921.44);
+        productService.modify(product3);
+        assertEquals(productService.getById(FIRST_PRODUCT_ID).getName(), "iPhone X ref");
+        assertTrue(productService.getById(FIRST_PRODUCT_ID).getPrice() == 921.44);
     }
 }

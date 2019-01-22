@@ -1,6 +1,7 @@
 package com.demyanovsky.controllers;
 
 import com.demyanovsky.domain.Order;
+import com.demyanovsky.exceptions.IncorrectOrderException;
 import com.demyanovsky.services.OrderService;
 import com.demyanovsky.services.mappingConstants.OrderCRUDConstants;
 import org.springframework.http.HttpStatus;
@@ -26,8 +27,12 @@ public class OrderController {
     }
 
     @RequestMapping(value = OrderCRUDConstants.CREATE_ORDER, method = RequestMethod.POST)
-    private ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        orderService.save(order);
+    private ResponseEntity<Order> createOrder(@PathVariable("id") UUID id, @RequestBody Order order) {
+        if (order.getId().equals(id)) {
+            orderService.save(order);
+        }else {
+            throw new IncorrectOrderException(order);
+        }
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 

@@ -3,9 +3,6 @@ package com.demyanovsky.services;
 import com.demyanovsky.domain.Order;
 import com.demyanovsky.domain.Product;
 import com.demyanovsky.domain.User;
-import com.demyanovsky.repository.OrderRepository;
-import com.demyanovsky.repository.ProductRepository;
-import com.demyanovsky.repository.UserRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,11 +26,11 @@ public class OrderServiceTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
     @Autowired
-    OrderRepository orderRepository;
+   OrderService orderService;
     @Autowired
-    ProductRepository productRepository;
+    ProductService productService;
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
     static final UUID FIRST_PRODUCT_ID = UUID.fromString("4431b533-ba17-4787-98a3-f2df37de2ad1");
     static final UUID SECOND_PRODUCT_ID = UUID.fromString("4531b533-ba17-4787-98a3-f2df37de2ad2");
     static Product product1 = new Product(SECOND_PRODUCT_ID, "MacBook Pro", 2312.44);
@@ -78,17 +75,17 @@ public class OrderServiceTest {
         jdbcTemplate.execute(createOrderTable);
         jdbcTemplate.execute(creatreProductOrderTable);
 
-        userRepository.save(user1);
-        userRepository.save(user2);
-        productRepository.save(product1);
-        productRepository.save(product2);
+        userService.save(user1);
+        userService.save(user2);
+        productService.save(product1);
+        productService.save(product2);
 
         productsID.add(FIRST_PRODUCT_ID);
         productsID.add(SECOND_PRODUCT_ID);
         order1.setListProductID(productsID);
         order1.setUserId(FIRST_USER_ID);
         order1.setId(FIRST_ORDER_ID);
-        orderRepository.save(order1);
+        orderService.save(order1);
 
 
     }
@@ -107,9 +104,9 @@ public class OrderServiceTest {
 
     @Test
     public void getById() {
-        assertEquals(orderRepository.getOrder(FIRST_ORDER_ID), order1);
-        assertEquals(orderRepository.getOrder(FIRST_ORDER_ID).getUserId(),FIRST_USER_ID );
-        assertEquals(orderRepository.getOrder(FIRST_ORDER_ID).getListProductID(),productsID);
+        assertEquals(orderService.getOrder(FIRST_ORDER_ID), order1);
+        assertEquals(orderService.getOrder(FIRST_ORDER_ID).getUserId(),FIRST_USER_ID );
+        assertEquals(orderService.getOrder(FIRST_ORDER_ID).getListProductID(),productsID);
     }
 
 
