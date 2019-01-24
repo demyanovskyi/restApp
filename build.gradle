@@ -25,7 +25,6 @@ repositories {
 
 
 dependencies {
-// https://mvnrepository.com/artifact/com.h2database/h2
 	testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
 
 	compile("org.springframework:spring-jdbc")
@@ -35,5 +34,9 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.1.1.RELEASE'
+
+// https://mvnrepository.com/artifact/org.springframework.data/spring-data-jdbc
+	compile group: 'org.springframework.data', name: 'spring-data-jdbc', version: '1.0.4.RELEASE'
+
 
 }

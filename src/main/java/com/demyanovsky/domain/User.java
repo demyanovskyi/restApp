@@ -1,12 +1,19 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+import javax.annotation.Generated;
 import java.util.Objects;
 import java.util.UUID;
 
 //Model
-public class User {
+@Table(value = "users")
+ public  class User  {
+
+    @Id
+    @Generated(value = "true")
     @JsonProperty
     private UUID id;
     @JsonProperty
@@ -16,6 +23,10 @@ public class User {
         this.id = id;
         this.name = firstName;
     }
+    public User( String firstName) {
+
+        this.name = firstName;
+    }
 
     public User() {
     }
@@ -23,6 +34,7 @@ public class User {
     public UUID getId() {
         return id;
     }
+
 
     public void setId(UUID id) {
         this.id = id;
@@ -38,9 +50,10 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format(
-                "User[id=%d, name='%s']",
-                id, name);
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -21,7 +21,7 @@ public interface UserService {
      *
      * @param user
      */
-    void save(User user);
+    User save(User user);
     /**
      * Delete the user by it's id.
      *
@@ -33,14 +33,14 @@ public interface UserService {
      *
      * @return list of users
      */
-    List<User> getAll();
+    Iterable<User> getAll();
     /**
      * Get the User by id.
      *
      * @param id
      * @return user
      */
-    User getById(UUID id);
+    Optional<User> getById(UUID id);
     /**
      * Update the User.
      *
@@ -48,4 +48,5 @@ public interface UserService {
      * @return user
      */
     User modify(User user);
+
 }

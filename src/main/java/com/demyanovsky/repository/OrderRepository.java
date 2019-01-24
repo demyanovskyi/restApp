@@ -19,8 +19,7 @@ public class OrderRepository {
     JdbcTemplate jdbcTemplate;
     @Autowired
     ProductRepository productRepository;
-    @Autowired
-    UserRepository userRepository;
+
 
     public void save(Order order) {
         String sqlCreateOrder = "INSERT INTO \"order\" (id, user_id) VALUES(?, ?)";

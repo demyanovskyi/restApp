@@ -7,7 +7,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Order {
-    @JsonProperty
+//    @JsonProperty
+
     private UUID id;
 
     @JsonProperty

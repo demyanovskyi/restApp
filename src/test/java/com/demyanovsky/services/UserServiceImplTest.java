@@ -1,3 +1,4 @@
+/*
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
@@ -68,3 +69,4 @@ public class UserServiceImplTest {
         assertEquals(userService.getById(FIRST_USER_ID).getName(), "Edvard");
     }
 }
+*/

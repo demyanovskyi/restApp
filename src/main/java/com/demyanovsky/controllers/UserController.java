@@ -3,8 +3,8 @@ package com.demyanovsky.controllers;
 
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.IncorrectUserException;
-import com.demyanovsky.services.mappingConstants.UserCRUDConstants;
 import com.demyanovsky.services.UserService;
+import com.demyanovsky.services.mappingConstants.UserCRUDConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -29,15 +30,15 @@ public class UserController {
     // Get all users controller
     @RequestMapping(value = UserCRUDConstants.GET_ALL_USERS, method = RequestMethod.GET)
     private ResponseEntity<List<User>> listAllUsers() throws SQLException {
-        List<User> users = userService.getAll();
+        List<User> users = (List<User>) userService.getAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     // Get user by id controller
     @RequestMapping(value = UserCRUDConstants.GET_USER, method = RequestMethod.GET)
-    private ResponseEntity<User> userById(@PathVariable("id") UUID id) {
-        User user = userService.getById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    private ResponseEntity<Optional<User>> userById(@PathVariable("id") UUID id) {
+        Optional<User> user = userService.getById(id);
+        return new ResponseEntity<Optional<User>>(user, HttpStatus.OK);
     }
 
     // Delete controller
@@ -53,6 +54,7 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
+
 
     //Modify user controller
     @RequestMapping(value = UserCRUDConstants.UPDATE_USER, method = RequestMethod.PUT)
