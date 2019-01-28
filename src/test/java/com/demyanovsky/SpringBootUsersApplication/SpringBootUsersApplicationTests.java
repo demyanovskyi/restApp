@@ -1,4 +1,3 @@
-/*
 package com.demyanovsky.SpringBootUsersApplication;
 
 import com.demyanovsky.controllers.UserController;
@@ -32,8 +31,8 @@ public class SpringBootUsersApplicationTests {
 
     static final UUID FIRST_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad1");
     static final UUID SECOND_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad2");
-    static User user2 = new User(SECOND_USER_ID, "Stiv");
-    static User user1 = new User(FIRST_USER_ID, "Bill");
+    static User user2 = new User("Stiv");
+    static User user1 = new User("Bill");
 
     @Before
     public void init() throws Exception {
@@ -49,12 +48,13 @@ public class SpringBootUsersApplicationTests {
 
     @Test
     public void userById() throws Exception {
-        mockMvc.perform(get("/user/{id}", SECOND_USER_ID))
+
+        mockMvc.perform(get("/user/{id}",SECOND_USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
                 .andReturn();
-        mockMvc.perform(get("/user/{id}", FIRST_USER_ID))
+        mockMvc.perform(get("/user/{id}", user1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
@@ -91,4 +91,3 @@ public class SpringBootUsersApplicationTests {
                 .andExpect(handler().handlerType(UserController.class));
     }
 }
-*/

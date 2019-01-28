@@ -1,4 +1,3 @@
-/*
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
@@ -12,6 +11,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -47,26 +49,31 @@ public class UserServiceImplTest {
 
     @Test
     public void getAll() {
-        assertEquals(userService.getAll().size(), 2);
+        List<User> tmp = new ArrayList();
+        tmp = (List<User>) userService.getAll();
+        assertEquals(tmp.size(), 2);
     }
 
     @Test
     public void getById() {
-        assertEquals(userService.getById(FIRST_USER_ID), user1);
-        assertEquals(userService.getById(SECOND_USER_ID), user2);
+        assertEquals(userService.getById(FIRST_USER_ID).get(), user1);
+        assertEquals(userService.getById(SECOND_USER_ID).get(), user2);
     }
 
     @Test
     public void deliteUserByID() {
         userService.deleteById(SECOND_USER_ID);
-        assertEquals(userService.getAll().size(), 1);
+        List<User> tmp = new ArrayList();
+        tmp = (List<User>) userService.getAll();
+        assertEquals(tmp.size(), 1);
     }
 
     @Test
     public void modifyUser() {
         User user3 = new User(FIRST_USER_ID, "Edvard");
         userService.modify(user3);
-        assertEquals(userService.getById(FIRST_USER_ID).getName(), "Edvard");
+        Optional<User> tmp  = Optional.of(new User());
+        tmp = userService.getById(FIRST_USER_ID);
+        assertEquals(tmp.get().getName(), "Edvard");
     }
 }
-*/

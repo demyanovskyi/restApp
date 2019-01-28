@@ -32,8 +32,8 @@ public class ProductControllerTest {
 
     static final UUID FIRST_PRODUCT_ID = UUID.fromString("4431b533-ba17-4787-98a3-f2df37de2ad1");
     static final UUID SECOND_PRODUCT_ID = UUID.fromString("4531b533-ba17-4787-98a3-f2df37de2ad2");
-    static Product product1 = new Product(SECOND_PRODUCT_ID, "MacBook Pro", 2332.44);
-    static Product product2 = new Product(FIRST_PRODUCT_ID, "iPhone X", 542.43);
+    static Product product1 = new Product( "MacBook Pro", 2332.44);
+    static Product product2 = new Product("iPhone X", 542.43);
 
     @Before
     public void init() throws Exception {

@@ -1,14 +1,15 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Order {
-//    @JsonProperty
-
+    @JsonProperty
+    @Id
     private UUID id;
 
     @JsonProperty
@@ -16,18 +17,11 @@ public class Order {
     @JsonProperty
     private List<UUID> listProductID;
 
-    public Order(UUID id, UUID userId) {
-        this.id = id;
+    public Order( UUID userId) {
         this.userId = userId;
     }
 
     public Order() {
-    }
-
-    public Order(UUID id, UUID userId, List<UUID> listProductID) {
-        this.id = id;
-        this.userId = userId;
-        this.listProductID = listProductID;
     }
 
     public UUID getId() {

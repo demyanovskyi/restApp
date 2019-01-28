@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     private static List<Product> products = new ArrayList<>();
 
@@ -24,44 +25,41 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void save(Product product) {
-        try {
-            productRepository.save(product);
-        } catch (Exception e) {
-            throw new ProductNotFoundException(product.getId());
-        }
+
+        productRepository.save(product);
     }
 
     @Override
     public void deleteById(UUID id) {
         try {
-            productRepository.deleteByID(id);
+            productRepository.deleteById(id);
         } catch (Exception e) {
             throw new ProductNotFoundException(id);
         }
     }
 
     @Override
-    public List<Product> getAll() {
-        return productRepository.getAll();
+    public Iterable<Product> getAll() {
+        return productRepository.findAll();
     }
 
     @Override
     public Product getById(UUID id) {
-        try {
-            return productRepository.getProductById(id);
-        } catch (Exception e) {
-            throw new ProductNotFoundException(id);
+
+            return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+
         }
-    }
+
 
     @Override
-    public Product modify(Product product) {
+    public Optional<Product> modify(Product product) {
         try {
             productRepository.modify(product);
         } catch (Exception e) {
             throw new ProductNotFoundException(product.getId());
         }
-        return productRepository.getProductById(product.getId());
+        return productRepository.findById(product.getId());
+
 
     }
 }

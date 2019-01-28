@@ -1,4 +1,3 @@
-/*
 package com.demyanovsky.SpringBootUsersApplication;
 
 import com.demyanovsky.domain.Order;
@@ -44,8 +43,8 @@ public class OrderControllerTest {
 
     static final UUID FIRST_PRODUCT_ID = UUID.fromString("4431b533-ba17-4787-98a3-f2df37de2ad1");
     static final UUID SECOND_PRODUCT_ID = UUID.fromString("4531b533-ba17-4787-98a3-f2df37de2ad2");
-    static Product product1 = new Product(SECOND_PRODUCT_ID, "MacBook Pro", 2312.44);
-    static Product product2 = new Product(FIRST_PRODUCT_ID, "iPhone X", 844.43);
+    static Product product1 = new Product( "MacBook Pro", 2312.44);
+    static Product product2 = new Product( "iPhone X", 844.43);
 
     static final UUID FIRST_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad1");
     static final UUID SECOND_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad2");
@@ -60,7 +59,7 @@ public class OrderControllerTest {
     public void init() throws Exception {
         productService.save(product1);
         productService.save(product2);
-        userServicea.save(user2);
+        userService.save(user2);
         userService.save(user1);
 
         productsID.add(FIRST_PRODUCT_ID);
@@ -96,4 +95,3 @@ public class OrderControllerTest {
 
     }
 }
-*/

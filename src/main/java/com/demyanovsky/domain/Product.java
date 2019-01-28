@@ -1,24 +1,23 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
 import java.util.UUID;
 
 public class Product {
     @JsonProperty
+    @Id
     private UUID id;
-    @JsonProperty
     private String productName;
-    @JsonProperty
     private Double price;
 
     public UUID getId() {
         return id;
     }
 
-    public Product(UUID id, String productName, Double price) {
-        this.id = id;
+    public Product(String productName, Double price) {
         this.productName = productName;
         this.price = price;
     }

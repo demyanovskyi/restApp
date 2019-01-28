@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.annotation.Generated;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -13,9 +12,9 @@ import java.util.UUID;
  public  class User  {
 
     @Id
-    @Generated(value = "true")
     @JsonProperty
     private UUID id;
+
     @JsonProperty
     private String name;
 
