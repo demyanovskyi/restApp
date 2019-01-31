@@ -4,6 +4,7 @@ package com.demyanovsky.services;
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -21,7 +22,7 @@ public interface UserService {
      *
      * @param user
      */
-    void save(User user);
+    User save(User user);
     /**
      * Delete the user by it's id.
      *
@@ -33,7 +34,7 @@ public interface UserService {
      *
      * @return list of users
      */
-    Iterable<User> getAll();
+   List<User> getAll();
     /**
      * Get the User by id.
      *

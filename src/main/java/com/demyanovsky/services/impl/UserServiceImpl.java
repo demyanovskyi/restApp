@@ -4,21 +4,20 @@ package com.demyanovsky.services.impl;
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.IncorrectUserException;
 import com.demyanovsky.exceptions.UserNotFoundException;
-import com.demyanovsky.repository.UserDataRepository;
+import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
-    /**
-     *
-     */
+
     @Autowired
-    private UserDataRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public List<User> getAll() {
@@ -31,20 +30,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void modify(User user) {
-        try {
-            userRepository.modify(user);
-        }catch (Exception e){
-            throw  new IncorrectUserException(user.getId());
-        }
-
+    public void modify(User  user) {
+try {
+    userRepository.save(user);
+}catch (NoSuchElementException e){
+    throw new IncorrectUserException(user.getId());
+}
     }
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
         try {
-                userRepository.save(user);
-        } catch (Exception e) {
+            return userRepository.save(user);
+        } catch (NoSuchElementException e) {
             throw new IncorrectUserException(user.getId());
         }
     }
@@ -52,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(UUID id) throws UserNotFoundException {
         try {
-       userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+            // userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
             userRepository.deleteById(id);
         } catch (Exception e) {
             throw new UserNotFoundException(id);

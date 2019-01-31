@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -37,7 +36,7 @@ public class ProductServiceTest {
 
     @Before
     public void init() throws Exception {
-        String sql = "CREATE TABLE product ( id  UUID  PRIMARY KEY, product_name   VARCHAR(100)  NOT NULL, price numeric );";
+        String sql = "CREATE TABLE product ( id  UUID DEFAULT RANDOM_UUID() PRIMARY KEY, product_name   VARCHAR(100)  NOT NULL, price numeric );";
         jdbcTemplate.execute(sql);
         productService.save(product1);
         productService.save(product2);
@@ -58,8 +57,8 @@ public class ProductServiceTest {
 
     @Test
     public void getById() {
-        assertEquals(productService.getById(FIRST_PRODUCT_ID).get(), product2);
-        assertEquals(productService.getById(SECOND_PRODUCT_ID).get(), product1);
+        assertEquals(productService.getById(FIRST_PRODUCT_ID), product2);
+        assertEquals(productService.getById(SECOND_PRODUCT_ID), product1);
     }
 
     @Test
@@ -74,10 +73,10 @@ public class ProductServiceTest {
     public void modifyProduct() {
         Product product3 = new Product( "iPhone X ref", 921.44);
         productService.modify(product3);
-        Optional<Product> tmp  = Optional.of(new Product());
+      Product tmp  = new Product();
       //  assertEquals(productService.getById(FIRST_PRODUCT_ID).getName(), "iPhone X ref");
         //assertTrue(productService.getById(FIRST_PRODUCT_ID).getPrice() == 921.44);
         tmp = productService.getById(FIRST_PRODUCT_ID);
-        assertEquals(tmp.get().getName(), "iPhone X ref");
+        assertEquals(tmp.getName(), "iPhone X ref");
     }
 }

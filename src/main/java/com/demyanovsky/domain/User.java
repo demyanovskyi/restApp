@@ -1,14 +1,15 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 import java.util.UUID;
 
-//Model
-@Table(value = "users")
+@Entity
+@Table(name = "users")
  public  class User  {
 
     @Id
@@ -18,16 +19,17 @@ import java.util.UUID;
     @JsonProperty
     private String name;
 
-    public User(UUID id, String firstName) {
-        this.id = id;
-        this.name = firstName;
-    }
     public User( String firstName) {
 
         this.name = firstName;
     }
 
     public User() {
+    }
+
+    public User(UUID id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public UUID getId() {

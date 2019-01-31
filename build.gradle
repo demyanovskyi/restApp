@@ -27,7 +27,7 @@ repositories {
 dependencies {
 	testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
 
-	compile("org.springframework:spring-jdbc")
+	//compile("org.springframework:spring-jdbc")
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	runtimeOnly('org.postgresql:postgresql')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
@@ -36,8 +36,13 @@ dependencies {
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.1.1.RELEASE'
 
 // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jdbc
-	compile group: 'org.springframework.data', name: 'spring-data-jdbc', version: '1.0.0.RELEASE'
+	//compile group: 'org.springframework.data', name: 'spring-data-jdbc', version: '1.0.0.RELEASE'
 
 
+	// https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+	compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.1'
 
+// https://mvnrepository.com/artifact/org.hibernate/hibernate-gradle-plugin
+	compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.1.Final'
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
 }

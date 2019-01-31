@@ -1,12 +1,18 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 import java.util.UUID;
 
+
+@Entity
+@Table(name = "product")
 public class Product {
+
     @JsonProperty
     @Id
     private UUID id;
@@ -21,7 +27,6 @@ public class Product {
         this.productName = productName;
         this.price = price;
     }
-
 
     public Product() {
     }

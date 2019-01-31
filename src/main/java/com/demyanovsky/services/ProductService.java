@@ -2,7 +2,6 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.Product;
 
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,7 +11,7 @@ public interface ProductService {
      *
      * @param product
      */
-    void save(Product product);
+    Product save(Product product);
 
     /**
      * Delete the product by id.
@@ -26,7 +25,7 @@ public interface ProductService {
      *
      * @return list of products
      */
-    Iterable<Product> getAll();
+   Iterable<Product> getAll();
 
     /**
      * Get the product by id.

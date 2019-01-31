@@ -1,27 +1,54 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+
+@Entity
+@Table(name = "shop_order")
 public class Order {
+
     @JsonProperty
     @Id
     private UUID id;
 
     @JsonProperty
     private UUID userId;
-    @JsonProperty
-    private List<UUID> listProductID;
 
-    public Order( UUID userId) {
+    @JsonProperty
+    private List<ProductRef> products = new ArrayList<>();
+
+    public Order(UUID userId) {
         this.userId = userId;
     }
 
+    public void addProduct(Product product) {
+        products.add(createProductRef(product));
+    }
+
+    private ProductRef createProductRef(Product product) {
+        return new ProductRef(product.getId());
+    }
+
     public Order() {
+    }
+
+
+    public Order(List<ProductRef> listProductID) {
+        this.products = listProductID;
+
+    }
+
+    public Order(UUID userId, List<ProductRef> listProductID) {
+        this.userId = userId;
+        this.products = listProductID;
     }
 
     public UUID getId() {
@@ -40,12 +67,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public List<UUID> getListProductID() {
-        return listProductID;
+    public List<ProductRef> getListProductID() {
+        return products;
     }
 
-    public void setListProductID(List<UUID> listProductID) {
-        this.listProductID = listProductID;
+    public void setListProductID(List<ProductRef> listProductID) {
+        this.products = listProductID;
     }
 
     @Override
@@ -68,8 +95,9 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", listProductID=" + listProductID +
+                ", listProductID=" + products +
                 '}';
     }
+
 }
 

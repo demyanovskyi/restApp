@@ -24,9 +24,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(Product product) {
+    public Product save(Product product) {
 
-        productRepository.save(product);
+      return   productRepository.save(product);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Iterable<Product> getAll() {
-        return productRepository.findAll();
+    public List<Product> getAll() {
+        return (List<Product>) productRepository.findAll();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Optional<Product> modify(Product product) {
         try {
-            productRepository.modify(product);
+            productRepository.save(product);
         } catch (Exception e) {
             throw new ProductNotFoundException(product.getId());
         }

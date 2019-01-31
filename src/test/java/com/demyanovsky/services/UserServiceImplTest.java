@@ -1,6 +1,7 @@
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
+import com.demyanovsky.exceptions.UserNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -24,8 +24,9 @@ import static org.junit.Assert.assertEquals;
 public class UserServiceImplTest {
     static final UUID FIRST_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad1");
     static final UUID SECOND_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad2");
-    static User user2 = new User(SECOND_USER_ID, "Stiv");
-    static User user1 = new User(FIRST_USER_ID, "Bill");
+    static private UUID corrId = UUID.randomUUID();
+    static User user2 = new User(FIRST_USER_ID, "Stiv");
+    static User user1 = new User(SECOND_USER_ID, "Bill");
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -35,10 +36,11 @@ public class UserServiceImplTest {
 
     @Before
     public void init() throws Exception {
-        String sql = "CREATE TABLE users ( id  UUID  PRIMARY KEY, name   VARCHAR(100)  NOT NULL);";
+
+        String sql = "CREATE TABLE users ( id UUID DEFAULT RANDOM_UUID() NOT NULL PRIMARY KEY , name   VARCHAR(100)  NOT NULL);";
         jdbcTemplate.execute(sql);
-        userService.save(user1);
-        userService.save(user2);
+          userService.save(user1);
+        User tmp1 = userService.save(user2);
     }
 
     @After
@@ -49,19 +51,18 @@ public class UserServiceImplTest {
 
     @Test
     public void getAll() {
-        List<User> tmp = new ArrayList();
-        tmp = (List<User>) userService.getAll();
+        List<User> tmp = userService.getAll();
         assertEquals(tmp.size(), 2);
     }
 
     @Test
-    public void getById() {
-        assertEquals(userService.getById(FIRST_USER_ID).get(), user1);
-        assertEquals(userService.getById(SECOND_USER_ID).get(), user2);
+    public void getById() throws UserNotFoundException {
+        assertEquals(userService.getById(user1.getId()), user1);
+        assertEquals(userService.getById(user2.getId()), user2);
     }
 
     @Test
-    public void deliteUserByID() {
+    public void deliteUserByID() throws UserNotFoundException {
         userService.deleteById(SECOND_USER_ID);
         List<User> tmp = new ArrayList();
         tmp = (List<User>) userService.getAll();
@@ -69,11 +70,11 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void modifyUser() {
-        User user3 = new User(FIRST_USER_ID, "Edvard");
+    public void modifyUser() throws UserNotFoundException {
+        User user3 = new User("Edvard");
         userService.modify(user3);
-        Optional<User> tmp  = Optional.of(new User());
+        User tmp = new User();
         tmp = userService.getById(FIRST_USER_ID);
-        assertEquals(tmp.get().getName(), "Edvard");
+        assertEquals(tmp.getName(), "Edvard");
     }
 }

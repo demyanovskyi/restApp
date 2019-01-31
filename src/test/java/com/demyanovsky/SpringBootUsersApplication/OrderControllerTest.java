@@ -1,3 +1,4 @@
+/*
 package com.demyanovsky.SpringBootUsersApplication;
 
 import com.demyanovsky.domain.Order;
@@ -95,3 +96,4 @@ public class OrderControllerTest {
 
     }
 }
+*/
