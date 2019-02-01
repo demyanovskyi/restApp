@@ -8,12 +8,11 @@ import java.util.UUID;
 
 public class OrderDTO {
 
-    public OrderDTO() {
-    }
-
     @JsonProperty
     List<UUID> productList;
 
+    public OrderDTO() {
+    }
 
     public OrderDTO(List<UUID> productList) {
         this.productList = productList;

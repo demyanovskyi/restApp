@@ -70,8 +70,6 @@ public class SpringBootUsersApplicationTests {
                 .andExpect(handler().methodName("deleteUserById"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(UserController.class));
-        userService.deleteById(tmp.getId());
-        userService.deleteById(tmp1.getId());
     }
 
     @Test

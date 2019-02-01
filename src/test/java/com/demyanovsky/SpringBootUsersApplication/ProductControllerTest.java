@@ -37,13 +37,13 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getProduct"))
-                .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"price\":542.43,\"name\":\"iPhone X\"}"))
+                .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"productName\":\"iPhone X\",\"price\":542.43}"))
                 .andReturn();
         mockMvc.perform(get("http://localhost:8080//product/{id}", tmp1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getProduct"))
-                .andExpect(content().string("{\"id\":\"" + tmp1.getId() + "\",\"price\":2332.44,\"name\":\"MacBook Pro\"}"))
+                .andExpect(content().string("{\"id\":\"" + tmp1.getId() + "\",\"productName\":\"MacBook Pro\",\"price\":2332.44}"))
                 .andReturn();
         productService.deleteById(tmp.getId());
         productService.deleteById(tmp1.getId());
@@ -65,7 +65,7 @@ public class ProductControllerTest {
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(ProductController.class));
-        mockMvc.perform(delete("http://localhost:8080//product/{id}", tmp.getId()))
+        mockMvc.perform(delete("http://localhost:8080//product/{id}", tmp1.getId()))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(ProductController.class));
@@ -74,13 +74,12 @@ public class ProductControllerTest {
     @Test
     public void modifyProduct() throws Exception {
         Product tmp = productService.save(product2);
-        mockMvc.perform(put("http://localhost:8080//product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"name\" : \"iPhone XS\" , \"price\" : 931.43}")
+        mockMvc.perform(put("http://localhost:8080//product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("updateProduct"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"price\":931.43,\"name\":\"iPhone XS\"}"))
+                .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"productName\":\"iPhone XS\",\"price\":656.43}"))
                 .andReturn();
         productService.deleteById(tmp.getId());
     }
-
 }

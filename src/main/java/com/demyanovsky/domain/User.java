@@ -1,25 +1,27 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "Users")
 @Table(name = "users")
- public  class User  {
+public class User {
 
-    @Id
     @JsonProperty
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    @Id
     private UUID id;
 
     @JsonProperty
     private String name;
 
-    public User( String firstName) {
+    public User(String firstName) {
 
         this.name = firstName;
     }

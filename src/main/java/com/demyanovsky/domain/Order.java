@@ -1,55 +1,64 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 
-@Entity
+@Entity(name = "Order")
 @Table(name = "shop_order")
 public class Order {
 
+
     @JsonProperty
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
     @Id
     private UUID id;
 
     @JsonProperty
     private UUID userId;
-
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "shop_order_product",
+            joinColumns = @JoinColumn(name = "shop_order"),
+            inverseJoinColumns = @JoinColumn(name = "product")
+    )
     @JsonProperty
-    private List<ProductRef> products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    @ManyToMany
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.getOrders().add(this);
+    }
+
+    public void removeProduct(Product product) {
+        products.remove(product);
+        product.getOrders().remove(this);
+    }
 
     public Order(UUID userId) {
         this.userId = userId;
     }
 
-    public void addProduct(Product product) {
-        products.add(createProductRef(product));
-    }
-
-    private ProductRef createProductRef(Product product) {
-        return new ProductRef(product.getId());
-    }
 
     public Order() {
     }
 
-
-    public Order(List<ProductRef> listProductID) {
-        this.products = listProductID;
-
-    }
-
-    public Order(UUID userId, List<ProductRef> listProductID) {
-        this.userId = userId;
-        this.products = listProductID;
-    }
 
     public UUID getId() {
         return id;
@@ -67,27 +76,19 @@ public class Order {
         this.userId = userId;
     }
 
-    public List<ProductRef> getListProductID() {
-        return products;
-    }
-
-    public void setListProductID(List<ProductRef> listProductID) {
-        this.products = listProductID;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Order)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return Objects.equals(getId(), order.getId()) &&
-                Objects.equals(getUserId(), order.getUserId()) &&
-                Objects.equals(getListProductID(), order.getListProductID());
+        return Objects.equals(id, order.id) &&
+                Objects.equals(userId, order.userId) &&
+                Objects.equals(products, order.products);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getListProductID());
+        return Objects.hash(id, userId, products);
     }
 
     @Override

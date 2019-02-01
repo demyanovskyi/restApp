@@ -2,8 +2,6 @@ package com.demyanovsky.services.impl;
 
 import com.demyanovsky.domain.Order;
 import com.demyanovsky.domain.OrderDTO;
-import com.demyanovsky.exceptions.IncorrectOrderException;
-import com.demyanovsky.exceptions.OrderNotFoundException;
 import com.demyanovsky.repository.OrderRepository;
 import com.demyanovsky.repository.ProductRepository;
 import com.demyanovsky.repository.UserRepository;
@@ -25,21 +23,21 @@ public class OrderServiceImpl implements OrderService {
     ProductRepository productRepository;
 
     @Override
-
     @Transactional
-    public Order save(OrderDTO orderDTO, UUID userId) throws IncorrectOrderException {
+    public Order save(OrderDTO orderDTO, UUID userId)  {
         Order tempOrder = new Order();
 
-            for (UUID id : orderDTO.getProductList()) {
-                    tempOrder.addProduct(productRepository.findById(id).get());
-            }
+        for (UUID id : orderDTO.getProductList()) {
+            tempOrder.addProduct(productRepository.findById(id).get());
+        }
         tempOrder.setUserId(userId);
+//
         return orderRepository.save(tempOrder);
     }
 
     @Override
     public Order getOrder(UUID id) {
-        return orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        return orderRepository.findByUserId(id);
     }
 
 

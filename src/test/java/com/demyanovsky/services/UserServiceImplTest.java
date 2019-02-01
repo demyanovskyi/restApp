@@ -2,7 +2,6 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,11 +21,11 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @ActiveProfiles("test")
 public class UserServiceImplTest {
-    static final UUID FIRST_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad1");
-    static final UUID SECOND_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad2");
+
     static private UUID corrId = UUID.randomUUID();
-    static User user2 = new User(FIRST_USER_ID, "Stiv");
-    static User user1 = new User(SECOND_USER_ID, "Bill");
+    static User user2 = new User("Stiv");
+    static User user1 = new User("Bill");
+    static User user3 = new User("Will");
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -36,45 +35,49 @@ public class UserServiceImplTest {
 
     @Before
     public void init() throws Exception {
-
-        String sql = "CREATE TABLE users ( id UUID DEFAULT RANDOM_UUID() NOT NULL PRIMARY KEY , name   VARCHAR(100)  NOT NULL);";
+     /*   String sql1 = "DROP TABLE users";
+        jdbcTemplate.execute(sql1);*/
+        String sql = "CREATE TABLE IF NOT EXISTS  users ( id UUID  NOT NULL PRIMARY KEY , name   VARCHAR(100)  NOT NULL);";
         jdbcTemplate.execute(sql);
-          userService.save(user1);
-        User tmp1 = userService.save(user2);
-    }
-
-    @After
-    public void destroy() {
-        String sql = "DROP TABLE users";
-        jdbcTemplate.execute(sql);
-    }
-
-    @Test
-    public void getAll() {
-        List<User> tmp = userService.getAll();
-        assertEquals(tmp.size(), 2);
+        userService.save(user1);
+        userService.save(user2);
+        userService.save(user3);
     }
 
     @Test
     public void getById() throws UserNotFoundException {
-        assertEquals(userService.getById(user1.getId()), user1);
+        assertEquals(userService.getById(user1.getId()).getName(), "Bill");
         assertEquals(userService.getById(user2.getId()), user2);
     }
 
+    /*
+        @After
+        public void destroy() {
+            String sql = "DROP TABLE users";
+            jdbcTemplate.execute(sql);
+        }
+    */
     @Test
-    public void deliteUserByID() throws UserNotFoundException {
-        userService.deleteById(SECOND_USER_ID);
-        List<User> tmp = new ArrayList();
-        tmp = (List<User>) userService.getAll();
-        assertEquals(tmp.size(), 1);
+    public void getAll() {
+        List<User> tmp = userService.getAll();
+        assertEquals(tmp.size(), 3);
     }
 
     @Test
     public void modifyUser() throws UserNotFoundException {
         User user3 = new User("Edvard");
+        user3.setId(user1.getId());
         userService.modify(user3);
         User tmp = new User();
-        tmp = userService.getById(FIRST_USER_ID);
+        tmp = userService.getById(user1.getId());
         assertEquals(tmp.getName(), "Edvard");
+    }
+
+    @Test
+    public void deliteUserByID() throws UserNotFoundException {
+        userService.deleteById(user3.getId());
+        List<User> tmp = new ArrayList();
+        tmp = (List<User>) userService.getAll();
+        assertEquals(tmp.size(), 2);
     }
 }

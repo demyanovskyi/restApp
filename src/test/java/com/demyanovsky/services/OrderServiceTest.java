@@ -1,7 +1,7 @@
-/*
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.Order;
+import com.demyanovsky.domain.OrderDTO;
 import com.demyanovsky.domain.Product;
 import com.demyanovsky.domain.User;
 import org.junit.After;
@@ -32,23 +32,31 @@ public class OrderServiceTest {
     ProductService productService;
     @Autowired
     UserService userService;
-    static final UUID FIRST_PRODUCT_ID = UUID.fromString("4431b533-ba17-4787-98a3-f2df37de2ad1");
-    static final UUID SECOND_PRODUCT_ID = UUID.fromString("4531b533-ba17-4787-98a3-f2df37de2ad2");
+
     static Product product1 = new Product( "MacBook Pro", 2312.44);
     static Product product2 = new Product( "iPhone X", 844.43);
 
-    static final UUID FIRST_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad1");
-    static final UUID SECOND_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad2");
-    static User user2 = new User(SECOND_USER_ID, "Stiv");
-    static User user1 = new User(FIRST_USER_ID, "Bill");
 
-    static final UUID FIRST_ORDER_ID = UUID.fromString("436c2730-1cdd-11e9-ab14-d663bd873d93");
+    static User user2 = new User( "Stiv");
+    static User user1 = new User( "Bill");
+
+    static OrderDTO orderDTO = new OrderDTO();
+
+
     static List<UUID> productsID = new ArrayList<>();
 
     static Order order1 = new Order();
 
     @Before
     public void init() {
+  /*      String destroyProduct = "DROP TABLE product";
+        String destroyUsers = "DROP TABLE users";
+        String destroyOrder = "DROP TABLE \"order\"";
+        String destroyProductOrder = "DROP TABLE order_product";
+        jdbcTemplate.execute(destroyOrder);
+        jdbcTemplate.execute(destroyProduct);
+        jdbcTemplate.execute(destroyUsers);
+        jdbcTemplate.execute(destroyProductOrder);*/
         String createOrderTable = "CREATE TABLE \"order\" (\n" +
                 "\tid uuid NOT NULL,\n" +
                 "\tuser_id uuid NOT NULL,\n" +
@@ -81,12 +89,13 @@ public class OrderServiceTest {
         productService.save(product1);
         productService.save(product2);
 
-        productsID.add(FIRST_PRODUCT_ID);
-        productsID.add(SECOND_PRODUCT_ID);
-        order1.setListProductID(productsID);
-        order1.setUserId(FIRST_USER_ID);
-        order1.setId(FIRST_ORDER_ID);
-        orderService.save(order1);
+        productsID.add(product1.getId());
+        productsID.add(product2.getId());
+       // order1.setListProductID(productsID);
+       /* order1.setUserId(FIRST_USER_ID);
+        order1.setId(FIRST_ORDER_ID);*/
+       orderDTO.setProductList(productsID);
+        orderService.save(orderDTO, user1.getId());
     }
 
     @After
@@ -103,9 +112,9 @@ public class OrderServiceTest {
 
     @Test
     public void getById() {
-        assertEquals(orderService.getOrder(FIRST_ORDER_ID), order1);
+        assertEquals(orderService.getOrder(user1.getId()).getUserId(), user1.getId());
+        assertEquals(orderService.getOrder(user1.getId()).getProducts(), productsID);
         //assertEquals(orderService.getOrder(FIRST_ORDER_ID).getUserId(), FIRST_USER_ID);
       //  assertEquals(orderService.getOrder(FIRST_ORDER_ID).getListProductID(), productsID);
     }
 }
-*/
