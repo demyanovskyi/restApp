@@ -14,7 +14,6 @@ import java.util.UUID;
 @Table(name = "shop_order")
 public class Order {
 
-
     @JsonProperty
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -51,14 +50,12 @@ public class Order {
         product.getOrders().remove(this);
     }
 
-    public Order(UUID userId) {
-        this.userId = userId;
-    }
-
-
     public Order() {
     }
 
+    public Order(UUID userId) {
+        this.userId = userId;
+    }
 
     public UUID getId() {
         return id;

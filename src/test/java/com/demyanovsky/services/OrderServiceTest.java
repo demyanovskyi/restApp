@@ -1,6 +1,5 @@
 package com.demyanovsky.services;
 
-import com.demyanovsky.domain.Order;
 import com.demyanovsky.domain.OrderDTO;
 import com.demyanovsky.domain.Product;
 import com.demyanovsky.domain.User;
@@ -33,46 +32,31 @@ public class OrderServiceTest {
     @Autowired
     UserService userService;
 
-    static Product product1 = new Product( "MacBook Pro", 2312.44);
-    static Product product2 = new Product( "iPhone X", 844.43);
-
-
-    static User user2 = new User( "Stiv");
-    static User user1 = new User( "Bill");
-
+    static Product product1 = new Product("MacBook Pro", 2312.44);
+    static Product product2 = new Product("iPhone X", 844.43);
+    static User user2 = new User("Stiv");
+    static User user1 = new User("Bill");
     static OrderDTO orderDTO = new OrderDTO();
-
-
     static List<UUID> productsID = new ArrayList<>();
-
-    static Order order1 = new Order();
 
     @Before
     public void init() {
-  /*      String destroyProduct = "DROP TABLE product";
-        String destroyUsers = "DROP TABLE users";
-        String destroyOrder = "DROP TABLE \"order\"";
-        String destroyProductOrder = "DROP TABLE order_product";
-        jdbcTemplate.execute(destroyOrder);
-        jdbcTemplate.execute(destroyProduct);
-        jdbcTemplate.execute(destroyUsers);
-        jdbcTemplate.execute(destroyProductOrder);*/
-        String createOrderTable = "CREATE TABLE \"order\" (\n" +
+        String createOrderTable = "CREATE TABLE torder (\n" +
                 "\tid uuid NOT NULL,\n" +
                 "\tuser_id uuid NOT NULL,\n" +
                 "\tCONSTRAINT order_pkey PRIMARY KEY (id),\n" +
-                "\tCONSTRAINT order_users_fk FOREIGN KEY (user_id) REFERENCES users(id)\n" +
+                "\tCONSTRAINT order_users_fk FOREIGN KEY (user_id) REFERENCES tusers(id)\n" +
                 ");";
-        String createUsersTable = "CREATE TABLE users (id uuid NOT NULL, " +
+        String createUsersTable = "CREATE TABLE tusers (id uuid NOT NULL, " +
                 "name varchar(100) NOT NULL, " +
                 "CONSTRAINT users_pkey PRIMARY KEY (id));";
-        String creatreProductOrderTable = "CREATE TABLE order_product (\n" +
+        String creatreProductOrderTable = "CREATE TABLE torder_product (\n" +
                 "\torder_id uuid NULL,\n" +
                 "\tproduct_id uuid NULL,\n" +
-                "\tCONSTRAINT order_product_order_fk FOREIGN KEY (order_id) REFERENCES \"order\"(id),\n" +
-                "\tCONSTRAINT order_product_product_id_fkey FOREIGN KEY (product_id) REFERENCES product(id)\n" +
+                "\tCONSTRAINT order_product_order_fk FOREIGN KEY (order_id) REFERENCES torder(id),\n" +
+                "\tCONSTRAINT order_product_product_id_fkey FOREIGN KEY (product_id) REFERENCES tproduct(id)\n" +
                 ");";
-        String createProductTable = "CREATE TABLE product (\n" +
+        String createProductTable = "CREATE TABLE tproduct (\n" +
                 "\tid uuid NOT NULL,\n" +
                 "\tproduct_name varchar(100) NOT NULL,\n" +
                 "\tprice numeric NOT NULL,\n" +
@@ -89,21 +73,16 @@ public class OrderServiceTest {
         productService.save(product1);
         productService.save(product2);
 
-        productsID.add(product1.getId());
-        productsID.add(product2.getId());
-       // order1.setListProductID(productsID);
-       /* order1.setUserId(FIRST_USER_ID);
-        order1.setId(FIRST_ORDER_ID);*/
-       orderDTO.setProductList(productsID);
+        orderDTO.setProductList(productsID);
         orderService.save(orderDTO, user1.getId());
     }
 
     @After
     public void destroy() {
-        String destroyProduct = "DROP TABLE product";
-        String destroyUsers = "DROP TABLE users";
-        String destroyOrder = "DROP TABLE \"order\"";
-        String destroyProductOrder = "DROP TABLE order_product";
+        String destroyProduct = "DROP TABLE tproduct";
+        String destroyUsers = "DROP TABLE tusers";
+        String destroyOrder = "DROP TABLE torder";
+        String destroyProductOrder = "DROP TABLE torder_product";
         jdbcTemplate.execute(destroyOrder);
         jdbcTemplate.execute(destroyProduct);
         jdbcTemplate.execute(destroyUsers);
@@ -113,8 +92,6 @@ public class OrderServiceTest {
     @Test
     public void getById() {
         assertEquals(orderService.getOrder(user1.getId()).getUserId(), user1.getId());
-        assertEquals(orderService.getOrder(user1.getId()).getProducts(), productsID);
-        //assertEquals(orderService.getOrder(FIRST_ORDER_ID).getUserId(), FIRST_USER_ID);
-      //  assertEquals(orderService.getOrder(FIRST_ORDER_ID).getListProductID(), productsID);
+//        assertEquals(orderService.getOrder(user1.getId()).getProducts(), productsID);
     }
 }

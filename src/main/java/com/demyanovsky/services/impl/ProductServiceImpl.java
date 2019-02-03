@@ -16,7 +16,6 @@ import java.util.UUID;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
-
     private static List<Product> products = new ArrayList<>();
 
     public static List<Product> getProducts() {
@@ -25,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(Product product) {
-      return   productRepository.save(product);
+        return productRepository.save(product);
     }
 
     @Override
@@ -44,11 +43,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getById(UUID id) {
-
-            return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
-
-        }
-
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+    }
 
     @Override
     public Optional<Product> modify(Product product) {

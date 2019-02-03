@@ -2,6 +2,7 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +24,9 @@ import static org.junit.Assert.assertEquals;
 public class UserServiceImplTest {
 
     static private UUID corrId = UUID.randomUUID();
-    static User user2 = new User("Stiv");
-    static User user1 = new User("Bill");
-    static User user3 = new User("Will");
+    private User user2 = new User("Stiv");
+    private User user1 = new User("Bill");
+    private User user3 = new User("Will");
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -35,13 +36,17 @@ public class UserServiceImplTest {
 
     @Before
     public void init() throws Exception {
-     /*   String sql1 = "DROP TABLE users";
-        jdbcTemplate.execute(sql1);*/
         String sql = "CREATE TABLE IF NOT EXISTS  users ( id UUID  NOT NULL PRIMARY KEY , name   VARCHAR(100)  NOT NULL);";
         jdbcTemplate.execute(sql);
         userService.save(user1);
         userService.save(user2);
         userService.save(user3);
+    }
+
+    @After
+    public void destroy() {
+        String sql = "DROP TABLE users";
+        jdbcTemplate.execute(sql);
     }
 
     @Test
@@ -50,13 +55,6 @@ public class UserServiceImplTest {
         assertEquals(userService.getById(user2.getId()), user2);
     }
 
-    /*
-        @After
-        public void destroy() {
-            String sql = "DROP TABLE users";
-            jdbcTemplate.execute(sql);
-        }
-    */
     @Test
     public void getAll() {
         List<User> tmp = userService.getAll();

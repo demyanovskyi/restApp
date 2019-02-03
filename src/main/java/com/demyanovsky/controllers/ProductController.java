@@ -36,11 +36,9 @@ public class ProductController {
 
     @RequestMapping(value = ProductCRUDConstants.GET_PRODUCT, method = RequestMethod.GET)
     private ResponseEntity<Product> getProduct(@PathVariable("id") UUID id) {
-    Product product = productService.getById(id);
+        Product product = productService.getById(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
-
-
 
 
     @RequestMapping(value = ProductCRUDConstants.DELETE_PRODUCT, method = RequestMethod.DELETE)

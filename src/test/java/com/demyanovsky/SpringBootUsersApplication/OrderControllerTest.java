@@ -7,8 +7,6 @@ import com.demyanovsky.domain.User;
 import com.demyanovsky.services.OrderService;
 import com.demyanovsky.services.ProductService;
 import com.demyanovsky.services.UserService;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,6 @@ import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,42 +39,14 @@ public class OrderControllerTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-  //  static final UUID FIRST_PRODUCT_ID = UUID.fromString("4431b533-ba17-4787-98a3-f2df37de2ad1");
-  //  static final UUID SECOND_PRODUCT_ID = UUID.fromString("4531b533-ba17-4787-98a3-f2df37de2ad2");
-    static Product product1 = new Product( "MacBook Pro", 2312.44);
-    static Product product2 = new Product( "iPhone X", 844.43);
+    static Product product1 = new Product("MacBook Pro", 2312.44);
+    static Product product2 = new Product("iPhone X", 844.43);
 
-   // static final UUID FIRST_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad1");
-  //  static final UUID SECOND_USER_ID = UUID.fromString("5231b533-ba17-4787-98a3-f2df37de2ad2");
-    static User user2 = new User( "Stiv");
-    static User user1 = new User( "Bill");
+    static User user2 = new User("Stiv");
+    static User user1 = new User("Bill");
 
-    static final UUID FIRST_ORDER_ID = UUID.fromString("436c2730-1cdd-11e9-ab14-d663bd873d93");
     static List<UUID> productsID = new ArrayList<>();
-    static Order order1 = new Order();
-    static OrderDTO orderDTO  = new OrderDTO();
-
-
-    @Before
-    public void init() throws Exception {
-
-        //order1.setProducts(productsID);
-
-    /*    order1.setUserId(FIRST_USER_ID);
-        order1.setId(FIRST_ORDER_ID);*/
-
-       // orderService.save(orderDTO, user1.getId());
-    }
-
-    @After
-    public void destroy() throws Exception {
-        String sql1 = "DELETE FROM public.order_product WHERE order_id= '436c2730-1cdd-11e9-ab14-d663bd873d93' ;";
-        String sql2 = "DELETE FROM public.\"order\" WHERE id='436c2730-1cdd-11e9-ab14-d663bd873d93';";
-     //   jdbcTemplate.execute(sql1);
-      //  jdbcTemplate.execute(sql2);
-
-
-    }
+    static OrderDTO orderDTO = new OrderDTO();
 
     @Test
     public void orderById() throws Exception {
@@ -89,14 +58,16 @@ public class OrderControllerTest {
         productsID.add(product1.getId());
         productsID.add(product2.getId());
         orderDTO.setProductList(productsID);
-        orderService.save(orderDTO, user1.getId());
+        Order tmp = orderService.save(orderDTO, user1.getId());
 
-        mockMvc.perform(get("http://localhost:8080//user/{id}/order/",user1.getId()))
+        mockMvc.perform(get("http://localhost:8080//user/{id}/order/", user1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getOrder"))
-               /* .andExpect(content().string("{\"id\":\"" + FIRST_ORDER_ID + "\",\"userId\":\""
-                        + FIRST_USER_ID + "\",\"listProductID\":[\"" + FIRST_PRODUCT_ID + "\",\"" + SECOND_PRODUCT_ID + "\"]}"))*/
+                .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"userId\":\""
+                        + user1.getId() + "\",\"products\":[{\"id\":\"" + product1.getId() + "\",\"productName\":\"" +
+                        product1.getProductName() + "\",\"price\":" + product1.getPrice() + "},{\"id\":\"" + product2.getId()
+                        + "\",\"productName\":\"" + product2.getProductName() + "\",\"price\":" + product2.getPrice() + "}]}"))
                 .andReturn();
 
     }

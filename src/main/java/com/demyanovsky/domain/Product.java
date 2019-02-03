@@ -30,9 +30,6 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
 
-
-
-
     public Product(List<Order> orders) {
         this.orders = orders;
     }
@@ -65,12 +62,9 @@ public class Product {
         return id;
     }
 
-
-
     public void setId(UUID id) {
         this.id = id;
     }
-
 
     public double getPrice() {
         return price;
@@ -79,7 +73,6 @@ public class Product {
     public void setPrice(Double price) {
         this.price = price;
     }
-
 
     @Override
     public boolean equals(Object o) {

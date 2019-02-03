@@ -29,8 +29,8 @@ public class OrderController {
 
     @RequestMapping(value = OrderCRUDConstants.CREATE_ORDER, method = RequestMethod.POST)
     private ResponseEntity<Order> createOrder(@PathVariable("id") UUID userId, @RequestBody OrderDTO orderDTO) throws IncorrectOrderException {
-        Order tempOrder =  orderService.save(orderDTO, userId);
-            return new ResponseEntity<>(tempOrder, HttpStatus.CREATED);
+        Order tempOrder = orderService.save(orderDTO, userId);
+        return new ResponseEntity<>(tempOrder, HttpStatus.CREATED);
     }
 }
 

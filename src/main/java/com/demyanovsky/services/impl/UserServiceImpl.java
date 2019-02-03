@@ -30,12 +30,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void modify(User  user) {
-try {
-    userRepository.save(user);
-}catch (NoSuchElementException e){
-    throw new IncorrectUserException(user.getId());
-}
+    public void modify(User user) {
+        try {
+            userRepository.save(user);
+        } catch (NoSuchElementException e) {
+            throw new IncorrectUserException(user.getId());
+        }
     }
 
     @Override

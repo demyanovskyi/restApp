@@ -1,3 +1,4 @@
+/*
 package com.demyanovsky.repository;
 
 import org.springframework.context.annotation.Bean;
@@ -21,3 +22,4 @@ public class CustomConfig {
                 .build();
     }
 }
+*/
