@@ -27,7 +27,6 @@ public class ProductServiceImpl implements ProductService {
         } catch (NoSuchElementException e) {
             throw new ProductNotValidException(product.getId());
         }
-
     }
 
     @Override
@@ -40,8 +39,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll() {
-        return (List<Product>) productRepository.findAll();
+    public Iterable<Product> getAll() {
+        return productRepository.findAll();
     }
 
     @Override

@@ -17,12 +17,9 @@ import java.util.UUID;
 
 @RestController
 public class OrderController {
-    private final OrderService orderService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
+    OrderService orderService;
 
     @Autowired
     UserService userService;
@@ -35,11 +32,11 @@ public class OrderController {
 
     @RequestMapping(value = OrderCRUDConstants.CREATE_ORDER, method = RequestMethod.POST)
     private ResponseEntity<Order> createOrder(@PathVariable("id") UUID userId, @RequestBody OrderDTO orderDTO) throws IncorrectOrderException, UserNotFoundException {
-        if (userService.getById(userId).equals(null)) {
+        if (userService.getById(userId)==null) {
             throw new UserNotFoundException(userId);
         } else {
-            Order tempOrder = orderService.save(orderDTO, userId);
-            return new ResponseEntity<>(tempOrder, HttpStatus.CREATED);
+            Order order = orderService.save(orderDTO, userId);
+            return new ResponseEntity<>(order, HttpStatus.CREATED);
         }
     }
 }

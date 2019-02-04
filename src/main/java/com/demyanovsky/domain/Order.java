@@ -36,19 +36,16 @@ public class Order {
         return products;
     }
 
-    @ManyToMany
     public void setProducts(List<Product> products) {
         this.products = products;
     }
 
     public void addProduct(Product product) {
         products.add(product);
-        product.getOrders().add(this);
     }
 
     public void removeProduct(Product product) {
         products.remove(product);
-        product.getOrders().remove(this);
     }
 
     public Order() {

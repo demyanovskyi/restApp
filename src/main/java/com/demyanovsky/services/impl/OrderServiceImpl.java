@@ -3,15 +3,18 @@ package com.demyanovsky.services.impl;
 import com.demyanovsky.domain.Order;
 import com.demyanovsky.domain.OrderDTO;
 import com.demyanovsky.domain.Product;
+import com.demyanovsky.exceptions.OrderNotFoundException;
+import com.demyanovsky.exceptions.ProductNotValidException;
 import com.demyanovsky.repository.OrderRepository;
 import com.demyanovsky.repository.ProductRepository;
-import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -19,9 +22,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ProductRepository productRepository;
+   private ProductRepository productRepository;
 
     @Override
     @Transactional
@@ -38,17 +39,26 @@ public class OrderServiceImpl implements OrderService {
 
     private boolean validateProducts(List<UUID> productsId) {
         List<Product> allProduct = (List<Product>) productRepository.findAll();
-        for (UUID id : productsId) {
-            if (allProduct.contains(id)) {
-                return false;
-            }
+        List<UUID> allProductId = new ArrayList<>();
+        for (Product tmp : allProduct){
+            allProductId.add(tmp.getId());
         }
+           for (UUID id : productsId){
+               if (!allProductId.contains(id)){
+                   throw new ProductNotValidException(id);
+               }
+           }
         return true;
     }
 
     @Override
     public Order getOrder(UUID id) {
-        return orderRepository.findByUserId(id);
+        try {
+            return orderRepository.findByUserId(id);
+        }catch (NoSuchElementException e){
+            throw new OrderNotFoundException(id);
+        }
+
     }
 
 

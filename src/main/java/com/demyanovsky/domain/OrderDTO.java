@@ -9,29 +9,29 @@ import java.util.UUID;
 public class OrderDTO {
 
     @JsonProperty
-    List<UUID> productList;
+    List<UUID> products;
 
     public OrderDTO() {
     }
 
     public OrderDTO(List<UUID> productList) {
-        this.productList = productList;
+        this.products = productList;
     }
 
     public List<UUID> productList() {
-        return productList;
+        return products;
     }
 
     public List<UUID> getProductList() {
-        return productList;
+        return products;
     }
 
     public void setProductList(List<UUID> productList) {
-        this.productList = productList;
+        this.products = productList;
     }
 
     public void setProducts(List<UUID> products) {
-        this.productList = products;
+        this.products = products;
     }
 
     @Override
@@ -39,18 +39,18 @@ public class OrderDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderDTO orderDTO = (OrderDTO) o;
-        return Objects.equals(productList, orderDTO.productList);
+        return Objects.equals(products, orderDTO.products);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productList);
+        return Objects.hash(products);
     }
 
     @Override
     public String toString() {
         return "OrderDTO{" +
-                "products=" + productList +
+                "products=" + products +
                 '}';
     }
 }

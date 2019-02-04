@@ -30,7 +30,6 @@ public class OrderServiceTest {
     ProductService productService;
     @Autowired
     UserService userService;
-
     static Product product1 = new Product("MacBook Pro", 2312.44);
     static Product product2 = new Product("iPhone X", 844.43);
     static User user2 = new User("Stiv");
@@ -47,10 +46,8 @@ public class OrderServiceTest {
         Product pr2 = productService.save(product2);
         productsID.add(pr1.getId());
         productsID.add(pr2.getId());
-
         testProductList.add(product1);
         testProductList.add(product2);
-
         orderDTO.setProductList(productsID);
         orderService.save(orderDTO, user1.getId());
     }

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,9 +28,9 @@ public class ProductController {
     }
 
     @RequestMapping(value = ProductCRUDConstants.GET_ALL_PRODUCTS, method = RequestMethod.GET)
-    private ResponseEntity<List<Product>> getProductList() {
+    private ResponseEntity<Iterable<Product>> getProductList() {
         Iterable<Product> products = productService.getAll();
-        return new ResponseEntity<List<Product>>((List<Product>) products, HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @RequestMapping(value = ProductCRUDConstants.GET_PRODUCT, method = RequestMethod.GET)

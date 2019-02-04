@@ -2,7 +2,6 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.Product;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
@@ -23,7 +22,7 @@ public interface ProductService {
      *
      * @return list of products
      */
-   List<Product> getAll();
+Iterable<Product> getAll();
     /**
      * Get the Product by id.
      *
