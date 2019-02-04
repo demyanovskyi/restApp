@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 public class UserServiceImplTest {
 
-    static private UUID corrId = UUID.randomUUID();
     private User user2 = new User("Stiv");
     private User user1 = new User("Bill");
     private User user3 = new User("Will");
@@ -36,8 +34,6 @@ public class UserServiceImplTest {
 
     @Before
     public void init() throws Exception {
-        String sql = "CREATE TABLE IF NOT EXISTS  users ( id UUID  NOT NULL PRIMARY KEY , name   VARCHAR(100)  NOT NULL);";
-        jdbcTemplate.execute(sql);
         userService.save(user1);
         userService.save(user2);
         userService.save(user3);
@@ -45,8 +41,9 @@ public class UserServiceImplTest {
 
     @After
     public void destroy() {
-        String sql = "DROP TABLE users";
+        String sql = "TRUNCATE TABLE users";
         jdbcTemplate.execute(sql);
+
     }
 
     @Test

@@ -2,7 +2,7 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.Product;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
@@ -23,7 +23,7 @@ public interface ProductService {
      *
      * @return list of products
      */
-   Iterable<Product> getAll();
+   List<Product> getAll();
     /**
      * Get the Product by id.
      *
@@ -37,5 +37,5 @@ public interface ProductService {
      * @param product
      * @return product
      */
-    Optional<Product> modify(Product product);
+    void modify(Product product);
 }

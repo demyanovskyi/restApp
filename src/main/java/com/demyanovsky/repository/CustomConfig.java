@@ -1,4 +1,3 @@
-/*
 package com.demyanovsky.repository;
 
 import org.springframework.context.annotation.Bean;
@@ -18,11 +17,11 @@ public class CustomConfig {
         return new EmbeddedDatabaseBuilder()
                 .generateUniqueName(true)
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("create-user-schema.sql")
                 .addScript("create-product-schema.sql")
-                .addScript("create-user-schema.sql")
-                .addScript("create-user-schema.sql")
+                .addScript("create-users-schema.sql")
+                .addScript("create-shop_order-schema.sql")
+                .addScript("create-shop_order_product-schema.sql")
                 .build();
     }
+
 }
-*/

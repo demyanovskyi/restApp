@@ -2,8 +2,6 @@ package com.demyanovsky.services;
 
 
 import com.demyanovsky.domain.Product;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,49 +30,59 @@ public class ProductServiceTest {
     @Autowired
     ProductService productService;
 
-    @Before
+/*    @Before
     public void init() {
-        String sql = "CREATE TABLE IF NOT EXISTS product ( id  UUID  PRIMARY KEY, product_name   VARCHAR(100)  NOT NULL, price numeric );";
-        jdbcTemplate.execute(sql);
-        productService.save(product1);
+       productService.save(product1);
         productService.save(product2);
         productService.save(product3);
     }
-
     @After
     public void destroy() {
-        String sql = "DROP TABLE product";
+        String sql = "DELETE TABLE tproducts";
         jdbcTemplate.execute(sql);
-    }
+    }*/
 
     @Test
     public void getAll() {
+        productService.save(product1);
+        productService.save(product2);
+        productService.save(product3);
         List<Product> tmp = new ArrayList();
         tmp = (List<Product>) productService.getAll();
         assertEquals(tmp.size(), 3);
+        productService.deleteById(product1.getId());
+        productService.deleteById(product2.getId());
+        productService.deleteById(product3.getId());
     }
 
     @Test
     public void getById() {
+        productService.save(product1);
+        productService.save(product2);
         assertEquals(productService.getById(product1.getId()), product1);
         assertEquals(productService.getById(product2.getId()), product2);
+        productService.deleteById(product1.getId());
+        productService.deleteById(product2.getId());
     }
 
     @Test
     public void deliteProductByID() {
+        productService.save(product2);
         productService.deleteById(product2.getId());
         List<Product> tmp = new ArrayList();
         tmp = (List<Product>) productService.getAll();
-        assertEquals(tmp.size(), 2);
+        assertEquals(tmp.size(), 0);
     }
 
     @Test
     public void modifyProduct() {
+        productService.save(product2);
         Product product3 = new Product("iPhone X ref", 921.44);
         product3.setId(product2.getId());
         productService.modify(product3);
         Product tmp = new Product();
         tmp = productService.getById(product2.getId());
         assertEquals(tmp.getProductName(), "iPhone X ref");
+        productService.deleteById(product2.getId());
     }
 }

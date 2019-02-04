@@ -1,0 +1,1 @@
+CREATE TABLE users (id uuid NOT NULL, name varchar(100) NOT NULL, CONSTRAINT users_pkey PRIMARY KEY (id));
