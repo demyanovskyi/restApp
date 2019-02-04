@@ -24,9 +24,11 @@ public class ProductControllerTest {
     @Autowired
     private ProductService productService;
 
-    static Product product1 = new Product("MacBook Pro", 2332.44);
-    static Product product2 = new Product("iPhone X", 542.43);
+    private Product product1 = new Product("MacBook Pro", 2332.44);
+    private Product product2 = new Product("iPhone X", 542.43);
 
+
+    
 
     @Test
     public void productById() throws Exception {
