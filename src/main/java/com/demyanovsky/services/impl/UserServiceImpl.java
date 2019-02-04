@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(UUID id) throws UserNotFoundException {
         try {
-            // userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+            userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
             userRepository.deleteById(id);
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             throw new UserNotFoundException(id);
         }
     }

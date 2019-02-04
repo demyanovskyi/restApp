@@ -7,10 +7,7 @@ import com.demyanovsky.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -31,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteById(UUID id) {
         try {
             productRepository.deleteById(id);
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             throw new ProductNotFoundException(id);
         }
     }
@@ -50,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
     public Optional<Product> modify(Product product) {
         try {
             productRepository.save(product);
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             throw new ProductNotFoundException(product.getId());
         }
         return productRepository.findById(product.getId());

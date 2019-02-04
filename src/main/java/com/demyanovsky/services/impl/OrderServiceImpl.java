@@ -37,7 +37,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private boolean validateProducts(List<UUID> productsId) {
-
         List<Product> allProduct = (List<Product>) productRepository.findAll();
         for (UUID id : productsId) {
             if (allProduct.contains(id)) {

@@ -70,8 +70,10 @@ public class OrderServiceTest {
 
         userService.save(user1);
         userService.save(user2);
-        productService.save(product1);
-        productService.save(product2);
+        Product pr1 = productService.save(product1);
+        Product pr2 = productService.save(product2);
+        productsID.add(pr1.getId());
+        productsID.add(pr2.getId());
 
         orderDTO.setProductList(productsID);
         orderService.save(orderDTO, user1.getId());
@@ -92,6 +94,6 @@ public class OrderServiceTest {
     @Test
     public void getById() {
         assertEquals(orderService.getOrder(user1.getId()).getUserId(), user1.getId());
-//        assertEquals(orderService.getOrder(user1.getId()).getProducts(), productsID);
+       // assertEquals(orderService.getOrder(user1.getId()).getProducts(), productsID);
     }
 }

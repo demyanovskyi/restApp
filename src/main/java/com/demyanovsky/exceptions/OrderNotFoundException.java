@@ -1,9 +1,7 @@
 package com.demyanovsky.exceptions;
 
-import java.util.UUID;
-
 public class OrderNotFoundException extends RuntimeException {
-    public OrderNotFoundException(UUID orderID) {
+    public OrderNotFoundException(Long orderID) {
         super("Order with ID : " + orderID + " not found");
     }
 }

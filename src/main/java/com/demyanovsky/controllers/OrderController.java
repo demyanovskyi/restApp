@@ -4,8 +4,11 @@ package com.demyanovsky.controllers;
 import com.demyanovsky.domain.Order;
 import com.demyanovsky.domain.OrderDTO;
 import com.demyanovsky.exceptions.IncorrectOrderException;
+import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.services.OrderService;
+import com.demyanovsky.services.UserService;
 import com.demyanovsky.services.mappingConstants.OrderCRUDConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +17,15 @@ import java.util.UUID;
 
 @RestController
 public class OrderController {
-
     private final OrderService orderService;
 
+    @Autowired
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
-    }
+    } 
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = OrderCRUDConstants.GET_ORDER, method = RequestMethod.GET)
     private ResponseEntity<Order> getOrder(@PathVariable("id") UUID id) {
@@ -28,9 +34,13 @@ public class OrderController {
     }
 
     @RequestMapping(value = OrderCRUDConstants.CREATE_ORDER, method = RequestMethod.POST)
-    private ResponseEntity<Order> createOrder(@PathVariable("id") UUID userId, @RequestBody OrderDTO orderDTO) throws IncorrectOrderException {
-        Order tempOrder = orderService.save(orderDTO, userId);
-        return new ResponseEntity<>(tempOrder, HttpStatus.CREATED);
+    private ResponseEntity<Order> createOrder(@PathVariable("id") UUID userId, @RequestBody OrderDTO orderDTO) throws IncorrectOrderException, UserNotFoundException {
+        if (userService.getById(userId).equals(null)) {
+            throw new UserNotFoundException(userId);
+        } else {
+            Order tempOrder = orderService.save(orderDTO, userId);
+            return new ResponseEntity<>(tempOrder, HttpStatus.CREATED);
+        }
     }
 }
 
