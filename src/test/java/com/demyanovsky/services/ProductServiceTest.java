@@ -30,18 +30,6 @@ public class ProductServiceTest {
     @Autowired
     ProductService productService;
 
-/*    @Before
-    public void init() {
-       productService.save(product1);
-        productService.save(product2);
-        productService.save(product3);
-    }
-    @After
-    public void destroy() {
-        String sql = "DELETE TABLE tproducts";
-        jdbcTemplate.execute(sql);
-    }*/
-
     @Test
     public void getAll() {
         productService.save(product1);
