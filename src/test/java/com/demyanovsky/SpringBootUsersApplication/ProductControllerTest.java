@@ -28,7 +28,7 @@ public class ProductControllerTest {
     private Product product2 = new Product("iPhone X", 542.43);
 
 
-    
+
 
     @Test
     public void productById() throws Exception {

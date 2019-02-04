@@ -18,7 +18,10 @@ public class CustomConfig {
         return new EmbeddedDatabaseBuilder()
                 .generateUniqueName(true)
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("create-customer-schema.sql")
+                .addScript("create-user-schema.sql")
+                .addScript("create-product-schema.sql")
+                .addScript("create-user-schema.sql")
+                .addScript("create-user-schema.sql")
                 .build();
     }
 }

@@ -38,6 +38,7 @@ public class OrderServiceTest {
     static User user1 = new User("Bill");
     static OrderDTO orderDTO = new OrderDTO();
     static List<UUID> productsID = new ArrayList<>();
+    private List<Product> testProductList = new ArrayList<>();
 
     @Before
     public void init() {
@@ -75,6 +76,9 @@ public class OrderServiceTest {
         productsID.add(pr1.getId());
         productsID.add(pr2.getId());
 
+        testProductList.add(product1);
+        testProductList.add(product2);
+
         orderDTO.setProductList(productsID);
         orderService.save(orderDTO, user1.getId());
     }
@@ -94,6 +98,6 @@ public class OrderServiceTest {
     @Test
     public void getById() {
         assertEquals(orderService.getOrder(user1.getId()).getUserId(), user1.getId());
-       // assertEquals(orderService.getOrder(user1.getId()).getProducts(), productsID);
+        assertEquals(orderService.getOrder(user1.getId()).getProducts().toString(), testProductList.toString());
     }
 }

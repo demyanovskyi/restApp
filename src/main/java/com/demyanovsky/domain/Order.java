@@ -23,12 +23,13 @@ public class Order {
 
     @JsonProperty
     private UUID userId;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "shop_order_product",
             joinColumns = @JoinColumn(name = "shop_order"),
             inverseJoinColumns = @JoinColumn(name = "product")
     )
     @JsonProperty
+
     private List<Product> products = new ArrayList<>();
 
     public List<Product> getProducts() {
