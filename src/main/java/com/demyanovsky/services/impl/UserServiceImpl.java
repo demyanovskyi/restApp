@@ -2,7 +2,6 @@ package com.demyanovsky.services.impl;
 
 
 import com.demyanovsky.domain.User;
-import com.demyanovsky.exceptions.IncorrectUserException;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.services.UserService;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -31,20 +31,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void modify(User user) {
-        try {
-            userRepository.save(user);
-        } catch (NoSuchElementException e) {
-            throw new IncorrectUserException(user.getId());
-        }
+        Objects.requireNonNull(user);
+        userRepository.save(user);
     }
 
     @Override
     public User save(User user) {
-        try {
-            return userRepository.save(user);
-        } catch (NoSuchElementException e) {
-            throw new IncorrectUserException(user.getId());
-        }
+        Objects.requireNonNull(user);
+        return userRepository.save(user);
     }
 
     @Override

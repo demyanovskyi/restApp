@@ -43,7 +43,6 @@ public class UserServiceImplTest {
     public void destroy() {
         String sql = "TRUNCATE TABLE users";
         jdbcTemplate.execute(sql);
-
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.demyanovsky.services.impl;
 
 import com.demyanovsky.domain.Product;
 import com.demyanovsky.exceptions.ProductNotFoundException;
-import com.demyanovsky.exceptions.ProductNotValidException;
 import com.demyanovsky.repository.ProductRepository;
 import com.demyanovsky.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +13,11 @@ import java.util.*;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
-    private static List<Product> products = new ArrayList<>();
-
-    public static List<Product> getProducts() {
-        return products;
-    }
 
     @Override
     public Product save(Product product) {
-        try {
-            return productRepository.save(product);
-        } catch (NoSuchElementException e) {
-            throw new ProductNotValidException(product.getId());
-        }
+        Objects.requireNonNull(product);
+        return productRepository.save(product);
     }
 
     @Override
@@ -50,10 +41,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void modify(Product product) {
-        try {
-            productRepository.save(product);
-        } catch (NoSuchElementException e) {
-            throw new ProductNotFoundException(product.getId());
-        }
+        Objects.requireNonNull(product);
+        productRepository.save(product);
     }
 }
