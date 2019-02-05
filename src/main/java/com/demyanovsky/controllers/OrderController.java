@@ -3,7 +3,6 @@ package com.demyanovsky.controllers;
 
 import com.demyanovsky.domain.Order;
 import com.demyanovsky.domain.OrderDTO;
-import com.demyanovsky.exceptions.IncorrectOrderException;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.services.OrderService;
 import com.demyanovsky.services.UserService;
@@ -31,7 +30,7 @@ public class OrderController {
     }
 
     @RequestMapping(value = OrderCRUDConstants.CREATE_ORDER, method = RequestMethod.POST)
-    private ResponseEntity<Order> createOrder(@PathVariable("id") UUID userId, @RequestBody OrderDTO orderDTO) throws IncorrectOrderException, UserNotFoundException {
+    private ResponseEntity<Order> createOrder(@PathVariable("id") UUID userId, @RequestBody OrderDTO orderDTO) throws UserNotFoundException {
         if (userService.getById(userId) == null) {
             throw new UserNotFoundException(userId);
         } else {
