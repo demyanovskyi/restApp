@@ -40,8 +40,10 @@ public class Order {
         this.products = products;
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
+    public void addProducts(Iterable<Product> products) {
+        for (Product product: products) {
+            this.products.add(product);
+        }
     }
 
     public void removeProduct(Product product) {

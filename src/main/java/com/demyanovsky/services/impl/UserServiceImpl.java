@@ -8,10 +8,7 @@ import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,7 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        return (List<User>) userRepository.findAll();
+        List<User> list = new ArrayList<>();
+        userRepository.findAll().iterator().forEachRemaining(list::add);
+        return list;
     }
 
     @Override

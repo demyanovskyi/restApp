@@ -23,7 +23,7 @@ public class UserController {
     // Get all users controller
     @RequestMapping(value = UserCRUDConstants.GET_ALL_USERS, method = RequestMethod.GET)
     private ResponseEntity<List<User>> listAllUsers() throws SQLException {
-        List<User> users = (List<User>) userService.getAll();
+        List<User> users = userService.getAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

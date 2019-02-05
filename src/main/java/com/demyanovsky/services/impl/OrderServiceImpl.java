@@ -27,28 +27,27 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order save(OrderDTO orderDTO, UUID userId) {
-        Order tempOrder = new Order();
+        Order order = new Order();
         List<UUID> productsId = orderDTO.getProductList();
-        if (validateProducts(productsId))
-            for (UUID id : productsId) {
-                tempOrder.addProduct(productRepository.findById(id).get());
-            }
-        tempOrder.setUserId(userId);
-        return orderRepository.save(tempOrder);
+        order.addProducts(validateProducts(productsId));
+        order.setUserId(userId);
+        return orderRepository.save(order);
     }
 
-    private boolean validateProducts(List<UUID> productsId) {
-        List<Product> allProduct = (List<Product>) productRepository.findAll();
-        List<UUID> allProductId = new ArrayList<>();
-        for (Product tmp : allProduct) {
-            allProductId.add(tmp.getId());
+    private List<Product> validateProducts(List<UUID> productsId) {
+        Iterable<Product> existProducts = productRepository.findAllById(productsId);
+        List<UUID> existProductId = new ArrayList<>();
+        for (Product tmp : existProducts) {
+            existProductId.add(tmp.getId());
         }
         for (UUID id : productsId) {
-            if (!allProductId.contains(id)) {
+            if (!existProductId.contains(id)) {
                 throw new ProductNotValidException(id);
             }
         }
-        return true;
+        List<Product> products = new ArrayList<>();
+        existProducts.iterator().forEachRemaining(products::add);
+        return products;
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
+
 @SpringBootTest
 @ActiveProfiles("test")
 public class UserServiceImplTest {
@@ -41,7 +42,7 @@ public class UserServiceImplTest {
 
     @After
     public void destroy() {
-     userRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -70,7 +71,7 @@ public class UserServiceImplTest {
     public void deliteUserByID() throws UserNotFoundException {
         userService.deleteById(user3.getId());
         List<User> tmp = new ArrayList();
-        tmp = (List<User>) userService.getAll();
+        tmp = userService.getAll();
         assertEquals(tmp.size(), 2);
     }
 }

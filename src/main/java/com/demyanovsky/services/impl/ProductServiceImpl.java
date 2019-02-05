@@ -30,8 +30,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Iterable<Product> getAll() {
-        return productRepository.findAll();
+    public List<Product> getAll() {
+        List<Product> products = new ArrayList<>();
+        productRepository.findAll().iterator().forEachRemaining(products::add);
+        return products;
     }
 
     @Override

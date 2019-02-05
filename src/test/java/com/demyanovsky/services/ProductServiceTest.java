@@ -48,7 +48,7 @@ public class ProductServiceTest {
     public void getAll() {
 
         List<Product> tmp = new ArrayList();
-        tmp = (List<Product>) productService.getAll();
+        tmp = productService.getAll();
         assertEquals(tmp.size(), 3);
     }
 
@@ -63,7 +63,7 @@ public class ProductServiceTest {
     public void deliteProductByID() {
         productService.deleteById(product2.getId());
         List<Product> tmp = new ArrayList();
-        tmp = (List<Product>) productService.getAll();
+        tmp = productService.getAll();
         assertEquals(tmp.size(), 2);
     }
 

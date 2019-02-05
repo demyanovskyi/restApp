@@ -12,13 +12,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.demyanovsky.services.mappingConstants.UserCRUDConstants.GET_ALL_USERS;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SpringBootUsersApplicationTests {
+public class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,20 +39,22 @@ public class SpringBootUsersApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
-                .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"name\":\"Stiv\"}"))
+                .andExpect(jsonPath("$.id", is(tmp.getId().toString())))
+                .andExpect(jsonPath("$.name", is(tmp.getName())))
                 .andReturn();
 
         mockMvc.perform(get("/user/{id}", tmp1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
-                .andExpect(content().string("{\"id\":\"" + tmp1.getId() + "\",\"name\":\"Bill\"}"))
+                .andExpect(jsonPath("$.id", is(tmp1.getId().toString())))
+                .andExpect(jsonPath("$.name", is(tmp1.getName())))
                 .andReturn();
     }
 
     @Test
     public void listAllUsers() throws Exception {
-        mockMvc.perform(get("http://localhost:8080//user/"))
+        mockMvc.perform(get(GET_ALL_USERS))
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
@@ -77,7 +81,8 @@ public class SpringBootUsersApplicationTests {
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("modifyUser"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"name\":\"Edvard\"}"))
+                .andExpect(jsonPath("$.id", is(tmp.getId().toString())))
+                .andExpect(jsonPath("$.name", is("Edvard")))
                 .andReturn();
     }
 }

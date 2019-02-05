@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -45,6 +46,7 @@ public class OrderControllerTest {
 
     static List<UUID> productsID = new ArrayList<>();
     static OrderDTO orderDTO = new OrderDTO();
+
     @Transactional
     @Test
     public void orderById() throws Exception {
@@ -58,15 +60,18 @@ public class OrderControllerTest {
         orderDTO.setProductList(productsID);
         Order tmp = orderService.save(orderDTO, user1.getId());
 
-        mockMvc.perform(get("http://localhost:8080//user/{id}/order/", user1.getId()))
+        mockMvc.perform(get("/user/{id}/order/", user1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getOrder"))
-                .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"userId\":\""
-                        + user1.getId() + "\",\"products\":[{\"id\":\"" + product1.getId() + "\",\"productName\":\"" +
-                        product1.getProductName() + "\",\"price\":" + product1.getPrice() + "},{\"id\":\"" + product2.getId()
-                        + "\",\"productName\":\"" + product2.getProductName() + "\",\"price\":" + product2.getPrice() + "}]}"))
-                .andReturn();
+                .andExpect(jsonPath("$.id", is(tmp.getId().toString())))
+                .andExpect(jsonPath("$.userId", is(tmp.getUserId().toString())))
+                .andExpect(jsonPath("$.products[0].id", is(product1.getId().toString())))
+                .andExpect(jsonPath("$.products[0].productName", is(product1.getProductName())))
+                .andExpect(jsonPath("$.products[0].price", is(product1.getPrice())))
+                .andExpect(jsonPath("$.products[1].id", is(product2.getId().toString())))
+                .andExpect(jsonPath("$.products[1].productName", is(product2.getProductName())))
+                .andExpect(jsonPath("$.products[1].price", is(product2.getPrice())));
 
 
     }
