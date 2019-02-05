@@ -13,13 +13,8 @@ import java.util.UUID;
 
 @RestController
 public class ProductController {
-
-    private final ProductService productService;
-
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private ProductService productService;
 
     @RequestMapping(value = ProductCRUDConstants.CREATE_PRODUCT, method = RequestMethod.POST)
     private ResponseEntity<Product> createProduct(@RequestBody Product product) {

@@ -1,2 +1,7 @@
-CREATE TABLE tproducts ( id  UUID  NOT NULL, product_name
- VARCHAR(100)  NOT NULL, CONSTRAINT products_pkey PRIMARY KEY (id) );
+
+CREATE TABLE public.product (
+	id uuid NOT NULL,
+	product_name varchar(100) NOT NULL,
+	price numeric NOT NULL,
+	CONSTRAINT product_pkey PRIMARY KEY (id)
+);

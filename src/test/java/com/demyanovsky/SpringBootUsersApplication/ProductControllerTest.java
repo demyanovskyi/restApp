@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -27,9 +28,7 @@ public class ProductControllerTest {
     private Product product1 = new Product("MacBook Pro", 2332.44);
     private Product product2 = new Product("iPhone X", 542.43);
 
-
-
-
+    @Transactional
     @Test
     public void productById() throws Exception {
 
@@ -47,10 +46,9 @@ public class ProductControllerTest {
                 .andExpect(handler().methodName("getProduct"))
                 .andExpect(content().string("{\"id\":\"" + tmp1.getId() + "\",\"productName\":\"MacBook Pro\",\"price\":2332.44}"))
                 .andReturn();
-        productService.deleteById(tmp.getId());
-        productService.deleteById(tmp1.getId());
     }
 
+    @Transactional
     @Test
     public void getProductList() throws Exception {
         mockMvc.perform(get("http://localhost:8080//product/"))
@@ -59,6 +57,7 @@ public class ProductControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
     }
 
+    @Transactional
     @Test
     public void deleteProductById() throws Exception {
         Product tmp = productService.save(product2);
@@ -73,6 +72,7 @@ public class ProductControllerTest {
                 .andExpect(handler().handlerType(ProductController.class));
     }
 
+    @Transactional
     @Test
     public void modifyProduct() throws Exception {
         Product tmp = productService.save(product2);
@@ -82,6 +82,5 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"productName\":\"iPhone XS\",\"price\":656.43}"))
                 .andReturn();
-        productService.deleteById(tmp.getId());
     }
 }

@@ -17,15 +17,8 @@ import java.util.UUID;
 
 @RestController
 public class UserController {
-    /**
-     * Private final constructor
-     */
-    private final UserService userService;
-
     @Autowired
-    private UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     // Get all users controller
     @RequestMapping(value = UserCRUDConstants.GET_ALL_USERS, method = RequestMethod.GET)
@@ -54,7 +47,6 @@ public class UserController {
         userService.save(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
-
 
     //Modify user controller
     @RequestMapping(value = UserCRUDConstants.UPDATE_USER, method = RequestMethod.PUT)

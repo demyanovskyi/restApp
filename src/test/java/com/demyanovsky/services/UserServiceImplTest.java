@@ -2,13 +2,13 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
+import com.demyanovsky.repository.UserRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -27,10 +27,10 @@ public class UserServiceImplTest {
     private User user3 = new User("Will");
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    UserRepository userRepository;
 
     @Before
     public void init() throws Exception {
@@ -41,8 +41,7 @@ public class UserServiceImplTest {
 
     @After
     public void destroy() {
-        String sql = "TRUNCATE TABLE users";
-        jdbcTemplate.execute(sql);
+     userRepository.deleteAll();
     }
 
     @Test

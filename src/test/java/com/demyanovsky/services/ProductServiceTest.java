@@ -2,11 +2,13 @@ package com.demyanovsky.services;
 
 
 import com.demyanovsky.domain.Product;
+import com.demyanovsky.repository.ProductRepository;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -25,46 +27,48 @@ public class ProductServiceTest {
     private Product product3 = new Product("AppleWatch 4", 400.00);
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    ProductRepository productRepository;
 
     @Autowired
     ProductService productService;
 
-    @Test
-    public void getAll() {
+    @Before
+    public void init() {
         productService.save(product1);
         productService.save(product2);
         productService.save(product3);
+    }
+
+    @After
+    public void destroy() {
+        productRepository.deleteAll();
+    }
+
+    @Test
+    public void getAll() {
+
         List<Product> tmp = new ArrayList();
         tmp = (List<Product>) productService.getAll();
         assertEquals(tmp.size(), 3);
-        productService.deleteById(product1.getId());
-        productService.deleteById(product2.getId());
-        productService.deleteById(product3.getId());
     }
 
     @Test
     public void getById() {
-        productService.save(product1);
-        productService.save(product2);
         assertEquals(productService.getById(product1.getId()), product1);
         assertEquals(productService.getById(product2.getId()), product2);
-        productService.deleteById(product1.getId());
-        productService.deleteById(product2.getId());
+
     }
 
     @Test
     public void deliteProductByID() {
-        productService.save(product2);
         productService.deleteById(product2.getId());
         List<Product> tmp = new ArrayList();
         tmp = (List<Product>) productService.getAll();
-        assertEquals(tmp.size(), 0);
+        assertEquals(tmp.size(), 2);
     }
 
     @Test
     public void modifyProduct() {
-        productService.save(product2);
         Product product3 = new Product("iPhone X ref", 921.44);
         product3.setId(product2.getId());
         productService.modify(product3);

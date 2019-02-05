@@ -46,8 +46,6 @@ public class SpringBootUsersApplicationTests {
                 .andExpect(handler().methodName("userById"))
                 .andExpect(content().string("{\"id\":\"" + tmp1.getId() + "\",\"name\":\"Bill\"}"))
                 .andReturn();
-        userService.deleteById(tmp.getId());
-        userService.deleteById(tmp1.getId());
     }
 
     @Test
@@ -81,6 +79,5 @@ public class SpringBootUsersApplicationTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string("{\"id\":\"" + tmp.getId() + "\",\"name\":\"Edvard\"}"))
                 .andReturn();
-        userService.deleteById(tmp.getId());
     }
 }

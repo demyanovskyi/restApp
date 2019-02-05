@@ -23,5 +23,4 @@ public class CustomConfig {
                 .addScript("create-shop_order_product-schema.sql")
                 .build();
     }
-
 }

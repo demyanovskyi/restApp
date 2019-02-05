@@ -22,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
-   private ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Override
     @Transactional
@@ -40,14 +40,14 @@ public class OrderServiceImpl implements OrderService {
     private boolean validateProducts(List<UUID> productsId) {
         List<Product> allProduct = (List<Product>) productRepository.findAll();
         List<UUID> allProductId = new ArrayList<>();
-        for (Product tmp : allProduct){
+        for (Product tmp : allProduct) {
             allProductId.add(tmp.getId());
         }
-           for (UUID id : productsId){
-               if (!allProductId.contains(id)){
-                   throw new ProductNotValidException(id);
-               }
-           }
+        for (UUID id : productsId) {
+            if (!allProductId.contains(id)) {
+                throw new ProductNotValidException(id);
+            }
+        }
         return true;
     }
 
@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
     public Order getOrder(UUID id) {
         try {
             return orderRepository.findByUserId(id);
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new OrderNotFoundException(id);
         }
 

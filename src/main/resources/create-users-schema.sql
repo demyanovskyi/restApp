@@ -1,1 +1,5 @@
-CREATE TABLE users (id uuid NOT NULL, name varchar(100) NOT NULL, CONSTRAINT users_pkey PRIMARY KEY (id));
+CREATE TABLE public.users (
+	id uuid NOT NULL,
+	"name" varchar NOT NULL,
+	CONSTRAINT users_pkey PRIMARY KEY (id)
+);

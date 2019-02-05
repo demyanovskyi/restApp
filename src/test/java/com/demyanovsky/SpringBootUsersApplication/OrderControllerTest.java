@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +36,6 @@ public class OrderControllerTest {
     ProductService productService;
     @Autowired
     OrderService orderService;
-    @Autowired
-    JdbcTemplate jdbcTemplate;
 
     static Product product1 = new Product("MacBook Pro", 2312.44);
     static Product product2 = new Product("iPhone X", 844.43);
@@ -47,7 +45,7 @@ public class OrderControllerTest {
 
     static List<UUID> productsID = new ArrayList<>();
     static OrderDTO orderDTO = new OrderDTO();
-
+    @Transactional
     @Test
     public void orderById() throws Exception {
         productService.save(product1);
