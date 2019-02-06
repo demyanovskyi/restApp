@@ -1,23 +1,37 @@
 package com.demyanovsky.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
-//Model
+@Entity(name = "Users")
+@Table(name = "users")
 public class User {
+
     @JsonProperty
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    @Id
     private UUID id;
+
     @JsonProperty
     private String name;
 
-    public User(UUID id, String firstName) {
-        this.id = id;
+    public User(String firstName) {
+
         this.name = firstName;
     }
 
     public User() {
+    }
+
+    public User(UUID id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public UUID getId() {
@@ -38,9 +52,10 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format(
-                "User[id=%d, name='%s']",
-                id, name);
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     @Override

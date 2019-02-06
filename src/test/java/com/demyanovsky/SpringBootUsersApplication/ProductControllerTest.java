@@ -3,8 +3,6 @@ package com.demyanovsky.SpringBootUsersApplication;
 import com.demyanovsky.controllers.ProductController;
 import com.demyanovsky.domain.Product;
 import com.demyanovsky.services.ProductService;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.UUID;
-
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,43 +25,38 @@ public class ProductControllerTest {
     @Autowired
     private ProductService productService;
 
+    private Product product1 = new Product("MacBook Pro", 2332.44);
+    private Product product2 = new Product("iPhone X", 542.43);
 
-    static final UUID FIRST_PRODUCT_ID = UUID.fromString("4431b533-ba17-4787-98a3-f2df37de2ad1");
-    static final UUID SECOND_PRODUCT_ID = UUID.fromString("4531b533-ba17-4787-98a3-f2df37de2ad2");
-    static Product product1 = new Product(SECOND_PRODUCT_ID, "MacBook Pro", 2332.44);
-    static Product product2 = new Product(FIRST_PRODUCT_ID, "iPhone X", 542.43);
-
-    @Before
-    public void init() throws Exception {
-        productService.save(product1);
-        productService.save(product2);
-    }
-
-    @After
-    public void destroy() throws Exception {
-        productService.deleteById(FIRST_PRODUCT_ID);
-        productService.deleteById(SECOND_PRODUCT_ID);
-    }
 
     @Test
     public void productById() throws Exception {
-        mockMvc.perform(get("http://localhost:8080//product/{id}", FIRST_PRODUCT_ID))
+        Product tmp = productService.save(product2);
+        Product tmp1 = productService.save(product1);
+        mockMvc.perform(get("/product/{id}", tmp.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id", is(tmp.getId().toString())))
+                .andExpect(jsonPath("$.productName", is(tmp.getProductName())))
+                .andExpect(jsonPath("$.price", is(tmp.getPrice())))
+                .andReturn();
+
+        mockMvc.perform(get("/product/{id}", tmp1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getProduct"))
-                .andExpect(content().string("{\"id\":\"" + FIRST_PRODUCT_ID + "\",\"price\":542.43,\"name\":\"iPhone X\"}"))
+                .andExpect(jsonPath("$.id", is(tmp1.getId().toString())))
+                .andExpect(jsonPath("$.productName", is(tmp1.getProductName())))
+                .andExpect(jsonPath("$.price", is(tmp1.getPrice())))
                 .andReturn();
-        mockMvc.perform(get("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(handler().methodName("getProduct"))
-                .andExpect(content().string("{\"id\":\"" + SECOND_PRODUCT_ID + "\",\"price\":2332.44,\"name\":\"MacBook Pro\"}"))
-                .andReturn();
+        productService.deleteById(tmp.getId());
+        productService.deleteById(tmp1.getId());
+
     }
 
     @Test
     public void getProductList() throws Exception {
-        mockMvc.perform(get("http://localhost:8080//product/"))
+        mockMvc.perform(get("/product/"))
                 .andExpect(handler().handlerType(ProductController.class))
                 .andExpect(handler().methodName("getProductList")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
@@ -73,11 +64,13 @@ public class ProductControllerTest {
 
     @Test
     public void deleteProductById() throws Exception {
-        mockMvc.perform(delete("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID))
+        Product tmp = productService.save(product2);
+        Product tmp1 = productService.save(product1);
+        mockMvc.perform(delete("/product/{id}", tmp.getId()))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(ProductController.class));
-        mockMvc.perform(delete("http://localhost:8080//product/{id}", FIRST_PRODUCT_ID))
+        mockMvc.perform(delete("/product/{id}", tmp1.getId()))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(ProductController.class));
@@ -85,12 +78,15 @@ public class ProductControllerTest {
 
     @Test
     public void modifyProduct() throws Exception {
-        mockMvc.perform(put("http://localhost:8080//product/{id}", SECOND_PRODUCT_ID).content("{ \"id\" : \"" + SECOND_PRODUCT_ID + "\" , \"name\" : \"iPhone XS\" , \"price\" : 931.43}")
+        Product tmp = productService.save(product2);
+        mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("updateProduct"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"id\":\"" + SECOND_PRODUCT_ID + "\",\"price\":931.43,\"name\":\"iPhone XS\"}"))
+                .andExpect(jsonPath("$.id", is(tmp.getId().toString())))
+                .andExpect(jsonPath("$.productName", is("iPhone XS")))
+                .andExpect(jsonPath("$.price", is(656.43)))
                 .andReturn();
+        productService.deleteById(tmp.getId());
     }
-
 }

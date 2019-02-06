@@ -1,22 +1,22 @@
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.Order;
+import com.demyanovsky.domain.OrderDTO;
 
 import java.util.UUID;
 
 public interface OrderService {
     /**
-     * Add the order .
+     * Add the Order .
      *
      * @param order
      */
-    void save(Order order);
-
+    Order save(OrderDTO order, UUID userId);
     /**
-     * Get the order by id.
+     * Get the Order by User id.
      *
      * @param id
-     * @return order
+     * @return Order
      */
     Order getOrder(UUID id);
 

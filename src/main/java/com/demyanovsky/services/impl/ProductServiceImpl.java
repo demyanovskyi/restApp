@@ -7,61 +7,43 @@ import com.demyanovsky.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
-    ProductRepository productRepository;
-
-    private static List<Product> products = new ArrayList<>();
-
-    public static List<Product> getProducts() {
-        return products;
-    }
+    private ProductRepository productRepository;
 
     @Override
-    public void save(Product product) {
-        try {
-            productRepository.save(product);
-        } catch (Exception e) {
-            throw new ProductNotFoundException(product.getId());
-        }
+    public Product save(Product product) {
+        Objects.requireNonNull(product);
+        return productRepository.save(product);
     }
 
     @Override
     public void deleteById(UUID id) {
         try {
-            productRepository.deleteByID(id);
-        } catch (Exception e) {
+            productRepository.deleteById(id);
+        } catch (NoSuchElementException e) {
             throw new ProductNotFoundException(id);
         }
     }
 
     @Override
     public List<Product> getAll() {
-        return productRepository.getAll();
+        List<Product> products = new ArrayList<>();
+        productRepository.findAll().iterator().forEachRemaining(products::add);
+        return products;
     }
 
     @Override
     public Product getById(UUID id) {
-        try {
-            return productRepository.getProductById(id);
-        } catch (Exception e) {
-            throw new ProductNotFoundException(id);
-        }
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
-    public Product modify(Product product) {
-        try {
-            productRepository.modify(product);
-        } catch (Exception e) {
-            throw new ProductNotFoundException(product.getId());
-        }
-        return productRepository.getProductById(product.getId());
-
+    public void modify(Product product) {
+        Objects.requireNonNull(product);
+        productRepository.save(product);
     }
 }
