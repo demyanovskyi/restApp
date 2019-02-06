@@ -12,8 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.*;
-
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -29,9 +28,9 @@ public class ProductControllerTest {
     private Product product1 = new Product("MacBook Pro", 2332.44);
     private Product product2 = new Product("iPhone X", 542.43);
 
+
     @Test
     public void productById() throws Exception {
-
         Product tmp = productService.save(product2);
         Product tmp1 = productService.save(product1);
         mockMvc.perform(get("/product/{id}", tmp.getId()))
@@ -50,6 +49,9 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is(tmp1.getProductName())))
                 .andExpect(jsonPath("$.price", is(tmp1.getPrice())))
                 .andReturn();
+        productService.deleteById(tmp.getId());
+        productService.deleteById(tmp1.getId());
+
     }
 
     @Test
@@ -85,5 +87,6 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is("iPhone XS")))
                 .andExpect(jsonPath("$.price", is(656.43)))
                 .andReturn();
+        productService.deleteById(tmp.getId());
     }
 }

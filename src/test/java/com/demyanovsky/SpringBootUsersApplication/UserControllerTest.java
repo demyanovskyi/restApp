@@ -27,29 +27,31 @@ public class UserControllerTest {
     @Autowired
     UserService userService;
 
-    static User user2 = new User("Stiv");
-    static User user1 = new User("Bill");
+    private User user2 = new User("Stiv");
+    private User user1 = new User("Bill");
 
     @Test
     public void userById() throws Exception {
 
-        User tmp = userService.save(user2);
-        User tmp1 = userService.save(user1);
-        mockMvc.perform(get("/user/{id}", tmp.getId()))
+        User testUser = userService.save(user2);
+        User testUser1 = userService.save(user1);
+        mockMvc.perform(get("/user/{id}", testUser.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
-                .andExpect(jsonPath("$.id", is(tmp.getId().toString())))
-                .andExpect(jsonPath("$.name", is(tmp.getName())))
+                .andExpect(jsonPath("$.id", is(testUser.getId().toString())))
+                .andExpect(jsonPath("$.name", is(testUser.getName())))
                 .andReturn();
 
-        mockMvc.perform(get("/user/{id}", tmp1.getId()))
+        mockMvc.perform(get("/user/{id}", testUser1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("userById"))
-                .andExpect(jsonPath("$.id", is(tmp1.getId().toString())))
-                .andExpect(jsonPath("$.name", is(tmp1.getName())))
+                .andExpect(jsonPath("$.id", is(testUser1.getId().toString())))
+                .andExpect(jsonPath("$.name", is(testUser1.getName())))
                 .andReturn();
+        userService.deleteById(testUser.getId());
+        userService.deleteById(testUser1.getId());
     }
 
     @Test
@@ -84,5 +86,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.id", is(tmp.getId().toString())))
                 .andExpect(jsonPath("$.name", is("Edvard")))
                 .andReturn();
+        userService.deleteById(tmp.getId());
     }
 }

@@ -21,14 +21,12 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 @ActiveProfiles("test")
 public class ProductServiceTest {
-
     private Product product1 = new Product("MacBook Pro", 2312.44);
     private Product product2 = new Product("iPhone X", 844.43);
     private Product product3 = new Product("AppleWatch 4", 400.00);
 
     @Autowired
     ProductRepository productRepository;
-
     @Autowired
     ProductService productService;
 
@@ -46,7 +44,6 @@ public class ProductServiceTest {
 
     @Test
     public void getAll() {
-
         List<Product> tmp = new ArrayList();
         tmp = productService.getAll();
         assertEquals(tmp.size(), 3);
@@ -56,7 +53,6 @@ public class ProductServiceTest {
     public void getById() {
         assertEquals(productService.getById(product1.getId()), product1);
         assertEquals(productService.getById(product2.getId()), product2);
-
     }
 
     @Test
