@@ -1,6 +1,5 @@
 package com.demyanovsky.services.mappingConstants;
 
-
 public class UserCRUDConstants {
     public static final String GET_ALL_USERS = "/user";
     public static final String GET_USER = "/user/{id}";

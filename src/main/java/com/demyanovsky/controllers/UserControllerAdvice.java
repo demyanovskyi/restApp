@@ -11,13 +11,11 @@ public class UserControllerAdvice {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleThereIsNoSuchUserException(UserNotFoundException e) {
-
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(IncorrectUserException.class)
     public ResponseEntity<ErrorResponse> handleThereIsIncorrectUserException(IncorrectUserException e) {
-
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
