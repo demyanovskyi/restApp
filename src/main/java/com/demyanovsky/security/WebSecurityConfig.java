@@ -10,15 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.sql.DataSource;
-
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationEntryPoint authEntryPoint;
-    @Autowired
-    DataSource dataSource;
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
@@ -47,5 +43,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         bean.setPasswordEncoder(encoder());
         return bean;
     }
-
 }
