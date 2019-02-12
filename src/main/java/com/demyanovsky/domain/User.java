@@ -20,7 +20,7 @@ public class User {
 
     @JsonProperty
     private String name;
-    @JsonProperty
+
     private String password;
 
     public String getPassword() {

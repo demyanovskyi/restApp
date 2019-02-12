@@ -21,11 +21,11 @@ import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class UserServiceImplTest {
+public class UserServiceTest {
 
-    private User user2 = new User("Stiv");
-    private User user1 = new User("Bill");
-    private User user3 = new User("Will");
+    private User user2 = new User("Stiv", "423");
+    private User user1 = new User("Bill", "fdr");
+    private User user3 = new User("Will", "r324");
 
     @Autowired
     private UserService userService;

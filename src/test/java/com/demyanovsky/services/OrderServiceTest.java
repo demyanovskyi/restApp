@@ -39,8 +39,8 @@ public class OrderServiceTest {
     public void init() {
         userService.save(user1);
         userService.save(user2);
-        Product pr1 = productService.save(product1);
         Product pr2 = productService.save(product2);
+        Product pr1 = productService.save(product1);
         productsID.add(pr1.getId());
         productsID.add(pr2.getId());
         testProductList.add(product1);

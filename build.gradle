@@ -38,6 +38,8 @@ dependencies {
     compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
     testCompile("org.springframework.security:spring-security-test")
     compile("org.springframework.boot:spring-boot-starter-security")
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.0.2.RELEASE'
 
 
 

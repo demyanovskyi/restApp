@@ -16,7 +16,7 @@ import java.util.HashSet;
 
 @Service()
 public class CustomUserDetailsService implements UserDetailsService {
-
+    public static final String userRole = "USER";
 
     @Autowired
     private UserRepository userRepository;
@@ -28,17 +28,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByName(username);
-        if (user != null) return new CustomUserDetails(user.getName(),user.getPassword(), getAuthorities());
-
-
+        if (user != null) return new CustomUserDetails(user.getName(), user.getPassword(), getAuthorities());
         return null;
     }
 
     private Collection<GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new HashSet<>();
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("USER");
-            authorities.add(grantedAuthority);
+        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(userRole);
+        authorities.add(grantedAuthority);
         return authorities;
     }
-
 }

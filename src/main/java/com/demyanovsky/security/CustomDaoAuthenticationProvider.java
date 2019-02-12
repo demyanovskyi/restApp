@@ -8,7 +8,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class CustomDaoAuthenticationProvider  extends DaoAuthenticationProvider {
+public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
@@ -17,8 +17,6 @@ public class CustomDaoAuthenticationProvider  extends DaoAuthenticationProvider 
         try {
             u = getUserDetailsService().loadUserByUsername(name);
         } catch (UsernameNotFoundException ex) {
-
-        } catch (Exception e) { 
         }
         if (u != null) {
             if (u.getPassword().equals(password)) {

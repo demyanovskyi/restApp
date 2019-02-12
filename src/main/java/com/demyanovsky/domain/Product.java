@@ -15,7 +15,6 @@ import java.util.UUID;
 @Table(name = "product")
 public class Product {
 
-
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
