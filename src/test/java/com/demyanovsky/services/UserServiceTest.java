@@ -1,5 +1,6 @@
 package com.demyanovsky.services;
 
+import com.demyanovsky.domain.Role;
 import com.demyanovsky.domain.User;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
@@ -35,9 +36,9 @@ public class UserServiceTest {
 
     @Before
     public void init() throws Exception {
-        userService.save(user1);
-        userService.save(user2);
-        userService.save(user3);
+        userService.save(user1, Role.USER);
+        userService.save(user2,Role.USER);
+        userService.save(user3, Role.USER);
     }
 
     @After

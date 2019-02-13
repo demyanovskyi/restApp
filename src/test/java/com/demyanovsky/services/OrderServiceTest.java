@@ -2,6 +2,7 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.OrderDTO;
 import com.demyanovsky.domain.Product;
+import com.demyanovsky.domain.Role;
 import com.demyanovsky.domain.User;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +38,8 @@ public class OrderServiceTest {
 
     @Before
     public void init() {
-        userService.save(user1);
-        userService.save(user2);
+        userService.save(user1, Role.USER);
+        userService.save(user2,Role.USER);
         Product pr2 = productService.save(product2);
         Product pr1 = productService.save(product1);
         productsID.add(pr1.getId());

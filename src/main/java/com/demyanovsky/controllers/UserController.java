@@ -1,7 +1,9 @@
 package com.demyanovsky.controllers;
 
 
+import com.demyanovsky.domain.Role;
 import com.demyanovsky.domain.User;
+import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.exceptions.IncorrectUserException;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.services.UserService;
@@ -11,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
@@ -39,8 +43,8 @@ public class UserController {
     }
 
     @RequestMapping(value = UserCRUDConstants.CREATE_USER, method = RequestMethod.POST)
-    private ResponseEntity<User> createNewUser(@RequestBody User user) {
-        userService.save(user);
+    private ResponseEntity<User> createNewUser(@RequestBody UserDTO userDTO) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+       User user = userService.save(userDTO, Role.USER);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 

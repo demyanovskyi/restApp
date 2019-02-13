@@ -1,5 +1,6 @@
 package com.demyanovsky.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -20,8 +21,20 @@ public class User {
 
     @JsonProperty
     private String name;
-
+    @JsonIgnore
     private String password;
+
+    private Role role;
+    @JsonIgnore
+    private String salt;
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public String getPassword() {
         return password;
@@ -47,6 +60,14 @@ public class User {
     public User(UUID id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public UUID getId() {

@@ -1,9 +1,13 @@
 package com.demyanovsky.services;
 
 
+import com.demyanovsky.domain.Role;
 import com.demyanovsky.domain.User;
+import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.exceptions.UserNotFoundException;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,9 +24,9 @@ public interface UserService {
     /**
      * Add the user .
      *
-     * @param user
+     * @param userDTO
      */
-    User save(User user);
+    User save(UserDTO userDTO, Role role) throws UnsupportedEncodingException, NoSuchAlgorithmException;
     /**
      * Delete the user by it's id.
      *
