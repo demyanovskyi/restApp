@@ -43,7 +43,7 @@ public class OrderServiceTest {
         testProductList.add(product1);
         testProductList.add(product2);
         orderDTO.setProductList(productsID);
-        User user1 = userService.save(new UserDTO(userDTO.getName(), userDTO.getPassword()), Role.USER);
+        User user1 = userService.save(new UserDTO(userDTO.getName(), userDTO.getPassword()), Role.USER_ROLE);
         orderService.save(orderDTO, user1.getId());
         assertEquals(orderService.getOrder(user1.getId()).getUserId(), user1.getId());
         assertEquals(orderService.getOrder(user1.getId()).getProducts().toString(), testProductList.toString());

@@ -45,9 +45,9 @@ public class ProductControllerTest {
     @Before
     public void setup() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         UserDTO userDTO1 = new UserDTO("Jon", "123526tgf");
-        User testUser1 = userService.save(userDTO1,Role.USER);
+        User testUser1 = userService.save(userDTO1,Role.USER_ROLE);
         UserDTO userDTO2 = new UserDTO("Admin", "admin");
-        User testUser2 = userService.save(userDTO2,Role.ADMIN);
+        User testUser2 = userService.save(userDTO2,Role.ADMIN_ROLE);
     }
 
     @After

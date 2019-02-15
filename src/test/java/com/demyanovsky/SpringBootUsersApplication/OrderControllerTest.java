@@ -51,7 +51,7 @@ public class OrderControllerTest {
         Product testProduct = productService.save(product1);
         Product testProduct1 = productService.save(product2);
         UserDTO userDTO1 = new UserDTO("Qwerty", "fwgerhwr");
-        User testUser = userService.save(userDTO1, Role.USER);
+        User testUser = userService.save(userDTO1, Role.USER_ROLE);
         productsID.add(product1.getId());
         productsID.add(product2.getId());
         orderDTO.setProductList(productsID);

@@ -43,26 +43,26 @@ public class UserServiceTest {
 
     @Test
     public void getById() throws UserNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
-       User user = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER);
-        User user1 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER);
+       User user = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER_ROLE);
+        User user1 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER_ROLE);
         assertEquals(userService.getById(user.getId()).getName(), "Bill");
         assertEquals(userService.getById(user1.getId()), user1);
     }
 
     @Test
     public void getAll() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        User user = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER);
-        User user1 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER);
+        User user = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER_ROLE);
+        User user1 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER_ROLE);
         List<User> tmp = userService.getAll();
         assertEquals(tmp.size(), 2);
     }
 
     @Test
     public void modifyUser() throws UserNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        User user1 = userService.save(new UserDTO(user3.getName(),user3.getPassword()), Role.USER);
+        User user1 = userService.save(new UserDTO(user3.getName(),user3.getPassword()), Role.USER_ROLE);
         User user3 = new User("Edvard");
         user3.setId(user1.getId());
-        userService.modify(user3);
+        userService.modify(new UserDTO(user3.getId(), user3.getName()), user3.getId());
         User tmp = new User();
         tmp = userService.getById(user1.getId());
         assertEquals(tmp.getName(), "Edvard");
@@ -70,9 +70,9 @@ public class UserServiceTest {
 
     @Test
     public void deliteUserByID() throws UserNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        User user1 = userService.save(new UserDTO(user3.getName(),user3.getPassword()), Role.USER);
-        User user2 = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER);
-        User user4 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER);
+        User user1 = userService.save(new UserDTO(user3.getName(),user3.getPassword()), Role.USER_ROLE);
+        User user2 = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER_ROLE);
+        User user4 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER_ROLE);
         userService.deleteById(user1.getId());
         List<User> tmp = new ArrayList();
         tmp = userService.getAll();
