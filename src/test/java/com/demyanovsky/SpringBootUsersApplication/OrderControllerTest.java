@@ -70,6 +70,7 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.products[1].id", is(product2.getId().toString())))
                 .andExpect(jsonPath("$.products[1].productName", is(product2.getProductName())))
                 .andExpect(jsonPath("$.products[1].price", is(product2.getPrice())));
+
         orderRepository.delete(order);
         productService.deleteById(testProduct.getId());
         productService.deleteById(testProduct1.getId());

@@ -60,15 +60,14 @@ public class ProductControllerTest {
     public void productById() throws Exception {
         Product tmp = productService.save(product2);
         Product tmp1 = productService.save(product1);
-        mockMvc.perform(get("/product/{id}", tmp.getId())
-                .with(httpBasic("Jon", "123526tgf")))
+        mockMvc.perform(get("/product/{id}", tmp.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.id", is(tmp.getId().toString())))
                 .andExpect(jsonPath("$.productName", is(tmp.getProductName())))
                 .andExpect(jsonPath("$.price", is(tmp.getPrice())))
                 .andReturn();
-        mockMvc.perform(get("/product/{id}", tmp1.getId()).with(httpBasic("Jon", "123526tgf")))
+        mockMvc.perform(get("/product/{id}", tmp1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getProduct"))
@@ -82,8 +81,7 @@ public class ProductControllerTest {
 
     @Test
     public void getProductList() throws Exception {
-        mockMvc.perform(get("/product/")
-                .with(httpBasic("Jon", "123526tgf")))
+        mockMvc.perform(get("/product/"))
                 .andExpect(handler().handlerType(ProductController.class))
                 .andExpect(handler().methodName("getProductList")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
@@ -98,6 +96,9 @@ public class ProductControllerTest {
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(ProductController.class));
+        mockMvc.perform(delete("/product/{id}", tmp1.getId())
+                .with(httpBasic("Jon", "123526tgf")))
+                .andExpect(status().isForbidden());
         mockMvc.perform(delete("/product/{id}", tmp1.getId())
                 .with(httpBasic("Admin", "admin")))
                 .andExpect(handler().methodName("deleteProduct"))
@@ -117,6 +118,10 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is("iPhone XS")))
                 .andExpect(jsonPath("$.price", is(656.43)))
                 .andReturn();
+        mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
+                .with(httpBasic("Jon", "123526tgf"))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isForbidden());
         productService.deleteById(tmp.getId());
     }
 }
