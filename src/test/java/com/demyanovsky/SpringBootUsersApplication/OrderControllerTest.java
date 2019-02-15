@@ -43,6 +43,7 @@ public class OrderControllerTest {
 
     static Product product1 = new Product("MacBook Pro", 2312.44);
     static Product product2 = new Product("iPhone X", 844.43);
+    static UserDTO userDTO1 = new UserDTO("Qwerty", "fwgerhwr");
     static List<UUID> productsID = new ArrayList<>();
     static OrderDTO orderDTO = new OrderDTO();
 
@@ -50,10 +51,11 @@ public class OrderControllerTest {
     public void orderById() throws Exception {
         Product testProduct = productService.save(product1);
         Product testProduct1 = productService.save(product2);
-        UserDTO userDTO1 = new UserDTO("Qwerty", "fwgerhwr");
         User testUser = userService.save(userDTO1, Role.USER_ROLE);
+
         productsID.add(product1.getId());
         productsID.add(product2.getId());
+
         orderDTO.setProductList(productsID);
         Order order = orderService.save(orderDTO, testUser.getId());
 

@@ -10,15 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.sql.DataSource;
-
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationEntryPoint authEntryPoint;
-    @Autowired
-    DataSource dataSource;
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
@@ -29,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //  .antMatchers(HttpMethod.GET, "/product/**").hasAnyAuthority("USER","ADMIN")
                 .antMatchers(HttpMethod.POST, "/product/**").hasAuthority("ADMIN_ROLE")
                 .antMatchers(HttpMethod.PUT, "/product/**").hasAuthority("ADMIN_ROLE")
-                .antMatchers(HttpMethod.PUT, "/user/**").hasAnyAuthority("ADMIN_ROLE","USER_ROLE")
+                .antMatchers(HttpMethod.PUT, "/user/**").hasAnyAuthority("ADMIN_ROLE", "USER_ROLE")
                 .antMatchers(HttpMethod.DELETE, "/product/**").hasAuthority("ADMIN_ROLE")
                 .antMatchers(HttpMethod.DELETE, "/user/**").hasAuthority("ADMIN_ROLE")
                 .antMatchers(HttpMethod.POST, "/user/**").permitAll()

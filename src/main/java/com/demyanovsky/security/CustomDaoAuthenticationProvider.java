@@ -1,6 +1,8 @@
 package com.demyanovsky.security;
 
 import com.demyanovsky.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +20,8 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
     @Autowired
     SHA256Generator sha256Generator;
 
+    Logger logger = LoggerFactory.getLogger(CustomDaoAuthenticationProvider.class);
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
@@ -34,7 +38,7 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
                     return new UsernamePasswordAuthenticationToken(u, password, u.getAuthorities());
                 }
             } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
+                logger.debug("No such algorithm available");
             }
         }
         throw new BadCredentialsException(messages.getMessage("CustomDaoAuthenticationProvider.badCredentials", "Bad credentials"));

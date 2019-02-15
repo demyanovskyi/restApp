@@ -1,7 +1,7 @@
 package com.demyanovsky.exceptions;
 
-public class ValidationException extends RuntimeException {
-    public ValidationException() {
+public class ForbiddenException extends RuntimeException {
+    public ForbiddenException() {
         super("Error: You do not have permission to access the requested module.");
     }
 }

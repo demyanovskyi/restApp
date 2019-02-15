@@ -5,6 +5,8 @@ import com.demyanovsky.domain.User;
 import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.services.UserService;
 import com.demyanovsky.services.mappingConstants.UserCRUDConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,11 @@ public class AdminController {
     @Autowired
     UserService userService;
 
+    Logger logger =  LoggerFactory.getLogger(AdminController.class);
+
     @RequestMapping(value = UserCRUDConstants.CREATE_ADMIN, method = RequestMethod.POST)
     private ResponseEntity<User> createNewUser(@RequestBody UserDTO userDTO) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        logger.info("Call method getOrder from OrderController");
         User user = userService.save(userDTO, Role.ADMIN_ROLE);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }

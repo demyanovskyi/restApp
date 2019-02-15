@@ -45,9 +45,9 @@ public class ProductControllerTest {
     @Before
     public void setup() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         UserDTO userDTO1 = new UserDTO("Jon", "123526tgf");
-        User testUser1 = userService.save(userDTO1,Role.USER_ROLE);
+        User testUser1 = userService.save(userDTO1, Role.USER_ROLE);
         UserDTO userDTO2 = new UserDTO("Admin", "admin");
-        User testUser2 = userService.save(userDTO2,Role.ADMIN_ROLE);
+        User testUser2 = userService.save(userDTO2, Role.ADMIN_ROLE);
     }
 
     @After
@@ -60,6 +60,7 @@ public class ProductControllerTest {
     public void productById() throws Exception {
         Product tmp = productService.save(product2);
         Product tmp1 = productService.save(product1);
+
         mockMvc.perform(get("/product/{id}", tmp.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -67,6 +68,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is(tmp.getProductName())))
                 .andExpect(jsonPath("$.price", is(tmp.getPrice())))
                 .andReturn();
+
         mockMvc.perform(get("/product/{id}", tmp1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -75,6 +77,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is(tmp1.getProductName())))
                 .andExpect(jsonPath("$.price", is(tmp1.getPrice())))
                 .andReturn();
+
         productService.deleteById(tmp.getId());
         productService.deleteById(tmp1.getId());
     }
@@ -95,10 +98,12 @@ public class ProductControllerTest {
                 .with(httpBasic("Admin", "admin")))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
+
                 .andExpect(handler().handlerType(ProductController.class));
         mockMvc.perform(delete("/product/{id}", tmp1.getId())
                 .with(httpBasic("Jon", "123526tgf")))
                 .andExpect(status().isForbidden());
+
         mockMvc.perform(delete("/product/{id}", tmp1.getId())
                 .with(httpBasic("Admin", "admin")))
                 .andExpect(handler().methodName("deleteProduct"))
@@ -118,10 +123,12 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is("iPhone XS")))
                 .andExpect(jsonPath("$.price", is(656.43)))
                 .andReturn();
+
         mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
                 .with(httpBasic("Jon", "123526tgf"))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isForbidden());
+
         productService.deleteById(tmp.getId());
     }
 }

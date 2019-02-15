@@ -38,11 +38,13 @@ public class OrderServiceTest {
     public void getById() throws UnsupportedEncodingException, NoSuchAlgorithmException {
         Product pr2 = productService.save(product2);
         Product pr1 = productService.save(product1);
+
         productsID.add(pr1.getId());
         productsID.add(pr2.getId());
         testProductList.add(product1);
         testProductList.add(product2);
         orderDTO.setProductList(productsID);
+
         User user1 = userService.save(new UserDTO(userDTO.getName(), userDTO.getPassword()), Role.USER_ROLE);
         orderService.save(orderDTO, user1.getId());
         assertEquals(orderService.getOrder(user1.getId()).getUserId(), user1.getId());

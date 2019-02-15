@@ -10,11 +10,6 @@ public class CustomUserDetails extends User {
 
     private UUID id;
 
-    public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, UUID id) {
-        super(username, password, authorities);
-        this.id = id;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -25,5 +20,10 @@ public class CustomUserDetails extends User {
 
     public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
+    }
+
+    public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, UUID id) {
+        super(username, password, authorities);
+        this.id = id;
     }
 }

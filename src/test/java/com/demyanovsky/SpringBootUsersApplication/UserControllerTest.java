@@ -38,6 +38,7 @@ public class UserControllerTest {
     public void userById() throws Exception {
         User testUser = userService.save(user1, Role.USER_ROLE);
         User testUser1 = userService.save(user2, Role.USER_ROLE);
+
         mockMvc.perform(get("/user/{id}", testUser.getId()).with(httpBasic(user1.getName(), user1.getPassword())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -45,6 +46,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.id", is(testUser.getId().toString())))
                 .andExpect(jsonPath("$.name", is(testUser.getName())))
                 .andReturn();
+
         mockMvc.perform(get("/user/{id}", testUser1.getId())
                 .with(httpBasic(user2.getName(), user2.getPassword())))
                 .andExpect(status().isOk())
@@ -53,6 +55,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.id", is(testUser1.getId().toString())))
                 .andExpect(jsonPath("$.name", is(testUser1.getName())))
                 .andReturn();
+
         userService.deleteById(testUser.getId());
         userService.deleteById(testUser1.getId());
     }
@@ -60,11 +63,13 @@ public class UserControllerTest {
     @Test
     public void listAllUsers() throws Exception {
         User testUser = userService.save(user1, Role.USER_ROLE);
+
         mockMvc.perform(get(GET_ALL_USERS)
                 .with(httpBasic(user1.getName(), user1.getPassword())))
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+
         userService.deleteById(testUser.getId());
     }
 
@@ -74,12 +79,14 @@ public class UserControllerTest {
         User testUser1 = userService.save(user2, Role.USER_ROLE);
         mockMvc.perform(delete("/user/{id}", testUser1.getId())
                 .with(httpBasic(user2.getName(), user2.getPassword())))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is(403));
+
         mockMvc.perform(delete("/user/{id}", testUser1.getId())
                 .with(httpBasic(user1.getName(), user1.getPassword())))
                 .andExpect(handler().methodName("deleteUserById"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(UserController.class));
+
         mockMvc.perform(delete("/user/{id}", testUser.getId())
                 .with(httpBasic(user1.getName(), user1.getPassword())))
                 .andExpect(handler().methodName("deleteUserById"))
@@ -91,6 +98,7 @@ public class UserControllerTest {
         User testUser = userService.save(user1, Role.ADMIN_ROLE);
         User testUser1 = userService.save(user2, Role.USER_ROLE);
         User testUser2 = userService.save(user3, Role.USER_ROLE);
+
         mockMvc.perform(put("/user/{id}", testUser.getId()).content("{ \"id\" : \"" + testUser.getId() + "\",\"name\":\"Edvard\",\"password\":\"gwrthg234\"}")
                 .with(httpBasic(user1.getName(), user1.getPassword()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -99,11 +107,13 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.id", is(testUser.getId().toString())))
                 .andExpect(jsonPath("$.name", is("Edvard")))
                 .andReturn();
+
         mockMvc.perform(put("/user/{id}", testUser1.getId()).content("{ \"id\" : \"" + testUser1.getId() + "\",\"name\":\"Tod\",\"password\":\"123526tgf\"}")
                 .with(httpBasic(user3.getName(), user3.getPassword()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("modifyUser"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().is(403));
+
         userService.deleteById(testUser.getId());
         userService.deleteById(testUser1.getId());
         userService.deleteById(testUser2.getId());

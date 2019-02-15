@@ -13,10 +13,10 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException)
-            throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException {
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getOutputStream().println(mapper.writeValueAsString(new ErrorResponse(authenticationException.getMessage())));
