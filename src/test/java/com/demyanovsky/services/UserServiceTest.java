@@ -2,10 +2,10 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.Role;
 import com.demyanovsky.domain.User;
+import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,32 +36,30 @@ public class UserServiceTest {
     @Autowired
     UserRepository userRepository;
 
-    @Before
-    public void init() throws Exception {
-        userService.save(user1, Role.USER);
-        userService.save(user2,Role.USER);
-        userService.save(user3, Role.USER);
-    }
-
     @After
     public void destroy() {
         userRepository.deleteAll();
     }
 
     @Test
-    public void getById() throws UserNotFoundException {
-        assertEquals(userService.getById(user1.getId()).getName(), "Bill");
-        assertEquals(userService.getById(user2.getId()), user2);
+    public void getById() throws UserNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
+       User user = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER);
+        User user1 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER);
+        assertEquals(userService.getById(user.getId()).getName(), "Bill");
+        assertEquals(userService.getById(user1.getId()), user1);
     }
 
     @Test
-    public void getAll() {
+    public void getAll() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        User user = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER);
+        User user1 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER);
         List<User> tmp = userService.getAll();
-        assertEquals(tmp.size(), 3);
+        assertEquals(tmp.size(), 2);
     }
 
     @Test
-    public void modifyUser() throws UserNotFoundException {
+    public void modifyUser() throws UserNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        User user1 = userService.save(new UserDTO(user3.getName(),user3.getPassword()), Role.USER);
         User user3 = new User("Edvard");
         user3.setId(user1.getId());
         userService.modify(user3);
@@ -69,8 +69,11 @@ public class UserServiceTest {
     }
 
     @Test
-    public void deliteUserByID() throws UserNotFoundException {
-        userService.deleteById(user3.getId());
+    public void deliteUserByID() throws UserNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        User user1 = userService.save(new UserDTO(user3.getName(),user3.getPassword()), Role.USER);
+        User user2 = userService.save(new UserDTO(user1.getName(),user1.getPassword()), Role.USER);
+        User user4 =  userService.save(new UserDTO(user2.getName(),user2.getPassword()),Role.USER);
+        userService.deleteById(user1.getId());
         List<User> tmp = new ArrayList();
         tmp = userService.getAll();
         assertEquals(tmp.size(), 2);

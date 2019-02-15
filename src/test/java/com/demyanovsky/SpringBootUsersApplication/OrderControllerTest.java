@@ -1,9 +1,6 @@
 package com.demyanovsky.SpringBootUsersApplication;
 
-import com.demyanovsky.domain.Order;
-import com.demyanovsky.domain.OrderDTO;
-import com.demyanovsky.domain.Product;
-import com.demyanovsky.domain.User;
+import com.demyanovsky.domain.*;
 import com.demyanovsky.repository.OrderRepository;
 import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.services.OrderService;
@@ -46,9 +43,6 @@ public class OrderControllerTest {
 
     static Product product1 = new Product("MacBook Pro", 2312.44);
     static Product product2 = new Product("iPhone X", 844.43);
-
-    static User user1 = new User("Will", "1233");
-
     static List<UUID> productsID = new ArrayList<>();
     static OrderDTO orderDTO = new OrderDTO();
 
@@ -56,14 +50,15 @@ public class OrderControllerTest {
     public void orderById() throws Exception {
         Product testProduct = productService.save(product1);
         Product testProduct1 = productService.save(product2);
-        User testUser = userService.save(user1);
+        UserDTO userDTO1 = new UserDTO("Qwerty", "fwgerhwr");
+        User testUser = userService.save(userDTO1, Role.USER);
         productsID.add(product1.getId());
         productsID.add(product2.getId());
         orderDTO.setProductList(productsID);
-        Order order = orderService.save(orderDTO, user1.getId());
+        Order order = orderService.save(orderDTO, testUser.getId());
 
-        mockMvc.perform(get("/user/{id}/order/", user1.getId())
-                .with(httpBasic("Will", "1233")))
+        mockMvc.perform(get("/user/{id}/order/", testUser.getId())
+                .with(httpBasic("Qwerty", "fwgerhwr")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getOrder"))

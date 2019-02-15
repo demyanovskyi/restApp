@@ -23,7 +23,7 @@ public class AdminController {
 
     @RequestMapping(value = UserCRUDConstants.CREATE_ADMIN, method = RequestMethod.POST)
     private ResponseEntity<User> createNewUser(@RequestBody UserDTO userDTO) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        User user = userService.save(userDTO, Role.ADMIN);
+        User user = userService.save(userDTO, Role.ADMIN_ROLE);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 }

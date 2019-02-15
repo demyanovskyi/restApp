@@ -39,9 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void modify(User user) {
-        Objects.requireNonNull(user);
-        userRepository.save(user);
+    public User modify(UserDTO userDTO, UUID id) {
+        Objects.requireNonNull(userDTO);
+        User user = getById(id);
+        user.setName(userDTO.getName());
+        return userRepository.save(user);
     }
 
     @Override
@@ -71,7 +73,5 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException(id);
         }
     }
-
-
 }
 

@@ -14,8 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.HashSet;
 
-@Service()
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -26,7 +27,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByName(username);
-        if (user != null) return new CustomUserDetails(user.getName(), user.getPassword(), getAuthorities(username));
+        if (user != null)
+            return new CustomUserDetails(user.getName(), user.getPassword(), getAuthorities(username), user.getId());
         return null;
     }
 

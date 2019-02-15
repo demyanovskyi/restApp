@@ -1,8 +1,5 @@
 package com.demyanovsky.domain;
 
 public enum Role {
-    USER("USER"), ADMIN("ADMIN");
-
-    Role(String role) {
-    }
+    USER_ROLE, ADMIN_ROLE;
 }

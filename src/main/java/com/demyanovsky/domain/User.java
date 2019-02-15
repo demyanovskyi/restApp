@@ -93,12 +93,14 @@ public class User {
         User user = (User) o;
         return Objects.equals(id, user.id) &&
                 Objects.equals(name, user.name) &&
-                Objects.equals(password, user.password);
+                Objects.equals(password, user.password) &&
+                role == user.role &&
+                Objects.equals(salt, user.salt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password);
+        return Objects.hash(id, name, password, role, salt);
     }
 
     @Override
@@ -107,6 +109,8 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
+                ", role=" + role +
+                ", salt='" + salt + '\'' +
                 '}';
     }
 }

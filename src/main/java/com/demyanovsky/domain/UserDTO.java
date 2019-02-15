@@ -1,15 +1,41 @@
 package com.demyanovsky.domain;
 
-public class UserDTO {
-private String name;
-private String password;
+import java.util.UUID;
 
-    public UserDTO( String name, String password, Role role) {
+public class UserDTO {
+    private UUID id;
+    private String name;
+    private String password;
+
+    public UserDTO(String name, String password) {
         this.name = name;
         this.password = password;
     }
 
+    public UserDTO(String name) {
+        this.name = name;
+    }
+
     public UserDTO() {
+    }
+
+    public UserDTO(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public UserDTO(UUID id, String name, String password) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -38,6 +38,11 @@ public class UserControllerAdvice {
     public ResponseEntity<ErrorResponse> handleOrderNotFoundException(OrderNotFoundException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidationException(ValidationException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.FORBIDDEN);
+    }
 }
 
 

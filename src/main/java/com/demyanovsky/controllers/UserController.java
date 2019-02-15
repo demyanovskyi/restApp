@@ -6,11 +6,15 @@ import com.demyanovsky.domain.User;
 import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.exceptions.IncorrectUserException;
 import com.demyanovsky.exceptions.UserNotFoundException;
+import com.demyanovsky.exceptions.ValidationException;
+import com.demyanovsky.security.SHA256Generator;
+import com.demyanovsky.security.ValidationHelper;
 import com.demyanovsky.services.UserService;
 import com.demyanovsky.services.mappingConstants.UserCRUDConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -23,6 +27,8 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    SHA256Generator sha256Generator;
 
     @RequestMapping(value = UserCRUDConstants.GET_ALL_USERS, method = RequestMethod.GET)
     private ResponseEntity<List<User>> listAllUsers() throws SQLException {
@@ -44,18 +50,19 @@ public class UserController {
 
     @RequestMapping(value = UserCRUDConstants.CREATE_USER, method = RequestMethod.POST)
     private ResponseEntity<User> createNewUser(@RequestBody UserDTO userDTO) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-       User user = userService.save(userDTO, Role.USER);
+        User user = userService.save(userDTO, Role.USER_ROLE);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = UserCRUDConstants.UPDATE_USER, method = RequestMethod.PUT)
-    private ResponseEntity modifyUser(@PathVariable("id") UUID id, @RequestBody User user) {
-        if (user.getId().equals(id))
-            userService.modify(user);
-        else {
-            throw new IncorrectUserException(user.getId());
+    private ResponseEntity<User> modifyUser(@PathVariable("id") UUID id, @RequestBody UserDTO userDTO) throws UnsupportedEncodingException, NoSuchAlgorithmException, BadCredentialsException, ValidationException, javax.xml.bind.ValidationException {
+        if (!userDTO.getId().equals(id)) {
+            throw new IncorrectUserException(userDTO.getId());
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        if (ValidationHelper.getRole().equals(Role.ADMIN_ROLE.toString()) || id.equals(ValidationHelper.getId())) {
+            return new ResponseEntity<>(userService.modify(userDTO, id), HttpStatus.OK);
+        } else {
+            throw new ValidationException();
+        }
     }
 }
-

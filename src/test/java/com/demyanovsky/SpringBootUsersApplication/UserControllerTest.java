@@ -1,7 +1,9 @@
 package com.demyanovsky.SpringBootUsersApplication;
 
 import com.demyanovsky.controllers.UserController;
+import com.demyanovsky.domain.Role;
 import com.demyanovsky.domain.User;
+import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,14 +30,14 @@ public class UserControllerTest {
     @Autowired
     UserService userService;
 
-    private User user2 = new User("Jon", "123526tgf");
-    private User user1 = new User("Sara", "gwrthg234");
+    private UserDTO user2 = new UserDTO("Stiv", "123526tgf");
+    private UserDTO user1 = new UserDTO("Sara", "gwrthg234");
 
     @Test
     public void userById() throws Exception {
-        User testUser = userService.save(user2);
-        User testUser1 = userService.save(user1);
-        mockMvc.perform(get("/user/{id}", testUser.getId()).with(httpBasic(testUser.getName(), testUser.getPassword()))
+        User testUser = userService.save(user1, Role.USER);
+        User testUser1 = userService.save(user2, Role.USER);
+        mockMvc.perform(get("/user/{id}", testUser.getId()).with(httpBasic(user1.getName(), user1.getPassword()))
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -44,7 +46,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.name", is(testUser.getName())))
                 .andReturn();
         mockMvc.perform(get("/user/{id}", testUser1.getId())
-                .with(httpBasic(testUser1.getName(), testUser1.getPassword()))
+                .with(httpBasic(user2.getName(), user2.getPassword()))
         )
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -58,9 +60,9 @@ public class UserControllerTest {
 
     @Test
     public void listAllUsers() throws Exception {
-        User testUser = userService.save(user2);
+        User testUser = userService.save(user1, Role.USER);
         mockMvc.perform(get(GET_ALL_USERS)
-                .with(httpBasic(testUser.getName(), testUser.getPassword())))
+                .with(httpBasic(user1.getName(), user1.getPassword())))
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
@@ -69,16 +71,15 @@ public class UserControllerTest {
 
     @Test
     public void deleteUserById() throws Exception {
-        User testUser = userService.save(user2);
-        User testUser1 = userService.save(user1);
+        User testUser = userService.save(user1, Role.ADMIN);
+        User testUser1 = userService.save(user2, Role.ADMIN);
         mockMvc.perform(delete("/user/{id}", testUser.getId())
-                .with(httpBasic(testUser.getName(), testUser.getPassword())))
+                .with(httpBasic(user1.getName(), user1.getPassword())))
                 .andExpect(handler().methodName("deleteUserById"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(UserController.class));
         mockMvc.perform(delete("/user/{id}", testUser1.getId())
-                .with(httpBasic(testUser1.getName(), testUser1.getPassword()))
-        )
+                .with(httpBasic(user2.getName(), user2.getPassword())))
                 .andExpect(handler().methodName("deleteUserById"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(UserController.class));
@@ -86,9 +87,9 @@ public class UserControllerTest {
 
     @Test
     public void modifyUser() throws Exception {
-        User testUser = userService.save(user2);
-        mockMvc.perform(put("/user/{id}", testUser.getId()).content("{ \"id\" : \"" + testUser.getId() + "\",\"name\":\"Edvard\",\"password\":\"3frfefgerw\"}")
-                .with(httpBasic(testUser.getName(), testUser.getPassword()))
+        User testUser = userService.save(user1, Role.ADMIN);
+        mockMvc.perform(put("/user/{id}", testUser.getId()).content("{ \"id\" : \"" + testUser.getId() + "\",\"name\":\"Edvard\",\"password\":\"gwrthg234\"}")
+                .with(httpBasic(user1.getName(), user1.getPassword()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("modifyUser"))
                 .andExpect(status().isOk())
