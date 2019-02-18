@@ -24,7 +24,7 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
-    Logger logger = LoggerFactory.getLogger(OrderController.class);
+  private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @RequestMapping(value = OrderCRUDConstants.GET_ORDER, method = RequestMethod.GET)
     private ResponseEntity<Order> getOrder(@PathVariable("id") UUID id) {

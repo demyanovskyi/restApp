@@ -30,7 +30,7 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
-Logger logger = LoggerFactory.getLogger(UserService.class);
+private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @RequestMapping(value = UserCRUDConstants.GET_ALL_USERS, method = RequestMethod.GET)
     private ResponseEntity<List<User>> listAllUsers() throws SQLException {

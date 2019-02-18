@@ -18,7 +18,7 @@ import java.util.UUID;
 public class ProductController {
     @Autowired
     private ProductService productService;
-    Logger logger = LoggerFactory.getLogger(ProductController.class);
+  private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @RequestMapping(value = ProductCRUDConstants.CREATE_PRODUCT, method = RequestMethod.POST)
     private ResponseEntity<Product> createProduct(@RequestBody Product product) {
