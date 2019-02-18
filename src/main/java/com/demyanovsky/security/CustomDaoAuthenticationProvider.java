@@ -10,17 +10,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        PasswordEncoder ew = getPasswordEncoder();
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
         String salt = userRepository.findByName(name).getSalt();
@@ -28,6 +26,7 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
         try {
             userDetails = getUserDetailsService().loadUserByUsername(name);
         } catch (UsernameNotFoundException ex) {
+            throw new UsernameNotFoundException("Not valid user name");
         }
         if (userDetails != null) {
             if (bCryptPasswordEncoder.matches(password + salt, userDetails.getPassword())) {

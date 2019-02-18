@@ -40,7 +40,7 @@ public class UserControllerAdvice {
     }
 
     @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<ErrorResponse> handleValidationException(ForbiddenException e) {
+    public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.FORBIDDEN);
     }
 }

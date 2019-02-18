@@ -26,7 +26,6 @@ public class OrderController {
 
     Logger logger = LoggerFactory.getLogger(OrderController.class);
 
-
     @RequestMapping(value = OrderCRUDConstants.GET_ORDER, method = RequestMethod.GET)
     private ResponseEntity<Order> getOrder(@PathVariable("id") UUID id) {
         logger.info("Call method getOrder from OrderController");

@@ -20,7 +20,6 @@ public class ProductController {
     private ProductService productService;
     Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-
     @RequestMapping(value = ProductCRUDConstants.CREATE_PRODUCT, method = RequestMethod.POST)
     private ResponseEntity<Product> createProduct(@RequestBody Product product) {
         logger.info("Call method createProduct from ProductController");

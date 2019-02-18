@@ -21,9 +21,9 @@ import java.security.NoSuchAlgorithmException;
 @RestController
 public class AdminController {
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    Logger logger =  LoggerFactory.getLogger(AdminController.class);
+    Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @RequestMapping(value = UserCRUDConstants.CREATE_ADMIN, method = RequestMethod.POST)
     private ResponseEntity<User> createNewUser(@RequestBody UserDTO userDTO) throws UnsupportedEncodingException, NoSuchAlgorithmException {
