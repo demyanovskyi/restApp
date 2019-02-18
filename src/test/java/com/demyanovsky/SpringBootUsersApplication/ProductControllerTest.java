@@ -60,7 +60,6 @@ public class ProductControllerTest {
     public void productById() throws Exception {
         Product tmp = productService.save(product2);
         Product tmp1 = productService.save(product1);
-
         mockMvc.perform(get("/product/{id}", tmp.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -68,7 +67,6 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is(tmp.getProductName())))
                 .andExpect(jsonPath("$.price", is(tmp.getPrice())))
                 .andReturn();
-
         mockMvc.perform(get("/product/{id}", tmp1.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -77,7 +75,6 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is(tmp1.getProductName())))
                 .andExpect(jsonPath("$.price", is(tmp1.getPrice())))
                 .andReturn();
-
         productService.deleteById(tmp.getId());
         productService.deleteById(tmp1.getId());
     }
@@ -91,6 +88,15 @@ public class ProductControllerTest {
     }
 
     @Test
+    public void denyDeleteFromUserRole() throws Exception {
+        Product tmp1 = productService.save(product1);
+        mockMvc.perform(delete("/product/{id}", tmp1.getId())
+                .with(httpBasic("Jon", "123526tgf")))
+                .andExpect(status().isForbidden());
+        productService.deleteById(tmp1.getId());
+    }
+
+    @Test
     public void deleteProductById() throws Exception {
         Product tmp = productService.save(product2);
         Product tmp1 = productService.save(product1);
@@ -98,17 +104,22 @@ public class ProductControllerTest {
                 .with(httpBasic("Admin", "admin")))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
-
                 .andExpect(handler().handlerType(ProductController.class));
-        mockMvc.perform(delete("/product/{id}", tmp1.getId())
-                .with(httpBasic("Jon", "123526tgf")))
-                .andExpect(status().isForbidden());
-
         mockMvc.perform(delete("/product/{id}", tmp1.getId())
                 .with(httpBasic("Admin", "admin")))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(ProductController.class));
+    }
+
+    @Test
+    public void denyModifyFromUserRole() throws Exception {
+        Product tmp = productService.save(product2);
+        mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
+                .with(httpBasic("Jon", "123526tgf"))
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isForbidden());
+        productService.deleteById(tmp.getId());
     }
 
     @Test
@@ -123,12 +134,6 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is("iPhone XS")))
                 .andExpect(jsonPath("$.price", is(656.43)))
                 .andReturn();
-
-        mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
-                .with(httpBasic("Jon", "123526tgf"))
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isForbidden());
-
         productService.deleteById(tmp.getId());
     }
 }
