@@ -20,8 +20,10 @@ public class Product {
     @Column(columnDefinition = "BINARY(16)")
     @Id
     private UUID id;
+
     @JsonProperty
     private String productName;
+
     @JsonProperty
     private Double price;
 
@@ -34,22 +36,6 @@ public class Product {
     }
 
     public Product() {
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
     }
 
     public Product(String productName, Double price) {
@@ -65,12 +51,28 @@ public class Product {
         this.id = id;
     }
 
-    public double getPrice() {
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public Double getPrice() {
         return price;
     }
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     @Override
