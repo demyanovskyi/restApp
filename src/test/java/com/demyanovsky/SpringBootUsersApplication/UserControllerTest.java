@@ -37,7 +37,6 @@ public class UserControllerTest {
     @Test
     public void userById() throws Exception {
         User testUser = userService.save(user1, Role.USER_ROLE);
-        User testUser1 = userService.save(user2, Role.USER_ROLE);
         mockMvc.perform(get("/user/{id}", testUser.getId()).with(httpBasic(user1.getName(), user1.getPassword())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -45,16 +44,7 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.id", is(testUser.getId().toString())))
                 .andExpect(jsonPath("$.name", is(testUser.getName())))
                 .andReturn();
-        mockMvc.perform(get("/user/{id}", testUser1.getId())
-                .with(httpBasic(user2.getName(), user2.getPassword())))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(handler().methodName("userById"))
-                .andExpect(jsonPath("$.id", is(testUser1.getId().toString())))
-                .andExpect(jsonPath("$.name", is(testUser1.getName())))
-                .andReturn();
         userService.deleteById(testUser.getId());
-        userService.deleteById(testUser1.getId());
     }
 
     @Test
@@ -77,14 +67,17 @@ public class UserControllerTest {
     }
 
     @Test
-    public void deleteUserById() throws Exception {
-        User testUser = userService.save(user1, Role.ADMIN_ROLE);
+    public void denyDeleteUserByIdFromUserSide() throws Exception {
         User testUser1 = userService.save(user2, Role.USER_ROLE);
         mockMvc.perform(delete("/user/{id}", testUser1.getId())
-                .with(httpBasic(user1.getName(), user1.getPassword())))
-                .andExpect(handler().methodName("deleteUserById"))
-                .andExpect(status().isOk())
-                .andExpect(handler().handlerType(UserController.class));
+                .with(httpBasic(user2.getName(), user2.getPassword())))
+                .andExpect(status().is(403));
+        userService.deleteById(testUser1.getId());
+    }
+
+    @Test
+    public void deleteUserById() throws Exception {
+        User testUser = userService.save(user1, Role.ADMIN_ROLE);
         mockMvc.perform(delete("/user/{id}", testUser.getId())
                 .with(httpBasic(user1.getName(), user1.getPassword())))
                 .andExpect(handler().methodName("deleteUserById"))

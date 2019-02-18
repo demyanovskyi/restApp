@@ -12,7 +12,6 @@ import java.io.IOException;
 
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Override

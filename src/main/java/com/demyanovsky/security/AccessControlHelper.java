@@ -1,5 +1,6 @@
 package com.demyanovsky.security;
 
+import com.demyanovsky.exceptions.ForbiddenException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -15,7 +16,11 @@ public final class AccessControlHelper {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails && ((CustomUserDetails) principal).getAuthorities() != null) {
             Collection<GrantedAuthority> grantedAuthority = ((CustomUserDetails) principal).getAuthorities();
-            return grantedAuthority.stream().findFirst().get().toString();
+            try {
+                return grantedAuthority.stream().findFirst().get().toString();
+            } catch (RuntimeException e) {
+                throw new ForbiddenException("Cant get grantedAuthority");
+            }
         } else {
             throw new ValidationException(principal.toString());
         }
@@ -24,7 +29,7 @@ public final class AccessControlHelper {
     public static UUID getId() throws ValidationException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails && ((CustomUserDetails) principal).getId() != null) {
-            return ((CustomUserDetails) principal).getId();
+                return ((CustomUserDetails) principal).getId();
         } else {
             throw new ValidationException(principal.toString());
         }

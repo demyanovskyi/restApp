@@ -19,6 +19,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.ValidationException;
+import java.awt.*;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -60,7 +61,7 @@ Logger logger = LoggerFactory.getLogger(UserService.class);
     }
 
     @RequestMapping(value = UserCRUDConstants.UPDATE_USER, method = RequestMethod.PUT)
-    private ResponseEntity<User> modifyUser(@PathVariable("id") UUID id, @RequestBody UserDTO userDTO) throws UnsupportedEncodingException, NoSuchAlgorithmException, BadCredentialsException, ForbiddenException, ValidationException {
+    private ResponseEntity<User> modifyUser(@PathVariable("id") UUID id, @RequestBody UserDTO userDTO) throws UnsupportedEncodingException, NoSuchAlgorithmException, BadCredentialsException, ForbiddenException, ValidationException, FontFormatException {
         logger.info("Call method modifyUser from UserController");
         if (!userDTO.getId().equals(id)) {
             throw new IncorrectUserException(userDTO.getId());

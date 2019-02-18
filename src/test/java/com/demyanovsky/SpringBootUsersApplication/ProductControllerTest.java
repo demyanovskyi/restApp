@@ -59,7 +59,6 @@ public class ProductControllerTest {
     @Test
     public void productById() throws Exception {
         Product tmp = productService.save(product2);
-        Product tmp1 = productService.save(product1);
         mockMvc.perform(get("/product/{id}", tmp.getId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -67,16 +66,8 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.productName", is(tmp.getProductName())))
                 .andExpect(jsonPath("$.price", is(tmp.getPrice())))
                 .andReturn();
-        mockMvc.perform(get("/product/{id}", tmp1.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(handler().methodName("getProduct"))
-                .andExpect(jsonPath("$.id", is(tmp1.getId().toString())))
-                .andExpect(jsonPath("$.productName", is(tmp1.getProductName())))
-                .andExpect(jsonPath("$.price", is(tmp1.getPrice())))
-                .andReturn();
         productService.deleteById(tmp.getId());
-        productService.deleteById(tmp1.getId());
+
     }
 
     @Test
@@ -99,13 +90,7 @@ public class ProductControllerTest {
     @Test
     public void deleteProductById() throws Exception {
         Product tmp = productService.save(product2);
-        Product tmp1 = productService.save(product1);
         mockMvc.perform(delete("/product/{id}", tmp.getId())
-                .with(httpBasic("Admin", "admin")))
-                .andExpect(handler().methodName("deleteProduct"))
-                .andExpect(status().isOk())
-                .andExpect(handler().handlerType(ProductController.class));
-        mockMvc.perform(delete("/product/{id}", tmp1.getId())
                 .with(httpBasic("Admin", "admin")))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
