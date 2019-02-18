@@ -15,7 +15,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthenticationEntryPoint authEntryPoint;
-
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
@@ -23,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                //  .antMatchers(HttpMethod.GET, "/product/**").hasAnyAuthority("USER","ADMIN")
+                .antMatchers(HttpMethod.GET, "/product/**").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/product/**").hasAuthority("ADMIN_ROLE")
                 .antMatchers(HttpMethod.PUT, "/product/**").hasAuthority("ADMIN_ROLE")
                 .antMatchers(HttpMethod.PUT, "/user/**").hasAnyAuthority("ADMIN_ROLE", "USER_ROLE")

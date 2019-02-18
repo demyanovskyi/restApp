@@ -6,9 +6,9 @@ import com.demyanovsky.domain.User;
 import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
-import com.demyanovsky.security.SHA256Generator;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
@@ -21,9 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
-    private SHA256Generator sha256Generator;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Override
     public List<User> getAll() {
@@ -46,14 +46,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserDTO userDTO, Role role) throws  NoSuchAlgorithmException {
+    public User save(UserDTO userDTO, Role role) throws NoSuchAlgorithmException {
         Objects.requireNonNull(userDTO);
         Objects.requireNonNull(role);
         User user = new User();
         user.setRole(role);
         user.setName(userDTO.getName());
         user.setSalt(DatatypeConverter.printHexBinary(getSalt()).toLowerCase());
-        user.setPassword(sha256Generator.getHashPassword(userDTO.getPassword(), user.getSalt()));
+        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword() + user.getSalt()));
         return userRepository.save(user);
     }
 
