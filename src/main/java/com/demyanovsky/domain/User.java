@@ -27,6 +27,9 @@ public class User {
     @JsonIgnore
     private String salt;
 
+
+
+
     public User(String name, String password) {
         this.name = name;
         this.password = password;
@@ -84,7 +87,7 @@ public class User {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

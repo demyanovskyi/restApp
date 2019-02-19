@@ -41,8 +41,8 @@ public class OrderServiceTest {
 
         productsID.add(pr1.getId());
         productsID.add(pr2.getId());
-        testProductList.add(product1);
         testProductList.add(product2);
+        testProductList.add(product1);
         orderDTO.setProductList(productsID);
 
         User user1 = userService.save(new UserDTO(userDTO.getName(), userDTO.getPassword()), Role.USER_ROLE);

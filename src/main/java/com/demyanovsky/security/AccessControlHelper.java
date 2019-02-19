@@ -29,7 +29,7 @@ public final class AccessControlHelper {
     public static UUID getId() throws ValidationException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails && ((CustomUserDetails) principal).getId() != null) {
-                return ((CustomUserDetails) principal).getId();
+            return ((CustomUserDetails) principal).getId();
         } else {
             throw new ValidationException(principal.toString());
         }

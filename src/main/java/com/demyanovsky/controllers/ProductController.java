@@ -41,7 +41,6 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
-
     @RequestMapping(value = ProductCRUDConstants.DELETE_PRODUCT, method = RequestMethod.DELETE)
     private ResponseEntity<Product> deleteProduct(@PathVariable("id") UUID id) {
         logger.info("Call method deleteProduct from ProductController");

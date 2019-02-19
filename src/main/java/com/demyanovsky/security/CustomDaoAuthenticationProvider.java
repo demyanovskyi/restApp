@@ -35,4 +35,5 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
         }
         throw new BadCredentialsException(messages.getMessage("CustomDaoAuthenticationProvider.badCredentials", "Bad credentials"));
     }
+
 }

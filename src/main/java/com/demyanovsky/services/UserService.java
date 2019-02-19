@@ -6,8 +6,6 @@ import com.demyanovsky.domain.User;
 import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.exceptions.UserNotFoundException;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +24,7 @@ public interface UserService {
      *
      * @param userDTO
      */
-    User save(UserDTO userDTO, Role role) throws UnsupportedEncodingException, NoSuchAlgorithmException;
+    User save(UserDTO userDTO, Role role);
 
     /**
      * Delete the user by it's id.
@@ -56,6 +54,6 @@ public interface UserService {
      * @param userDTO
      * @return user
      */
-    User modify(UserDTO userDTO, UUID id) throws UnsupportedEncodingException, NoSuchAlgorithmException;
+    User modify(UserDTO userDTO, UUID id);
 
 }

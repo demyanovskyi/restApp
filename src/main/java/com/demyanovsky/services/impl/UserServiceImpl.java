@@ -8,12 +8,10 @@ import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.DatatypeConverter;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.*;
 
 @Service
@@ -23,7 +21,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     @Override
     public List<User> getAll() {
@@ -46,22 +43,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserDTO userDTO, Role role) throws NoSuchAlgorithmException {
+    public User save(UserDTO userDTO, Role role) {
         Objects.requireNonNull(userDTO);
         Objects.requireNonNull(role);
         User user = new User();
         user.setRole(role);
         user.setName(userDTO.getName());
-        user.setSalt(DatatypeConverter.printHexBinary(getSalt()).toLowerCase());
+        user.setSalt(BCrypt.gensalt().toLowerCase());
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword() + user.getSalt()));
         return userRepository.save(user);
-    }
-
-    private static byte[] getSalt() throws NoSuchAlgorithmException {
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
-        return salt;
     }
 
     @Override
