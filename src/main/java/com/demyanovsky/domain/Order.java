@@ -13,7 +13,6 @@ import java.util.UUID;
 @Entity(name = "Order")
 @Table(name = "shop_order")
 public class Order {
-
     @JsonProperty
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -41,7 +40,7 @@ public class Order {
     }
 
     public void addProducts(Iterable<Product> products) {
-        for (Product product: products) {
+        for (Product product : products) {
             this.products.add(product);
         }
     }

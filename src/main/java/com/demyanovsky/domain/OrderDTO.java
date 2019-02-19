@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class OrderDTO {
-
     @JsonProperty
     List<UUID> products;
 

@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public class IncorrectUserException extends RuntimeException {
     public IncorrectUserException(UUID id) {
-        super("Incorect User, or  User with id:  " + id + " already exist");
+        super("Incorrect User, or  User with id:  " + id + " already exist");
     }
 }
