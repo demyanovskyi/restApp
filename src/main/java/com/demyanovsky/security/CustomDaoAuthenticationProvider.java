@@ -21,7 +21,7 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        String salt = userRepository.findByName(name).getSalt();
+        String salt = userRepository.findByEmail(name).getSalt();
         UserDetails userDetails = null;
         try {
             userDetails = getUserDetailsService().loadUserByUsername(name);

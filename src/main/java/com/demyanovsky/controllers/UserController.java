@@ -1,9 +1,7 @@
 package com.demyanovsky.controllers;
 
 
-import com.demyanovsky.domain.Role;
-import com.demyanovsky.domain.User;
-import com.demyanovsky.domain.UserDTO;
+import com.demyanovsky.domain.*;
 import com.demyanovsky.exceptions.ForbiddenException;
 import com.demyanovsky.exceptions.IncorrectUserException;
 import com.demyanovsky.security.AccessControlHelper;
@@ -65,5 +63,16 @@ public class UserController {
         } else {
             throw new ForbiddenException();
         }
+    }
+    @RequestMapping(value = UserCRUDConstants.PASSWORD_RESTORE, method = RequestMethod.POST)
+    private ResponseEntity<MessageDTO> passwordRestore(@RequestBody UserDTO userDTO){
+        return new ResponseEntity<>( userService.restorePassword(userDTO), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value =  UserCRUDConstants.CONFIRMATION_PASSWORD_RESTORE, method = RequestMethod.POST)
+    private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash, @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO){
+ User user = userService.confirmationPasswordRestore(userPasswordRestoreDTO, hash);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

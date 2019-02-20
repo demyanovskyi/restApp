@@ -19,9 +19,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -38,26 +35,29 @@ public class ProductControllerTest {
     @Autowired
     private UserService userService;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     private Product product1 = new Product("MacBook Pro", 2332.44);
     private Product product2 = new Product("iPhone X", 542.43);
 
     @Before
-    public void setup() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        UserDTO userDTO1 = new UserDTO("Jon", "123526tgf");
+    public void setup() {
+        UserDTO userDTO1 = new UserDTO("Jon", "ff@ffgfdg.cgd", "123526tgf");
         User testUser1 = userService.save(userDTO1, Role.USER_ROLE);
-        UserDTO userDTO2 = new UserDTO("Admin", "admin");
+        UserDTO userDTO2 = new UserDTO("Admin", "admin@gfd.cgm", "admin");
         User testUser2 = userService.save(userDTO2, Role.ADMIN_ROLE);
     }
 
     @After
     public void destroy() {
-        userService.deleteById(userRepository.findByName("Jon").getId());
-        userService.deleteById(userRepository.findByName("Admin").getId());
+        userService.deleteById(userRepository.findByEmail("ff@ffgfdg.cgd").getId());
+        userService.deleteById(userRepository.findByEmail("admin@gfd.cgm").getId());
     }
 
     @Test
     public void productById() throws Exception {
+        User user = userRepository.findByRestoreHash("5435ec678dbfda756579625f07bf7eec");
+        System.out.println("rer"
+        );
         Product tmp = productService.save(product2);
         mockMvc.perform(get("/product/{id}", tmp.getId()))
                 .andExpect(status().isOk())
@@ -82,7 +82,7 @@ public class ProductControllerTest {
     public void denyDeleteFromUserRole() throws Exception {
         Product tmp1 = productService.save(product1);
         mockMvc.perform(delete("/product/{id}", tmp1.getId())
-                .with(httpBasic("Jon", "123526tgf")))
+                .with(httpBasic("ff@ffgfdg.cgd", "123526tgf")))
                 .andExpect(status().isForbidden());
         productService.deleteById(tmp1.getId());
     }
@@ -91,7 +91,7 @@ public class ProductControllerTest {
     public void deleteProductById() throws Exception {
         Product tmp = productService.save(product2);
         mockMvc.perform(delete("/product/{id}", tmp.getId())
-                .with(httpBasic("Admin", "admin")))
+                .with(httpBasic("admin@gfd.cgm", "admin")))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(ProductController.class));
@@ -101,7 +101,7 @@ public class ProductControllerTest {
     public void denyModifyFromUserRole() throws Exception {
         Product tmp = productService.save(product2);
         mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
-                .with(httpBasic("Jon", "123526tgf"))
+                .with(httpBasic("ff@ffgfdg.cgd", "123526tgf"))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isForbidden());
         productService.deleteById(tmp.getId());
@@ -111,7 +111,7 @@ public class ProductControllerTest {
     public void modifyProduct() throws Exception {
         Product tmp = productService.save(product2);
         mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
-                .with(httpBasic("Admin", "admin"))
+                .with(httpBasic("admin@gfd.cgm", "admin"))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("updateProduct"))
                 .andExpect(status().isOk())

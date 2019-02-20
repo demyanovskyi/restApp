@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -23,12 +24,16 @@ public class User {
     private String name;
     @JsonIgnore
     private String password;
+    @JsonProperty
     private Role role;
     @JsonIgnore
     private String salt;
-
-
-
+    @JsonProperty
+    private String email;
+    @JsonIgnore
+    private String restoreHash;
+    @JsonIgnore
+    private LocalDateTime validityPeriod;
 
     public User(String name, String password) {
         this.name = name;
@@ -41,6 +46,22 @@ public class User {
     }
 
     public User() {
+    }
+
+    public User(String name, String password, String email) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User(String name, String password, Role role, String salt, String email, String restoreHash, LocalDateTime validityPeriod) {
+        this.name = name;
+        this.password = password;
+        this.role = role;
+        this.salt = salt;
+        this.email = email;
+        this.restoreHash = restoreHash;
+        this.validityPeriod = validityPeriod;
     }
 
     public User(UUID id, String name) {
@@ -87,7 +108,31 @@ public class User {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-    
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRestoreHash() {
+        return restoreHash;
+    }
+
+    public void setRestoreHash(String restoreHash) {
+        this.restoreHash = restoreHash;
+    }
+
+    public LocalDateTime getValidityPeriod() {
+        return validityPeriod;
+    }
+
+    public void setValidityPeriod(LocalDateTime validityPeriod) {
+        this.validityPeriod = validityPeriod;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,12 +142,14 @@ public class User {
                 Objects.equals(name, user.name) &&
                 Objects.equals(password, user.password) &&
                 role == user.role &&
-                Objects.equals(salt, user.salt);
+                Objects.equals(salt, user.salt) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(restoreHash, user.restoreHash);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, role, salt);
+        return Objects.hash(id, name, password, role, salt, email, restoreHash);
     }
 
     @Override
@@ -113,6 +160,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", salt='" + salt + '\'' +
+                ", email='" + email + '\'' +
+                ", restoreHash='" + restoreHash + '\'' +
                 '}';
     }
 }

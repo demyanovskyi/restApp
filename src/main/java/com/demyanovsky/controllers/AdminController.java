@@ -23,7 +23,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-   private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @RequestMapping(value = UserCRUDConstants.CREATE_ADMIN, method = RequestMethod.POST)
     private ResponseEntity<User> createNewUser(@RequestBody UserDTO userDTO) throws UnsupportedEncodingException, NoSuchAlgorithmException {

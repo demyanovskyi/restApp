@@ -43,7 +43,7 @@ public class OrderControllerTest {
 
     static Product product1 = new Product("MacBook Pro", 2312.44);
     static Product product2 = new Product("iPhone X", 844.43);
-    static UserDTO userDTO1 = new UserDTO("Qwerty", "fwgerhwr");
+    static UserDTO userDTO1 = new UserDTO("Qwerty", "ffhwe@gmail.com", "qwrfg");
     static List<UUID> productsID = new ArrayList<>();
     static OrderDTO orderDTO = new OrderDTO();
 
@@ -60,7 +60,7 @@ public class OrderControllerTest {
         Order order = orderService.save(orderDTO, testUser.getId());
 
         mockMvc.perform(get("/user/{id}/order/", testUser.getId())
-                .with(httpBasic("Qwerty", "fwgerhwr")))
+                .with(httpBasic(testUser.getEmail(), testUser.getPassword())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getOrder"))

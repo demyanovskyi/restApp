@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +33,7 @@ public class OrderServiceTest {
     private List<Product> testProductList = new ArrayList<>();
 
     @Test
-    public void getById() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void getById() {
         Product pr2 = productService.save(product2);
         Product pr1 = productService.save(product1);
 

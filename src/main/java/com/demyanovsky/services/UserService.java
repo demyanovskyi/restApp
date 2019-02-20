@@ -1,9 +1,7 @@
 package com.demyanovsky.services;
 
 
-import com.demyanovsky.domain.Role;
-import com.demyanovsky.domain.User;
-import com.demyanovsky.domain.UserDTO;
+import com.demyanovsky.domain.*;
 import com.demyanovsky.exceptions.UserNotFoundException;
 
 import java.util.List;
@@ -55,5 +53,10 @@ public interface UserService {
      * @return user
      */
     User modify(UserDTO userDTO, UUID id);
+
+    MessageDTO restorePassword(UserDTO userDTO);
+
+    User confirmationPasswordRestore(UserPasswordRestoreDTO userPasswordRestoreDTO, String hash);
+
 
 }

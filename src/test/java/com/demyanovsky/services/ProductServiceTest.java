@@ -26,9 +26,9 @@ public class ProductServiceTest {
     private Product product3 = new Product("AppleWatch 4", 400.00);
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Before
     public void init() {
