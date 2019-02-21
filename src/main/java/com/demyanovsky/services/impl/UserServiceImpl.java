@@ -3,7 +3,7 @@ package com.demyanovsky.services.impl;
 
 import com.demyanovsky.domain.*;
 import com.demyanovsky.exceptions.ForbiddenException;
-import com.demyanovsky.exceptions.IncorrectUserException;
+import com.demyanovsky.exceptions.IncorrectEmailException;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.security.EmailSender;
@@ -47,10 +47,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MessageDTO restorePassword(UserDTO userDTO) {
-        User user = userRepository.findByEmail(userDTO.getEmail());
+    public MessageDTO restorePassword(EmailDTO emailDTO) {
+        User user = userRepository.findByEmail(emailDTO.getEmail());
         if (user == null) {
-            throw new IncorrectUserException(user.getEmail());
+            throw new IncorrectEmailException(super.toString());
         }
         String restoreHash = bCryptPasswordEncoder.encode(BCrypt.gensalt());
         user.setRestoreHash(restoreHash);
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         EmailSender emailSender = new EmailSender(EMAIL_PROVIDER, EMAIL_PROVIDER_PASSWORD);
         emailSender.send("Restore password", "This is  hashCode for " + user.getRestoreHash() + " restore password",
-                EMAIL_PROVIDER, userDTO.getEmail());
+                EMAIL_PROVIDER, emailDTO.getEmail());
         MessageDTO dto = new MessageDTO();
         dto.setMessage("Secret code to restore your password sent to your email");
         return dto;

@@ -42,6 +42,10 @@ public class UserControllerAdvice {
     public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.FORBIDDEN);
     }
+    @ExceptionHandler(IncorrectEmailException.class)
+    public ResponseEntity<ErrorResponse> handleIncorrectEmailException(IncorrectEmailException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }
 
 

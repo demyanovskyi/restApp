@@ -13,8 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,24 +40,24 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getById() throws UserNotFoundException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        User user = userService.save(new UserDTO(user1.getName(),user1.getEmail(),  user1.getPassword()), Role.USER_ROLE);
-        User user1 = userService.save(new UserDTO(user2.getName(),user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
+    public void getById() throws UserNotFoundException {
+        User user = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
+        User user1 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
         assertEquals(userService.getById(user.getId()).getName(), "Bill");
         assertEquals(userService.getById(user1.getId()), user1);
     }
 
     @Test
-    public void getAll() throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        User user = userService.save(new UserDTO(user1.getName(),user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
-        User user1 = userService.save(new UserDTO(user2.getName(),user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
+    public void getAll() {
+        User user = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
+        User user1 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
         List<User> tmp = userService.getAll();
         assertEquals(tmp.size(), 2);
     }
 
     @Test
     public void modifyUser() throws UserNotFoundException {
-        User user1 = userService.save(new UserDTO(user3.getName(),user3.getEmail(), user3.getPassword()), Role.USER_ROLE);
+        User user1 = userService.save(new UserDTO(user3.getName(), user3.getEmail(), user3.getPassword()), Role.USER_ROLE);
         user1.setName("Edvard");
         userService.modify(new UserDTO(user1.getName()), user1.getId());
         User tmp = new User();
@@ -69,9 +67,9 @@ public class UserServiceTest {
 
     @Test
     public void deliteUserByID() throws UserNotFoundException {
-        User user1 = userService.save(new UserDTO(user3.getName(),user3.getEmail(), user3.getPassword()), Role.USER_ROLE);
-        User user2 = userService.save(new UserDTO(user1.getName(),user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
-        User user4 = userService.save(new UserDTO(user2.getName(),user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
+        User user1 = userService.save(new UserDTO(user3.getName(), user3.getEmail(), user3.getPassword()), Role.USER_ROLE);
+        User user2 = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
+        User user4 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
         userService.deleteById(user1.getId());
         List<User> tmp = new ArrayList();
         tmp = userService.getAll();

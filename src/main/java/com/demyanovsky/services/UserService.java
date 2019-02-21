@@ -54,8 +54,20 @@ public interface UserService {
      */
     User modify(UserDTO userDTO, UUID id);
 
-    MessageDTO restorePassword(UserDTO userDTO);
+    /**
+     * Request for restore password.
+     *
+     * @param emailDTO
+     * @return MessageDTO
+     */
+    MessageDTO restorePassword(EmailDTO emailDTO);
 
+    /**
+     * Confirm restore password.
+     *
+     * @param userPasswordRestoreDTO
+     * @return User
+     */
     User confirmationPasswordRestore(UserPasswordRestoreDTO userPasswordRestoreDTO, String hash);
 
 

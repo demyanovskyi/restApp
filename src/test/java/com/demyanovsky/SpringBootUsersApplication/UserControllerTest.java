@@ -4,6 +4,8 @@ import com.demyanovsky.controllers.UserController;
 import com.demyanovsky.domain.Role;
 import com.demyanovsky.domain.User;
 import com.demyanovsky.domain.UserDTO;
+import com.demyanovsky.domain.UserPasswordRestoreDTO;
+import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +31,8 @@ public class UserControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     private UserDTO user2 = new UserDTO("Antony", "dadas@dada.ff", "123526tgf");
     private UserDTO user1 = new UserDTO("Joshua", "fsfsa@fsdf.afa", "gwrthg234");
@@ -57,6 +61,7 @@ public class UserControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
         userService.deleteById(testUser.getId());
     }
+
     @Test
     public void denyDeleteWithoutPermissionToAccess() throws Exception {
         User testUser1 = userService.save(user2, Role.USER_ROLE);
@@ -112,10 +117,35 @@ public class UserControllerTest {
         userService.deleteById(testUser.getId());
         userService.deleteById(testUser1.getId());
     }
-/*    @Test
-    public void restorePassword(){
-        User testUser = userService.save(user1, Role.ADMIN_ROLE);
-        mockMvc.perform(post("/user/password/restore"))
 
-    }*/
+    @Test
+    public void restorePassword() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("max.demyanovsky@gmail.com");
+        mockMvc.perform(post("/user/password/restore").contentType(MediaType.APPLICATION_JSON).content("{ \"email\":\"" + userDTO.getEmail() + "\"}"))
+                .andExpect(handler().methodName("passwordRestore"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message", is("Secret code to restore your password sent to your email")));
+    }
+
+    @Test
+    public void confirmationPasswordRestore() throws Exception {
+        UserPasswordRestoreDTO userDTO = new UserPasswordRestoreDTO();
+        userDTO.setPassword("12345");
+        userDTO.setConfirmPassword("12345");
+        User user = userRepository.findByEmail("max.demyanovsky@gmail.com");
+        mockMvc.perform(post("/user/password/restore/{hash}", user.getRestoreHash()).contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"password\" : \"" + userDTO.getPassword() + "\",\"confirmPassword\":\"" + userDTO.getConfirmPassword() + "\"}"))
+                .andExpect(handler().methodName("confirmationPasswordRestore"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+    @Test
+    public void denyRestorePassword() throws Exception {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("mffwfw@mail.com");
+        mockMvc.perform(post("/user/password/restore").contentType(MediaType.APPLICATION_JSON).content("{ \"email\":\"" + userDTO.getEmail() + "\"}"))
+                .andExpect(status().is(400));
+    }
+
 }

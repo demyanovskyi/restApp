@@ -1,14 +1,19 @@
 package com.demyanovsky.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 import java.util.UUID;
 
 public class UserDTO {
+    @JsonProperty
     private UUID id;
+    @JsonProperty
     private String name;
+    @JsonProperty
     private String email;
+    @JsonProperty
     private String password;
-
 
     public UserDTO() {
     }

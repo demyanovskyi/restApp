@@ -3,6 +3,7 @@ package com.demyanovsky.controllers;
 
 import com.demyanovsky.domain.*;
 import com.demyanovsky.exceptions.ForbiddenException;
+import com.demyanovsky.exceptions.IncorrectEmailException;
 import com.demyanovsky.exceptions.IncorrectUserException;
 import com.demyanovsky.security.AccessControlHelper;
 import com.demyanovsky.services.UserService;
@@ -64,15 +65,21 @@ public class UserController {
             throw new ForbiddenException();
         }
     }
+
     @RequestMapping(value = UserCRUDConstants.PASSWORD_RESTORE, method = RequestMethod.POST)
-    private ResponseEntity<MessageDTO> passwordRestore(@RequestBody UserDTO userDTO){
-        return new ResponseEntity<>( userService.restorePassword(userDTO), HttpStatus.OK);
+    private ResponseEntity<MessageDTO> passwordRestore(@RequestBody EmailDTO emailDTO) {
+        try {
+            return new ResponseEntity<>(userService.restorePassword(emailDTO), HttpStatus.OK);
+        } catch (IncorrectUserException e) {
+            throw new IncorrectEmailException(emailDTO.getEmail());
+        }
+
     }
 
 
-    @RequestMapping(value =  UserCRUDConstants.CONFIRMATION_PASSWORD_RESTORE, method = RequestMethod.POST)
-    private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash, @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO){
- User user = userService.confirmationPasswordRestore(userPasswordRestoreDTO, hash);
+    @RequestMapping(value = UserCRUDConstants.CONFIRMATION_PASSWORD_RESTORE, method = RequestMethod.POST)
+    private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash, @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO) {
+        User user = userService.confirmationPasswordRestore(userPasswordRestoreDTO, hash);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }
