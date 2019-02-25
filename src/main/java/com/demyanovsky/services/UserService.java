@@ -1,7 +1,9 @@
 package com.demyanovsky.services;
 
 
+import com.demyanovsky.domain.Role;
 import com.demyanovsky.domain.User;
+import com.demyanovsky.domain.UserDTO;
 import com.demyanovsky.exceptions.UserNotFoundException;
 
 import java.util.List;
@@ -20,21 +22,24 @@ public interface UserService {
     /**
      * Add the user .
      *
-     * @param user
+     * @param userDTO
      */
-    User save(User user);
+    User save(UserDTO userDTO, Role role);
+
     /**
      * Delete the user by it's id.
      *
      * @param id the id
      */
     void deleteById(UUID id) throws UserNotFoundException;
+
     /**
      * Get the list of users.
      *
      * @return list of users
      */
-   List<User> getAll();
+    List<User> getAll();
+
     /**
      * Get the User by id.
      *
@@ -42,12 +47,13 @@ public interface UserService {
      * @return user
      */
     User getById(UUID id) throws UserNotFoundException;
+
     /**
      * Update the User.
      *
-     * @param user
+     * @param userDTO
      * @return user
      */
-    void modify(User user);
+    User modify(UserDTO userDTO, UUID id);
 
 }
