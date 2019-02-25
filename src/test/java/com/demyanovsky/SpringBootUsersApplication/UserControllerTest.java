@@ -37,6 +37,7 @@ public class UserControllerTest {
     private UserDTO user2 = new UserDTO("Antony", "dadas@dada.ff", "123526tgf");
     private UserDTO user1 = new UserDTO("Joshua", "fsfsa@fsdf.afa", "gwrthg234");
     private UserDTO user3 = new UserDTO("Mery", "mads@fgg.cf", "3r232r");
+    private UserDTO user4 = new UserDTO("Fsfsfsa", "maksym.demianovskyi@globallogic.com", "3r232r");
 
     @Test
     public void userById() throws Exception {
@@ -120,8 +121,9 @@ public class UserControllerTest {
 
     @Test
     public void restorePassword() throws Exception {
+        userService.save(user4, Role.USER_ROLE);
         UserDTO userDTO = new UserDTO();
-        userDTO.setEmail("max.demyanovsky@gmail.com");
+        userDTO.setEmail(user4.getEmail());
         mockMvc.perform(post("/user/password/restore").contentType(MediaType.APPLICATION_JSON).content("{ \"email\":\"" + userDTO.getEmail() + "\"}"))
                 .andExpect(handler().methodName("passwordRestore"))
                 .andExpect(status().isOk())
@@ -133,13 +135,15 @@ public class UserControllerTest {
         UserPasswordRestoreDTO userDTO = new UserPasswordRestoreDTO();
         userDTO.setPassword("12345");
         userDTO.setConfirmPassword("12345");
-        User user = userRepository.findByEmail("max.demyanovsky@gmail.com");
+        User user = userRepository.findByEmail(user4.getEmail());
         mockMvc.perform(post("/user/password/restore/{hash}", user.getRestoreHash()).contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"password\" : \"" + userDTO.getPassword() + "\",\"confirmPassword\":\"" + userDTO.getConfirmPassword() + "\"}"))
                 .andExpect(handler().methodName("confirmationPasswordRestore"))
                 .andExpect(status().isOk())
                 .andReturn();
+        userRepository.deleteById(user.getId());
     }
+
     @Test
     public void denyRestorePassword() throws Exception {
         UserDTO userDTO = new UserDTO();
@@ -147,5 +151,4 @@ public class UserControllerTest {
         mockMvc.perform(post("/user/password/restore").contentType(MediaType.APPLICATION_JSON).content("{ \"email\":\"" + userDTO.getEmail() + "\"}"))
                 .andExpect(status().is(400));
     }
-
 }

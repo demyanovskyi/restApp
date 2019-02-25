@@ -73,9 +73,7 @@ public class UserController {
         } catch (IncorrectUserException e) {
             throw new IncorrectEmailException(emailDTO.getEmail());
         }
-
     }
-
 
     @RequestMapping(value = UserCRUDConstants.CONFIRMATION_PASSWORD_RESTORE, method = RequestMethod.POST)
     private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash, @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO) {

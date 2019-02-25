@@ -12,18 +12,21 @@ public interface ProductService {
      * @param product
      */
     Product save(Product product);
+
     /**
      * Delete the product by it's id.
      *
      * @param id the id
      */
     void deleteById(UUID id);
+
     /**
      * Get the list of products.
      *
      * @return list of products
      */
-List<Product> getAll();
+    List<Product> getAll();
+
     /**
      * Get the Product by id.
      *
@@ -31,6 +34,7 @@ List<Product> getAll();
      * @return product
      */
     Product getById(UUID id);
+
     /**
      * Update the Product.
      *

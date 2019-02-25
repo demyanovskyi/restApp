@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new IncorrectEmailException(super.toString());
         }
-        String restoreHash = bCryptPasswordEncoder.encode(BCrypt.gensalt());
+        String restoreHash = UUID.randomUUID().toString();
         user.setRestoreHash(restoreHash);
         LocalDateTime validityPeriod = LocalDateTime.now().plusHours(48);
         user.setValidityPeriod(validityPeriod);

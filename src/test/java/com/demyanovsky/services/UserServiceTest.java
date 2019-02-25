@@ -32,7 +32,7 @@ public class UserServiceTest {
     private UserService userService;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @After
     public void destroy() {
