@@ -17,7 +17,7 @@ public final class AccessControlHelper {
         if (principal instanceof CustomUserDetails && ((CustomUserDetails) principal).getAuthorities() != null) {
             Collection<GrantedAuthority> grantedAuthority = ((CustomUserDetails) principal).getAuthorities();
             try {
-                return grantedAuthority.stream().findFirst().get().toString();
+                return grantedAuthority.stream().findFirst().orElse(null).toString();
             } catch (RuntimeException e) {
                 throw new ForbiddenException("Cant get grantedAuthority");
             }
