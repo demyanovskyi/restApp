@@ -68,11 +68,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User confirmationPasswordRestore(UserPasswordRestoreDTO userPasswordRestoreDTO, String hash) {
         if (userPasswordRestoreDTO.getPassword().equals(userPasswordRestoreDTO.getConfirmPassword())) {
-            User user = userRepository.findByRestoreHash(hash);
-            user.setPassword(bCryptPasswordEncoder.encode(userPasswordRestoreDTO.getPassword() + user.getSalt()));
-            return userRepository.save(user);
+            try {
+                User user = userRepository.findByRestoreHash(hash);
+                user.setPassword(bCryptPasswordEncoder.encode(userPasswordRestoreDTO.getPassword() + user.getSalt()));
+                return userRepository.save(user);
+            } catch (NoSuchElementException e) {
+                throw new UserNotFoundException("Restore hash");
+            }
         } else {
-            throw new NullPointerException();
+            throw new ForbiddenException("Passwords are not identical");
         }
     }
 
