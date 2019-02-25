@@ -56,8 +56,6 @@ public class ProductControllerTest {
     @Test
     public void productById() throws Exception {
         User user = userRepository.findByRestoreHash("5435ec678dbfda756579625f07bf7eec");
-        System.out.println("rer"
-        );
         Product tmp = productService.save(product2);
         mockMvc.perform(get("/product/{id}", tmp.getId()))
                 .andExpect(status().isOk())

@@ -19,8 +19,8 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
     private static final String REGEX = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-    private static final String EMAIL_PROVIDER = "ivanovichboot@gmail.com";
-    private static final String EMAIL_PROVIDER_PASSWORD = "qwertyu-";
+    private static ResourceBundle resourceBundle = ResourceBundle.getBundle("application-email");
+
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -57,9 +57,9 @@ public class UserServiceImpl implements UserService {
         LocalDateTime validityPeriod = LocalDateTime.now().plusHours(48);
         user.setValidityPeriod(validityPeriod);
         userRepository.save(user);
-        EmailSender emailSender = new EmailSender(EMAIL_PROVIDER, EMAIL_PROVIDER_PASSWORD);
+        EmailSender emailSender = new EmailSender(resourceBundle.getString("emailProvider"), resourceBundle.getString("emailProviderPassword"));
         emailSender.send("Restore password", "This is  hashCode for " + user.getRestoreHash() + " restore password",
-                EMAIL_PROVIDER, emailDTO.getEmail());
+                resourceBundle.getString("emailProvider"), emailDTO.getEmail());
         MessageDTO dto = new MessageDTO();
         dto.setMessage("Secret code to restore your password sent to your email");
         return dto;
