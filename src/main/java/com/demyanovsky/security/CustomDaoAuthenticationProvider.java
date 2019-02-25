@@ -22,7 +22,7 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
         String salt = userRepository.findByEmail(name).getSalt();
-        UserDetails userDetails = null;
+        UserDetails userDetails;
         try {
             userDetails = getUserDetailsService().loadUserByUsername(name);
         } catch (UsernameNotFoundException ex) {

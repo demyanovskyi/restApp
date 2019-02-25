@@ -9,6 +9,7 @@ import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.security.EmailSender;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,11 @@ import java.util.*;
 @Service
 public class UserServiceImpl implements UserService {
     private static final String REGEX = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-    private static ResourceBundle resourceBundle = ResourceBundle.getBundle("application-email");
+    @Value("${emailProvider}")
+    private String emailProvider;
+    @Value("${emailProviderPassword}")
+    private String emailProviderPassword;
+
 
     @Autowired
     private UserRepository userRepository;
@@ -57,9 +62,9 @@ public class UserServiceImpl implements UserService {
         LocalDateTime validityPeriod = LocalDateTime.now().plusHours(48);
         user.setValidityPeriod(validityPeriod);
         userRepository.save(user);
-        EmailSender emailSender = new EmailSender(resourceBundle.getString("emailProvider"), resourceBundle.getString("emailProviderPassword"));
+        EmailSender emailSender = new EmailSender(emailProvider, emailProviderPassword);
         emailSender.send("Restore password", "This is  hashCode for " + user.getRestoreHash() + " restore password",
-                resourceBundle.getString("emailProvider"), emailDTO.getEmail());
+                emailProvider, emailDTO.getEmail());
     }
 
     @Override

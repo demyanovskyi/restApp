@@ -12,8 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableAsync
@@ -30,9 +28,7 @@ public class RemoveRestoreHashJob {
     public void removeObsoleteHashes() {
         logger.info("Starting checking validity period");
         LocalDateTime now = LocalDateTime.now();
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().iterator().forEachRemaining(users::add);
-        for (User user : users) {
+        for (User user : userRepository.findAll()) {
             if (user.getValidityPeriod() != null && user.getValidityPeriod().isBefore(now)) {
                 user.setValidityPeriod(null);
                 user.setRestoreHash(null);
