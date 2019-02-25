@@ -18,14 +18,16 @@ import java.util.List;
 @Configuration
 @EnableAsync
 @EnableScheduling
+
 public class RemoveRestoreHashJob {
-    @Autowired
-    private UserRepository userRepository;
     private static final Logger logger = LoggerFactory.getLogger(RemoveRestoreHashJob.class);
     private static final int HOUR = 3600000;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Scheduled(fixedDelay = HOUR)
-    public void qwe() {
+    public void removeObsoleteHashes() {
         logger.info("Starting checking validity period");
         LocalDateTime now = LocalDateTime.now();
         List<User> users = new ArrayList<>();

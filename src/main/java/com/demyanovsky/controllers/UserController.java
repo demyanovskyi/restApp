@@ -67,9 +67,10 @@ public class UserController {
     }
 
     @RequestMapping(value = UserCRUDConstants.PASSWORD_RESTORE, method = RequestMethod.POST)
-    private ResponseEntity<MessageDTO> passwordRestore(@RequestBody EmailDTO emailDTO) {
+    private ResponseEntity<HttpStatus> passwordRestore(@RequestBody EmailDTO emailDTO) {
         try {
-            return new ResponseEntity<>(userService.restorePassword(emailDTO), HttpStatus.OK);
+            userService.restorePassword(emailDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (IncorrectUserException e) {
             throw new IncorrectEmailException(emailDTO.getEmail());
         }

@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public MessageDTO restorePassword(EmailDTO emailDTO) {
+    public void restorePassword(EmailDTO emailDTO) {
         User user = userRepository.findByEmail(emailDTO.getEmail());
         if (user == null) {
             throw new IncorrectEmailException(super.toString());
@@ -60,9 +60,6 @@ public class UserServiceImpl implements UserService {
         EmailSender emailSender = new EmailSender(resourceBundle.getString("emailProvider"), resourceBundle.getString("emailProviderPassword"));
         emailSender.send("Restore password", "This is  hashCode for " + user.getRestoreHash() + " restore password",
                 resourceBundle.getString("emailProvider"), emailDTO.getEmail());
-        MessageDTO dto = new MessageDTO();
-        dto.setMessage("Secret code to restore your password sent to your email");
-        return dto;
     }
 
     @Override
@@ -85,16 +82,16 @@ public class UserServiceImpl implements UserService {
         Objects.requireNonNull(userDTO);
         Objects.requireNonNull(role);
         User user = new User();
-        if (validEmail(userDTO.getEmail())) {
+        if (!validEmail(userDTO.getEmail())) {
+            throw new ForbiddenException("Incorrect email");
+        } else {
             user.setRole(role);
             user.setName(userDTO.getName());
             user.setSalt(BCrypt.gensalt().toLowerCase());
             user.setEmail(userDTO.getEmail());
             user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword() + user.getSalt()));
-        } else {
-            throw new ForbiddenException("Incorrect email");
+            return userRepository.save(user);
         }
-        return userRepository.save(user);
     }
 
     public boolean validEmail(String email) {

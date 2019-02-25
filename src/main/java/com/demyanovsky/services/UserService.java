@@ -58,9 +58,8 @@ public interface UserService {
      * Request for restore password.
      *
      * @param emailDTO
-     * @return MessageDTO
      */
-    MessageDTO restorePassword(EmailDTO emailDTO);
+    void restorePassword(EmailDTO emailDTO);
 
     /**
      * Confirm restore password.

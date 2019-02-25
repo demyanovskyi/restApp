@@ -126,8 +126,7 @@ public class UserControllerTest {
         userDTO.setEmail(user4.getEmail());
         mockMvc.perform(post("/user/password/restore").contentType(MediaType.APPLICATION_JSON).content("{ \"email\":\"" + userDTO.getEmail() + "\"}"))
                 .andExpect(handler().methodName("passwordRestore"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message", is("Secret code to restore your password sent to your email")));
+                .andExpect(status().isOk());
     }
 
     @Test
