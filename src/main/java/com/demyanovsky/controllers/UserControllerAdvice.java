@@ -43,6 +43,11 @@ public class UserControllerAdvice {
     public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(IncorrectSecurityContentException.class)
+    public ResponseEntity<ErrorResponse> handleIncorrectSecurityContentException(IncorrectSecurityContentException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }
 
 
