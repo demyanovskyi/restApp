@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -33,7 +33,7 @@ public class User {
     @JsonIgnore
     private String restoreHash;
     @JsonIgnore
-    private LocalDateTime validityPeriod;
+    private OffsetDateTime validityPeriod;
 
     public User(String name, String password) {
         this.name = name;
@@ -54,7 +54,7 @@ public class User {
         this.email = email;
     }
 
-    public User(String name, String password, Role role, String salt, String email, String restoreHash, LocalDateTime validityPeriod) {
+    public User(String name, String password, Role role, String salt, String email, String restoreHash, OffsetDateTime validityPeriod) {
         this.name = name;
         this.password = password;
         this.role = role;
@@ -125,11 +125,11 @@ public class User {
         this.restoreHash = restoreHash;
     }
 
-    public LocalDateTime getValidityPeriod() {
+    public OffsetDateTime getValidityPeriod() {
         return validityPeriod;
     }
 
-    public void setValidityPeriod(LocalDateTime validityPeriod) {
+    public void setValidityPeriod(OffsetDateTime validityPeriod) {
         this.validityPeriod = validityPeriod;
     }
 
