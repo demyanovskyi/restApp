@@ -21,8 +21,8 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        String salt = userRepository.findByName(name).getSalt();
-        UserDetails userDetails = null;
+        String salt = userRepository.findByEmail(name).getSalt();
+        UserDetails userDetails;
         try {
             userDetails = getUserDetailsService().loadUserByUsername(name);
         } catch (UsernameNotFoundException ex) {
@@ -35,5 +35,4 @@ public class CustomDaoAuthenticationProvider extends DaoAuthenticationProvider {
         }
         throw new BadCredentialsException(messages.getMessage("CustomDaoAuthenticationProvider.badCredentials", "Bad credentials"));
     }
-
 }

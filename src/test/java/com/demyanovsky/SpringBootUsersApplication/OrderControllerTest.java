@@ -2,7 +2,6 @@ package com.demyanovsky.SpringBootUsersApplication;
 
 import com.demyanovsky.domain.*;
 import com.demyanovsky.repository.OrderRepository;
-import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.services.OrderService;
 import com.demyanovsky.services.ProductService;
 import com.demyanovsky.services.UserService;
@@ -29,21 +28,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class OrderControllerTest {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    ProductService productService;
+    private ProductService productService;
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
     @Autowired
-    OrderRepository orderRepository;
-    @Autowired
-    UserRepository userRepository;
+    private OrderRepository orderRepository;
 
     static Product product1 = new Product("MacBook Pro", 2312.44);
     static Product product2 = new Product("iPhone X", 844.43);
-    static UserDTO userDTO1 = new UserDTO("Qwerty", "fwgerhwr");
+    static UserDTO userDTO1 = new UserDTO("Qwerty", "ffwwh123we@gmail.com", "qwrfg");
     static List<UUID> productsID = new ArrayList<>();
     static OrderDTO orderDTO = new OrderDTO();
 
@@ -60,7 +57,7 @@ public class OrderControllerTest {
         Order order = orderService.save(orderDTO, testUser.getId());
 
         mockMvc.perform(get("/user/{id}/order/", testUser.getId())
-                .with(httpBasic("Qwerty", "fwgerhwr")))
+                .with(httpBasic(userDTO1.getEmail(), userDTO1.getPassword())))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(handler().methodName("getOrder"))

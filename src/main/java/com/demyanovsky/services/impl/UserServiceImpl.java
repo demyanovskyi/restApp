@@ -1,21 +1,31 @@
 package com.demyanovsky.services.impl;
 
 
-import com.demyanovsky.domain.Role;
-import com.demyanovsky.domain.User;
-import com.demyanovsky.domain.UserDTO;
+import com.demyanovsky.domain.*;
+import com.demyanovsky.exceptions.ForbiddenException;
+import com.demyanovsky.exceptions.IncorrectEmailException;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
+import com.demyanovsky.security.EmailSender;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final String REGEX = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+    @Value("${emailProvider}")
+    private String emailProvider;
+    @Value("${emailProviderPassword}")
+    private String emailProviderPassword;
+
 
     @Autowired
     private UserRepository userRepository;
@@ -43,15 +53,53 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void restorePassword(EmailDTO emailDTO) {
+        User user = userRepository.findByEmail(emailDTO.getEmail());
+        if (user == null) {
+            throw new IncorrectEmailException(super.toString());
+        }
+        user.setRestoreHash(UUID.randomUUID().toString());
+        user.setValidityPeriod(OffsetDateTime.now(ZoneOffset.UTC).plusHours(48));
+        userRepository.save(user);
+        EmailSender emailSender = new EmailSender(emailProvider, emailProviderPassword);
+        emailSender.send("Restore password", "This is  hashCode for " + user.getRestoreHash() + " restore password",
+                emailProvider, emailDTO.getEmail());
+    }
+
+    @Override
+    public User confirmationPasswordRestore(UserPasswordRestoreDTO userPasswordRestoreDTO, String hash) {
+        if (userPasswordRestoreDTO.getPassword().equals(userPasswordRestoreDTO.getConfirmPassword())) {
+            try {
+                User user = userRepository.findByRestoreHash(hash);
+                user.setPassword(bCryptPasswordEncoder.encode(userPasswordRestoreDTO.getPassword() + user.getSalt()));
+                return userRepository.save(user);
+            } catch (NoSuchElementException e) {
+                throw new UserNotFoundException("Restore hash");
+            }
+        } else {
+            throw new ForbiddenException("Passwords are not identical");
+        }
+    }
+
+    @Override
     public User save(UserDTO userDTO, Role role) {
         Objects.requireNonNull(userDTO);
         Objects.requireNonNull(role);
         User user = new User();
-        user.setRole(role);
-        user.setName(userDTO.getName());
-        user.setSalt(BCrypt.gensalt().toLowerCase());
-        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword() + user.getSalt()));
-        return userRepository.save(user);
+        if (!validEmail(userDTO.getEmail())) {
+            throw new ForbiddenException("Incorrect email");
+        } else {
+            user.setRole(role);
+            user.setName(userDTO.getName());
+            user.setSalt(BCrypt.gensalt().toLowerCase());
+            user.setEmail(userDTO.getEmail());
+            user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword() + user.getSalt()));
+            return userRepository.save(user);
+        }
+    }
+
+    public boolean validEmail(String email) {
+        return email.matches(REGEX);
     }
 
     @Override
@@ -64,4 +112,3 @@ public class UserServiceImpl implements UserService {
         }
     }
 }
-

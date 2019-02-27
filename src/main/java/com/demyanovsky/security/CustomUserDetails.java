@@ -18,12 +18,12 @@ public class CustomUserDetails extends User {
         this.id = id;
     }
 
-    public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+    public CustomUserDetails(String email, String password, Collection<? extends GrantedAuthority> authorities) {
+        super(email, password, authorities);
     }
 
-    public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, UUID id) {
-        super(username, password, authorities);
+    public CustomUserDetails(String email, String password, Collection<? extends GrantedAuthority> authorities, UUID id) {
+        super(email, password, authorities);
         this.id = id;
     }
 }

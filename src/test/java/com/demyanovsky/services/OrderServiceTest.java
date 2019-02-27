@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,21 +19,21 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 public class OrderServiceTest {
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
     @Autowired
-    ProductService productService;
+    private ProductService productService;
     @Autowired
-    UserService userService;
+    private UserService userService;
     static Product product1 = new Product("MacBook Pro", 2312.44);
     static Product product2 = new Product("iPhone X", 844.43);
-    static UserDTO userDTO = new UserDTO("Stiv", "12345");
+    static UserDTO userDTO = new UserDTO("Stiv", "dqdq@dasd.com", "12345");
 
     static OrderDTO orderDTO = new OrderDTO();
     static List<UUID> productsID = new ArrayList<>();
     private List<Product> testProductList = new ArrayList<>();
 
     @Test
-    public void getById() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+    public void getById() {
         Product pr2 = productService.save(product2);
         Product pr1 = productService.save(product1);
 
@@ -45,7 +43,7 @@ public class OrderServiceTest {
         testProductList.add(product1);
         orderDTO.setProductList(productsID);
 
-        User user1 = userService.save(new UserDTO(userDTO.getName(), userDTO.getPassword()), Role.USER_ROLE);
+        User user1 = userService.save(new UserDTO(userDTO.getName(), userDTO.getEmail(), userDTO.getPassword()), Role.USER_ROLE);
         orderService.save(orderDTO, user1.getId());
         assertEquals(orderService.getOrder(user1.getId()).getUserId(), user1.getId());
         assertEquals(orderService.getOrder(user1.getId()).getProducts().toString(), testProductList.toString());

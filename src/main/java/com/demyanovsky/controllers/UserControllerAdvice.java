@@ -33,7 +33,6 @@ public class UserControllerAdvice {
     public ResponseEntity<ErrorResponse> handleIncorrectOrderException(IncorrectOrderException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
-
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleOrderNotFoundException(OrderNotFoundException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.NOT_FOUND);
@@ -46,6 +45,10 @@ public class UserControllerAdvice {
 
     @ExceptionHandler(IncorrectSecurityContentException.class)
     public ResponseEntity<ErrorResponse> handleIncorrectSecurityContentException(IncorrectSecurityContentException e) {
+         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+}
+    @ExceptionHandler(IncorrectEmailException.class)
+    public ResponseEntity<ErrorResponse> handleIncorrectEmailException(IncorrectEmailException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

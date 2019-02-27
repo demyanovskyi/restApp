@@ -29,6 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/user/**").hasAuthority("ADMIN_ROLE")
                 .antMatchers(HttpMethod.POST, "/user/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/product/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/password/restore/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
