@@ -14,7 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Service
@@ -57,10 +58,8 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new IncorrectEmailException(super.toString());
         }
-        String restoreHash = UUID.randomUUID().toString();
-        user.setRestoreHash(restoreHash);
-        LocalDateTime validityPeriod = LocalDateTime.now().plusHours(48);
-        user.setValidityPeriod(validityPeriod);
+        user.setRestoreHash(UUID.randomUUID().toString());
+        user.setValidityPeriod(OffsetDateTime.now(ZoneOffset.UTC).plusHours(48));
         userRepository.save(user);
         EmailSender emailSender = new EmailSender(emailProvider, emailProviderPassword);
         emailSender.send("Restore password", "This is  hashCode for " + user.getRestoreHash() + " restore password",
