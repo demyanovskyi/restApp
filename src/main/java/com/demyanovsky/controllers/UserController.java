@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +53,7 @@ public class UserController {
     }
 
     @RequestMapping(value = UserCRUDConstants.UPDATE_USER, method = RequestMethod.PUT)
-    private ResponseEntity<User> modifyUser(@PathVariable("id") UUID id, @RequestBody UserDTO userDTO) throws ValidationException {
+    private ResponseEntity<User> modifyUser(@PathVariable("id") UUID id, @RequestBody UserDTO userDTO) {
         logger.info("Call method modifyUser from UserController");
         if (!userDTO.getId().equals(id)) {
             throw new IncorrectUserException(userDTO.getId());

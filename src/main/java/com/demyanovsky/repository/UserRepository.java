@@ -16,7 +16,7 @@ public interface UserRepository extends CrudRepository<User, UUID> {
     User findByRestoreHash(String restoreHash);
 
     @Modifying
-    @Query(nativeQuery = true, value = "update users set restore_hash = ?1,validity_period = null  where validity_period < ?2")
-    void removeObsoleteHashes(String hash, OffsetDateTime now);
+    @Query(nativeQuery = true, value = "update users set restore_hash = null ,validity_period = null  where validity_period < ?1")
+    void removeObsoleteHashes(OffsetDateTime now);
 }
 

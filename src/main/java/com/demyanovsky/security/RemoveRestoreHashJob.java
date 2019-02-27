@@ -29,6 +29,6 @@ public class RemoveRestoreHashJob {
     public void removeObsoleteHashes() {
         logger.info("Starting checking validity period");
         OffsetDateTime dateTime = OffsetDateTime.now(ZoneOffset.UTC);
-        userRepository.removeObsoleteHashes(null, dateTime);
+        userRepository.removeObsoleteHashes(dateTime);
     }
 }
