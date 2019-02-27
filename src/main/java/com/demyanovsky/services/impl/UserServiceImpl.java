@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
     @Value("${emailProviderPassword}")
     private String emailProviderPassword;
 
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -74,7 +73,7 @@ public class UserServiceImpl implements UserService {
                 user.setPassword(bCryptPasswordEncoder.encode(userPasswordRestoreDTO.getPassword() + user.getSalt()));
                 return userRepository.save(user);
             } catch (NoSuchElementException e) {
-                throw new UserNotFoundException("Restore hash");
+                throw new UserNotFoundException("Restore hash is not valid");
             }
         } else {
             throw new ForbiddenException("Passwords are not identical");

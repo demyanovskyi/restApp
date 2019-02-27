@@ -57,6 +57,5 @@ public class OrderServiceImpl implements OrderService {
         } catch (NoSuchElementException e) {
             throw new OrderNotFoundException(id);
         }
-
     }
 }
