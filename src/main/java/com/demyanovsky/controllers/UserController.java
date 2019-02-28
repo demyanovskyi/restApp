@@ -24,12 +24,14 @@ public class UserController {
     private UserService userService;
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
+
     @RequestMapping(value = UserCRUDConstants.GET_ALL_USERS, method = RequestMethod.GET)
-    private ResponseEntity<List<User>> listAllUsers() {
+    private ResponseEntity<List<User>> listAllUsers(@PathVariable("page") int page, @PathVariable("limit") int limit) {
         logger.info("Call method listAllUsers from UserController");
-        List<User> users = userService.getAll();
+        List<User> users = userService.getAll(page, limit);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
 
     @RequestMapping(value = UserCRUDConstants.GET_USER, method = RequestMethod.GET)
     private ResponseEntity<User> userById(@PathVariable("id") UUID id) {
@@ -58,7 +60,7 @@ public class UserController {
         if (!userDTO.getId().equals(id)) {
             throw new IncorrectUserException(userDTO.getId());
         }
-        if (AccessControlHelper.getRole().equals(Role.ADMIN_ROLE.toString()) || id.equals(AccessControlHelper.getId())) {
+        if (AccessControlHelper.getRole().toString().equals(Role.ADMIN_ROLE.toString()) || id.equals(AccessControlHelper.getId())) {
             return new ResponseEntity<>(userService.modify(userDTO, id), HttpStatus.OK);
         } else {
             throw new ForbiddenException();

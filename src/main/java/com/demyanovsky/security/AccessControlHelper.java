@@ -13,9 +13,13 @@ public final class AccessControlHelper {
 
     public static String getRole() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof CustomUserDetails && ((CustomUserDetails) principal).getAuthorities() != null) {
+        if (principal instanceof CustomUserDetails) {
             Collection<GrantedAuthority> grantedAuthority = ((CustomUserDetails) principal).getAuthorities();
-            return grantedAuthority.stream().findFirst().orElse(null).toString();
+          GrantedAuthority gA =  grantedAuthority.stream().findFirst().orElse(null);
+            if (gA.equals(null)){
+                throw new IncorrectSecurityContentException();
+            }
+            return gA.toString();
         } else {
             throw new IncorrectSecurityContentException();
         }

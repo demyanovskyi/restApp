@@ -23,9 +23,11 @@ public interface ProductService {
     /**
      * Get the list of products.
      *
+     * @param page
+     * @param limit
      * @return list of products
      */
-    List<Product> getAll();
+    List<Product> getAll(int page, int limit);
 
     /**
      * Get the Product by id.

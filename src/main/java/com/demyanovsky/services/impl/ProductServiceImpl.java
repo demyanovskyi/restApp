@@ -5,6 +5,9 @@ import com.demyanovsky.exceptions.ProductNotFoundException;
 import com.demyanovsky.repository.ProductRepository;
 import com.demyanovsky.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,6 +16,10 @@ import java.util.*;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+
+    private Pageable createPageRequest(int page, int size) {
+        return PageRequest.of(page, size, Sort.by("productName"));
+    }
 
     @Override
     public Product save(Product product) {
@@ -30,10 +37,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll() {
-        List<Product> products = new ArrayList<>();
-        productRepository.findAll().iterator().forEachRemaining(products::add);
-        return products;
+    public List<Product> getAll(int page, int limit) {
+        if (limit < 1) {
+            throw new IllegalArgumentException("Size must not be less than one!");
+        }
+        List<Product> list = new ArrayList<>();
+        for (Product product : productRepository.findAll(createPageRequest(page, limit))) {
+            list.add(product);
+        }
+        return list;
     }
 
     @Override

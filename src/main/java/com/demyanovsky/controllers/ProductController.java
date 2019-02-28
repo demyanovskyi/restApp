@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,11 +29,12 @@ public class ProductController {
     }
 
     @RequestMapping(value = ProductCRUDConstants.GET_ALL_PRODUCTS, method = RequestMethod.GET)
-    private ResponseEntity<List<Product>> getProductList() {
+    private ResponseEntity<List<Product>> getProductList(@PathVariable("page") int page, @PathVariable("limit") int limit) {
         logger.info("Call method getProductList from ProductController");
-        List<Product> products = productService.getAll();
+        List<Product> products = productService.getAll(page, limit);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
+
 
     @RequestMapping(value = ProductCRUDConstants.GET_PRODUCT, method = RequestMethod.GET)
     private ResponseEntity<Product> getProduct(@PathVariable("id") UUID id) {

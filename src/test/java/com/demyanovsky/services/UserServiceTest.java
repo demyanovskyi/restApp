@@ -51,7 +51,7 @@ public class UserServiceTest {
     public void getAll() {
         User user = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
         User user1 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
-        List<User> tmp = userService.getAll();
+        List<User> tmp = userService.getAll(0, 2);
         assertEquals(tmp.size(), 2);
     }
 
@@ -66,13 +66,13 @@ public class UserServiceTest {
     }
 
     @Test
-    public void deliteUserByID() throws UserNotFoundException {
+    public void deleteUserByID() throws UserNotFoundException {
         User user1 = userService.save(new UserDTO(user3.getName(), user3.getEmail(), user3.getPassword()), Role.USER_ROLE);
         User user2 = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
         User user4 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
         userService.deleteById(user1.getId());
         List<User> tmp = new ArrayList();
-        tmp = userService.getAll();
+        tmp = userService.getAll(0, 2);
         assertEquals(tmp.size(), 2);
     }
 }

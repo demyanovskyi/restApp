@@ -34,9 +34,9 @@ public class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    private UserDTO user2 = new UserDTO("Antony", "dadas@dada.ff", "123526tgf");
-    private UserDTO user1 = new UserDTO("Joshua", "fsfsa@fsdf.afa", "gwrthg234");
-    private UserDTO user3 = new UserDTO("Mery", "mads@fgg.cf", "3r232r");
+    private UserDTO user2 = new UserDTO("Antony", "dagdvfas@dada.ff", "123526tgf");
+    private UserDTO user1 = new UserDTO("Joshua", "fsfvvgvffsa@fsdf.afa", "gwrthg234");
+    private UserDTO user3 = new UserDTO("Mery", "mfhads@fgg.cf", "3r232r");
     private UserDTO user4 = new UserDTO("Fsfsfsa", "maksym.demianovskyi@globallogic.com", "3r232r");
 
     @Test
@@ -55,7 +55,7 @@ public class UserControllerTest {
     @Test
     public void listAllUsers() throws Exception {
         User testUser = userService.save(user1, Role.USER_ROLE);
-        mockMvc.perform(get(GET_ALL_USERS)
+        mockMvc.perform(get(GET_ALL_USERS, 0, 1)
                 .with(httpBasic(user1.getEmail(), user1.getPassword())))
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
