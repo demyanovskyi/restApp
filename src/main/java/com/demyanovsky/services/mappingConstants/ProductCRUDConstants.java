@@ -1,7 +1,7 @@
 package com.demyanovsky.services.mappingConstants;
 
 public class ProductCRUDConstants {
-    public static final String GET_ALL_PRODUCTS = "/product/{page}/{limit}";
+    public static final String GET_ALL_PRODUCTS = "/product/";
     public static final String GET_PRODUCT = "/product/{id}";
     public static final String CREATE_PRODUCT = "/product";
     public static final String DELETE_PRODUCT = "/product/{id}";

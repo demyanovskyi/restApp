@@ -10,6 +10,7 @@ import com.demyanovsky.security.EmailSender;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -39,15 +40,14 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public List<User> getAll(int page, int limit) {
-        if (limit < 1) {
-            throw new IllegalArgumentException("Size must not be less than one!");
+    public Page<User> getAll(Integer page, Integer limit) {
+        if (page == null) {
+            page = 0;
         }
-        List<User> list = new ArrayList<>();
-        for (User user : userRepository.findAll(createPageRequest(page, limit))) {
-            list.add(user);
+        if (limit == null) {
+            limit = 50;
         }
-        return list;
+        return userRepository.findAll(createPageRequest(page, limit));
     }
 
     @Override

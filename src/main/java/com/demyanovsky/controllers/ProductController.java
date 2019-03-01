@@ -29,7 +29,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = ProductCRUDConstants.GET_ALL_PRODUCTS, method = RequestMethod.GET)
-    private ResponseEntity<List<Product>> getProductList(@PathVariable("page") int page, @PathVariable("limit") int limit) {
+    private ResponseEntity<List<Product>> getProductList(@RequestParam("page") int page, @RequestParam("limit") int limit) {
         logger.info("Call method getProductList from ProductController");
         List<Product> products = productService.getAll(page, limit);
         return new ResponseEntity<>(products, HttpStatus.OK);

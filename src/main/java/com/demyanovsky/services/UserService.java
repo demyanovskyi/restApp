@@ -3,8 +3,8 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.*;
 import com.demyanovsky.exceptions.UserNotFoundException;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -38,7 +38,7 @@ public interface UserService {
      * @param limit
      * @return list of users
      */
-    List<User> getAll(int page, int limit);
+    Page<User> getAll(Integer page, Integer limit);
 
     /**
      * Get the User by id.
