@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -51,8 +52,8 @@ public class UserServiceTest {
     public void getAll() {
         User user = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
         User user1 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
-        List<User> tmp = userService.getAll(0, 2);
-        assertEquals(tmp.size(), 2);
+        Page<User> tmp = userService.getAll(0, 2);
+        assertEquals(tmp.getTotalElements(), 2);
     }
 
     @Test
@@ -62,7 +63,7 @@ public class UserServiceTest {
         userService.modify(new UserDTO(user1.getName()), user1.getId());
         User tmp = new User();
         tmp = userService.getById(user1.getId());
-        assertEquals(tmp.getName(), "Edvard");
+       assertEquals(tmp.getName(), "Edvard");
     }
 
     @Test
@@ -71,8 +72,7 @@ public class UserServiceTest {
         User user2 = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
         User user4 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
         userService.deleteById(user1.getId());
-        List<User> tmp = new ArrayList();
-        tmp = userService.getAll(0, 2);
-        assertEquals(tmp.size(), 2);
+        Page<User> tmp  = userService.getAll(0, 2);
+        assertEquals(tmp.getTotalElements(), 2);
     }
 }

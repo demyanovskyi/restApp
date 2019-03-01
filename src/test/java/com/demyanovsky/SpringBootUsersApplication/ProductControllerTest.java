@@ -71,7 +71,17 @@ public class ProductControllerTest {
     @Test
     public void getProductList() throws Exception {
         Product tmp1 = productService.save(product1);
-        mockMvc.perform(get("/product/{page}/{limit}", 0, 1))
+        mockMvc.perform(get("/product/", 0, 1))
+                .andExpect(handler().handlerType(ProductController.class))
+                .andExpect(handler().methodName("getProductList")).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        productService.deleteById(tmp1.getId());
+    }
+
+    @Test
+    public void getProductListWithoutParam() throws Exception {
+        Product tmp1 = productService.save(product1);
+        mockMvc.perform(get("/product/"))
                 .andExpect(handler().handlerType(ProductController.class))
                 .andExpect(handler().methodName("getProductList")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
