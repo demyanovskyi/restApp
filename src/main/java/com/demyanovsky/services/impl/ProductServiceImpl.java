@@ -3,6 +3,7 @@ package com.demyanovsky.services.impl;
 import com.demyanovsky.domain.Product;
 import com.demyanovsky.exceptions.ProductNotFoundException;
 import com.demyanovsky.repository.ProductRepository;
+import com.demyanovsky.services.PagingAndSortingHelper;
 import com.demyanovsky.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,10 +18,6 @@ import java.util.*;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
-
-    private Pageable createPageRequest(int page, int size) {
-        return PageRequest.of(page, size, Sort.by("productName"));
-    }
 
     @Override
     public Product save(Product product) {
@@ -39,13 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> getAll(Integer page, Integer limit) {
-        if (limit == null) {
-            limit = 50;
-            if (page == null) {
-                page = 0;
-            }
-        }
-        return productRepository.findAll(createPageRequest(page, limit));
+        return productRepository.findAll(PagingAndSortingHelper.createPageRequest(page, limit, "productName"));
     }
 
     @Override

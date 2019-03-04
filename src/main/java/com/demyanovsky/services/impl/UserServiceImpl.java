@@ -7,6 +7,7 @@ import com.demyanovsky.exceptions.IncorrectEmailException;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.security.EmailSender;
+import com.demyanovsky.services.PagingAndSortingHelper;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,10 +31,6 @@ public class UserServiceImpl implements UserService {
     @Value("${emailProviderPassword}")
     private String emailProviderPassword;
 
-    private Pageable createPageRequest(int page, int size) {
-        return PageRequest.of(page, size, Sort.by("name"));
-    }
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -41,13 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> getAll(Integer page, Integer limit) {
-        if (page == null) {
-            page = 0;
-        }
-        if (limit == null) {
-            limit = 50;
-        }
-        return userRepository.findAll(createPageRequest(page, limit));
+        return userRepository.findAll(PagingAndSortingHelper.createPageRequest(page, limit, "name"));
     }
 
     @Override

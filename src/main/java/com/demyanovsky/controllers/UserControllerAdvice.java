@@ -58,6 +58,11 @@ public class UserControllerAdvice {
     public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(IncorrectPagingException.class)
+    public ResponseEntity<ErrorResponse> handleIncorrectPagingException(IncorrectPagingException e) {
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }
 
 
