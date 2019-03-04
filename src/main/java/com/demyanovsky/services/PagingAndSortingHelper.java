@@ -16,7 +16,6 @@ public final class PagingAndSortingHelper {
         if (page < 0) {
             throw new IncorrectPagingException();
         }
-
         if (limit == null || limit == 0) {
             limit = 25;
         }

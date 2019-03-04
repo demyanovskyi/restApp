@@ -71,6 +71,7 @@ public class UserController {
 
     @RequestMapping(value = UserCRUDConstants.PASSWORD_RESTORE, method = RequestMethod.POST)
     private void passwordRestore(@RequestBody EmailDTO emailDTO) {
+        logger.info("Call method passwordRestore from UserController");
         try {
             userService.restorePassword(emailDTO);
         } catch (IncorrectUserException e) {
@@ -80,6 +81,7 @@ public class UserController {
 
     @RequestMapping(value = UserCRUDConstants.CONFIRMATION_PASSWORD_RESTORE, method = RequestMethod.POST)
     private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash, @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO) {
+        logger.info("Call method confirmationPasswordRestore from UserController");
         User user = userService.confirmationPasswordRestore(userPasswordRestoreDTO, hash);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

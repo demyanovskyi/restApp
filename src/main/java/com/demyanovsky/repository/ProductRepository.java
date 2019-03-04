@@ -12,5 +12,4 @@ import java.util.UUID;
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<Product, UUID> {
     Page<Product> findAll(Pageable pageable);
-
 }

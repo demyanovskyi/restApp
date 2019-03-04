@@ -15,8 +15,8 @@ public final class AccessControlHelper {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails) {
             Collection<GrantedAuthority> grantedAuthority = ((CustomUserDetails) principal).getAuthorities();
-          GrantedAuthority gA =  grantedAuthority.stream().findFirst().orElse(null);
-            if (gA.equals(null)){
+            GrantedAuthority gA = grantedAuthority.stream().findFirst().orElse(null);
+            if (gA.equals(null)) {
                 throw new IncorrectSecurityContentException();
             }
             return gA.toString();
@@ -26,7 +26,7 @@ public final class AccessControlHelper {
     }
 
 
-    public static UUID getId(){
+    public static UUID getId() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomUserDetails && ((CustomUserDetails) principal).getId() != null) {
             return ((CustomUserDetails) principal).getId();

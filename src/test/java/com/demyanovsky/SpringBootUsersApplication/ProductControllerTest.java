@@ -57,7 +57,6 @@ public class ProductControllerTest {
 
     @Test
     public void productById() throws Exception {
-        User user = userRepository.findByRestoreHash("5435ec678dbfda756579625f07bf7eec");
         Product tmp = productService.save(product2);
         mockMvc.perform(get("/product/{id}", tmp.getId()))
                 .andExpect(status().isOk())
@@ -89,6 +88,7 @@ public class ProductControllerTest {
                 .andExpect(status().is(400));
         productService.deleteById(tmp1.getId());
     }
+
     @Test
     public void getProductListNegativeLimitParam() throws Exception {
         Product tmp1 = productService.save(product1);
@@ -96,7 +96,6 @@ public class ProductControllerTest {
                 .andExpect(status().is(400));
         productService.deleteById(tmp1.getId());
     }
-
 
     @Test
     public void getProductListWithoutParamIncorrectLimit() throws Exception {
