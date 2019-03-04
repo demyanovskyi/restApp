@@ -63,7 +63,7 @@ public class UserServiceTest {
         userService.modify(new UserDTO(user1.getName()), user1.getId());
         User tmp = new User();
         tmp = userService.getById(user1.getId());
-       assertEquals(tmp.getName(), "Edvard");
+        assertEquals(tmp.getName(), "Edvard");
     }
 
     @Test
@@ -72,7 +72,7 @@ public class UserServiceTest {
         User user2 = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
         User user4 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);
         userService.deleteById(user1.getId());
-        Page<User> tmp  = userService.getAll(0, 2);
+        Page<User> tmp = userService.getAll(0, 2);
         assertEquals(tmp.getTotalElements(), 2);
     }
 }
