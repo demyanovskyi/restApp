@@ -132,8 +132,8 @@ public class UserControllerTest {
     @Test
     public void confirmationPasswordRestore() throws Exception {
         UserPasswordRestoreDTO userDTO = new UserPasswordRestoreDTO();
-        userDTO.setPassword("12345");
-        userDTO.setConfirmPassword("12345");
+        userDTO.setPassword("12rR$345");
+        userDTO.setConfirmPassword("12rR$345");
         User user = userRepository.findByEmail(user4.getEmail());
         mockMvc.perform(post("/user/password/restore/{hash}", user.getRestoreHash()).contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"password\" : \"" + userDTO.getPassword() + "\",\"confirmPassword\":\"" + userDTO.getConfirmPassword() + "\"}"))

@@ -1,9 +1,16 @@
 package com.demyanovsky.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 public class UserPasswordRestoreDTO {
+    @NotNull
+    @Pattern(regexp = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#*&$%!_=+^<>-]).{6,20})", message = "Password have to At least 8 chars, " +
+            "contains at least one digit, contains at least one lower alpha char and one upper alpha char " +
+            "contains at least one char within a set of special chars (@#%$^ etc.), does not contain space, tab, etc.")
     private String password;
+
     private String confirmPassword;
 
     public UserPasswordRestoreDTO() {

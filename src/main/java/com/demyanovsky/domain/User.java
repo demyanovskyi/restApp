@@ -20,7 +20,7 @@ public class User {
     private UUID id;
     @JsonProperty
     private String name;
-    @JsonProperty
+    @JsonIgnore
     private String password;
     @JsonProperty
     private Role role;

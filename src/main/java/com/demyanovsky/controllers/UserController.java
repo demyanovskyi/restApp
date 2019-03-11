@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @RequestMapping(value = UserCRUDConstants.CREATE_USER, method = RequestMethod.POST)
-    private ResponseEntity<User> createNewUser(@Valid @RequestBody UserDTO userDTO) {
+    private ResponseEntity<User> createNewUser(@Validated @RequestBody UserDTO userDTO) {
         logger.info("Call method createNewUser from UserController");
         User user = userService.save(userDTO, Role.USER_ROLE);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
@@ -76,7 +76,7 @@ public class UserController {
     }
 
     @RequestMapping(value = UserCRUDConstants.CONFIRMATION_PASSWORD_RESTORE, method = RequestMethod.POST)
-    private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash, @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO) {
+    private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash,@Validated @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO) {
         User user = userService.confirmationPasswordRestore(userPasswordRestoreDTO, hash);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
