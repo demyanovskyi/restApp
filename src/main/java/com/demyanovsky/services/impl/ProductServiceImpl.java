@@ -3,8 +3,13 @@ package com.demyanovsky.services.impl;
 import com.demyanovsky.domain.Product;
 import com.demyanovsky.exceptions.ProductNotFoundException;
 import com.demyanovsky.repository.ProductRepository;
+import com.demyanovsky.services.PagingAndSortingHelper;
 import com.demyanovsky.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,10 +35,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll() {
-        List<Product> products = new ArrayList<>();
-        productRepository.findAll().iterator().forEachRemaining(products::add);
-        return products;
+    public Page<Product> getAll(Integer page, Integer limit) {
+        return productRepository.findAll(PagingAndSortingHelper.createPageRequest(page, limit, "productName"));
     }
 
     @Override

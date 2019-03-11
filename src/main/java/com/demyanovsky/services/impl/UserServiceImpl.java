@@ -7,9 +7,14 @@ import com.demyanovsky.exceptions.IncorrectEmailException;
 import com.demyanovsky.exceptions.UserNotFoundException;
 import com.demyanovsky.repository.UserRepository;
 import com.demyanovsky.security.EmailSender;
+import com.demyanovsky.services.PagingAndSortingHelper;
 import com.demyanovsky.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,10 +37,8 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public List<User> getAll() {
-        List<User> list = new ArrayList<>();
-        userRepository.findAll().iterator().forEachRemaining(list::add);
-        return list;
+    public Page<User> getAll(Integer page, Integer limit) {
+        return userRepository.findAll(PagingAndSortingHelper.createPageRequest(page, limit, "name"));
     }
 
     @Override
