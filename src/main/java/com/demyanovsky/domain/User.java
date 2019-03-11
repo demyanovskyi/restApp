@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -12,17 +15,15 @@ import java.util.UUID;
 @Entity(name = "Users")
 @Table(name = "users")
 public class User {
-
     @JsonProperty
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     @Id
     private UUID id;
-
     @JsonProperty
     private String name;
-    @JsonIgnore
+    @JsonProperty
     private String password;
     @JsonProperty
     private Role role;

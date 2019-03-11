@@ -34,10 +34,10 @@ public class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    private UserDTO user2 = new UserDTO("Antony", "dadas@dada.ff", "123526tgf");
-    private UserDTO user1 = new UserDTO("Joshua", "fsfsa@fsdf.afa", "gwrthg234");
-    private UserDTO user3 = new UserDTO("Mery", "mads@fgg.cf", "3r232r");
-    private UserDTO user4 = new UserDTO("Fsfsfsa", "maksym.demianovskyi@globallogic.com", "3r232r");
+    private UserDTO user2 = new UserDTO("Antony", "dadas@dada.ff", "12#3F526tgf");
+    private UserDTO user1 = new UserDTO("Joshua", "fsfsa@fsdf.afa", "gwFrt#hg234");
+    private UserDTO user3 = new UserDTO("Mery", "mads@fgg.cf", "3r2#F32rh");
+    private UserDTO user4 = new UserDTO("Fsfsfsa", "maksym.demianovskyi@globallogic.com", "3r2$fgJ32r");
 
     @Test
     public void userById() throws Exception {
