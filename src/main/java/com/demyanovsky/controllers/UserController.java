@@ -76,7 +76,8 @@ public class UserController {
     }
 
     @RequestMapping(value = UserCRUDConstants.CONFIRMATION_PASSWORD_RESTORE, method = RequestMethod.POST)
-    private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash,@Validated @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO) {
+    private ResponseEntity<User> confirmationPasswordRestore(@PathVariable("hash") String hash, @Validated @RequestBody UserPasswordRestoreDTO userPasswordRestoreDTO) {
+        logger.info("Call method confirmationPasswordRestore from UserController");
         User user = userService.confirmationPasswordRestore(userPasswordRestoreDTO, hash);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
