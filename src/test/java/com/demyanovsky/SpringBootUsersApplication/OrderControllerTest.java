@@ -40,7 +40,7 @@ public class OrderControllerTest {
 
     static Product product1 = new Product("MacBook Pro", 2312.44);
     static Product product2 = new Product("iPhone X", 844.43);
-    static UserDTO userDTO1 = new UserDTO("Qwerty", "ffwwh123we@gmail.com", "qwrfg");
+    static UserDTO userDTO1 = new UserDTO("Qwerty", "ffwwh123we@gmail.com", "qwrfgF$3");
     static List<UUID> productsID = new ArrayList<>();
     static OrderDTO orderDTO = new OrderDTO();
 

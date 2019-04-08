@@ -25,7 +25,6 @@ import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final String REGEX = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
     @Value("${emailProvider}")
     private String emailProvider;
     @Value("${emailProviderPassword}")
@@ -88,20 +87,12 @@ public class UserServiceImpl implements UserService {
         Objects.requireNonNull(userDTO);
         Objects.requireNonNull(role);
         User user = new User();
-        if (!validEmail(userDTO.getEmail())) {
-            throw new ForbiddenException("Incorrect email");
-        } else {
-            user.setRole(role);
-            user.setName(userDTO.getName());
-            user.setSalt(BCrypt.gensalt().toLowerCase());
-            user.setEmail(userDTO.getEmail());
-            user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword() + user.getSalt()));
-            return userRepository.save(user);
-        }
-    }
-
-    public boolean validEmail(String email) {
-        return email.matches(REGEX);
+        user.setRole(role);
+        user.setName(userDTO.getName());
+        user.setSalt(BCrypt.gensalt().toLowerCase());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword() + user.getSalt()));
+        return userRepository.save(user);
     }
 
     @Override

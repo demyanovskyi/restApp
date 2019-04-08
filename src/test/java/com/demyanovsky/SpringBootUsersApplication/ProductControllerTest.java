@@ -43,9 +43,9 @@ public class ProductControllerTest {
 
     @Before
     public void setup() {
-        UserDTO userDTO1 = new UserDTO("Jon", "ff@ffgfdg.cgd", "123526tgf");
+        UserDTO userDTO1 = new UserDTO("Jon", "ff@ffgfdg.cgd", "123526*Jtgf");
         User testUser1 = userService.save(userDTO1, Role.USER_ROLE);
-        UserDTO userDTO2 = new UserDTO("Admin", "admin@gfd.cgm", "admin");
+        UserDTO userDTO2 = new UserDTO("Admin", "admin@gfd.cgm", "admin*I1");
         User testUser2 = userService.save(userDTO2, Role.ADMIN_ROLE);
     }
 
@@ -125,7 +125,7 @@ public class ProductControllerTest {
     public void denyDeleteFromUserRole() throws Exception {
         Product tmp1 = productService.save(product1);
         mockMvc.perform(delete("/product/{id}", tmp1.getId())
-                .with(httpBasic("ff@ffgfdg.cgd", "123526tgf")))
+                .with(httpBasic("ff@ffgfdg.cgd", "123526*Jtgf")))
                 .andExpect(status().isForbidden());
         productService.deleteById(tmp1.getId());
     }
@@ -134,7 +134,7 @@ public class ProductControllerTest {
     public void deleteProductById() throws Exception {
         Product tmp = productService.save(product2);
         mockMvc.perform(delete("/product/{id}", tmp.getId())
-                .with(httpBasic("admin@gfd.cgm", "admin")))
+                .with(httpBasic("admin@gfd.cgm", "admin*I1")))
                 .andExpect(handler().methodName("deleteProduct"))
                 .andExpect(status().isOk())
                 .andExpect(handler().handlerType(ProductController.class));
@@ -144,7 +144,7 @@ public class ProductControllerTest {
     public void denyModifyFromUserRole() throws Exception {
         Product tmp = productService.save(product2);
         mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
-                .with(httpBasic("ff@ffgfdg.cgd", "123526tgf"))
+                .with(httpBasic("ff@ffgfdg.cgd", "123526*Jtgf"))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isForbidden());
         productService.deleteById(tmp.getId());
@@ -154,7 +154,7 @@ public class ProductControllerTest {
     public void modifyProduct() throws Exception {
         Product tmp = productService.save(product2);
         mockMvc.perform(put("/product/{id}", tmp.getId()).content("{ \"id\" : \"" + tmp.getId() + "\" , \"productName\" : \"iPhone XS\" , \"price\" : 656.43}")
-                .with(httpBasic("admin@gfd.cgm", "admin"))
+                .with(httpBasic("admin@gfd.cgm", "admin*I1"))
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(handler().methodName("updateProduct"))
                 .andExpect(status().isOk())

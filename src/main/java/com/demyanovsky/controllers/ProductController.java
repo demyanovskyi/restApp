@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-public class ProductController {
+public class  ProductController {
     @Autowired
     private ProductService productService;
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);

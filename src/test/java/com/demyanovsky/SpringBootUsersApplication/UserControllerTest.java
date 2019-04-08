@@ -34,10 +34,10 @@ public class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    private UserDTO user2 = new UserDTO("Antony", "qgdvffgeasqq@dada.ff", "123526tgf");
-    private UserDTO user1 = new UserDTO("Joshua", "ndetfdfdfdfd@fsdf.afa", "gwrthg234");
-    private UserDTO user3 = new UserDTO("Mery", "qqmfhadsqq@fgg.cf", "3r232r");
-    private UserDTO user4 = new UserDTO("Fsfsfsa", "maksym.demianovskyi@globallogic.com", "3r232r");
+    private UserDTO user2 = new UserDTO("Antony", "dadas@dada.ff", "12#3F526tgf");
+    private UserDTO user1 = new UserDTO("Joshua", "fsfsa@fsdf.afa", "gwFrt#hg234");
+    private UserDTO user3 = new UserDTO("Mery", "mads@fgg.cf", "3r2#F32rh");
+    private UserDTO user4 = new UserDTO("Fsfsfsa", "maksym.demianovskyi@globallogic.com", "3r2$fgJ32r");
 
     @Test
     public void userById() throws Exception {
@@ -189,8 +189,8 @@ public class UserControllerTest {
     @Test
     public void confirmationPasswordRestore() throws Exception {
         UserPasswordRestoreDTO userDTO = new UserPasswordRestoreDTO();
-        userDTO.setPassword("12345");
-        userDTO.setConfirmPassword("12345");
+        userDTO.setPassword("12rR$345");
+        userDTO.setConfirmPassword("12rR$345");
         User user = userRepository.findByEmail(user4.getEmail());
         mockMvc.perform(post("/user/password/restore/{hash}", user.getRestoreHash()).contentType(MediaType.APPLICATION_JSON)
                 .content("{ \"password\" : \"" + userDTO.getPassword() + "\",\"confirmPassword\":\"" + userDTO.getConfirmPassword() + "\"}"))

@@ -12,14 +12,12 @@ import java.util.UUID;
 @Entity(name = "Users")
 @Table(name = "users")
 public class User {
-
     @JsonProperty
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     @Id
     private UUID id;
-
     @JsonProperty
     private String name;
     @JsonIgnore
