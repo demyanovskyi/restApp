@@ -55,11 +55,68 @@ public class UserControllerTest {
     @Test
     public void listAllUsers() throws Exception {
         User testUser = userService.save(user1, Role.USER_ROLE);
+        User testUser1 = userService.save(user2, Role.USER_ROLE);
+        mockMvc.perform(get(GET_ALL_USERS).param("page", "0").param("limit", "10")
+                .with(httpBasic(user2.getEmail(), user2.getPassword())))
+                .andExpect(handler().handlerType(UserController.class))
+                .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(10))
+                .andExpect(jsonPath("$.number").value(0))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        userService.deleteById(testUser.getId());
+        userService.deleteById(testUser1.getId());
+    }
+
+    @Test
+    public void listAllUsersSecondPage() throws Exception {
+        User testUser = userService.save(user1, Role.USER_ROLE);
+        mockMvc.perform(get(GET_ALL_USERS).param("page", "1").param("limit", "10")
+                .with(httpBasic(user1.getEmail(), user1.getPassword())))
+                .andExpect(handler().handlerType(UserController.class))
+                .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(10))
+                .andExpect(jsonPath("$.number").value(1))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        userService.deleteById(testUser.getId());
+    }
+
+    @Test
+    public void listAllUsersWithoutArgs() throws Exception {
+        User testUser = userService.save(user1, Role.USER_ROLE);
         mockMvc.perform(get(GET_ALL_USERS)
                 .with(httpBasic(user1.getEmail(), user1.getPassword())))
                 .andExpect(handler().handlerType(UserController.class))
                 .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        userService.deleteById(testUser.getId());
+    }
+
+    @Test
+    public void listAllUsersNegativePageParam() throws Exception {
+        User testUser = userService.save(user1, Role.USER_ROLE);
+        mockMvc.perform(get(GET_ALL_USERS).param("page", "-1").param("limit", "10")
+                .with(httpBasic(user1.getEmail(), user1.getPassword())))
+                .andExpect(status().is(400));
+        userService.deleteById(testUser.getId());
+    }
+
+    @Test
+    public void listAllUsersNegativeLimitParam() throws Exception {
+        User testUser = userService.save(user1, Role.USER_ROLE);
+        mockMvc.perform(get(GET_ALL_USERS).param("page", "0").param("limit", "-10")
+                .with(httpBasic(user1.getEmail(), user1.getPassword())))
+                .andExpect(status().is(400));
+        userService.deleteById(testUser.getId());
+    }
+
+    @Test
+    public void listAllUserIncorrectLimit() throws Exception {
+        User testUser = userService.save(user1, Role.USER_ROLE);
+        mockMvc.perform(get(GET_ALL_USERS).param("page", "0").param("limit", "55")
+                .with(httpBasic(user1.getEmail(), user1.getPassword())))
+                .andExpect(handler().handlerType(UserController.class))
+                .andExpect(handler().methodName("listAllUsers")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(50));
         userService.deleteById(testUser.getId());
     }
 

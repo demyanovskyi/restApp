@@ -7,10 +7,12 @@ import com.demyanovsky.services.mappingConstants.ProductCRUDConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,9 +30,9 @@ public class  ProductController {
     }
 
     @RequestMapping(value = ProductCRUDConstants.GET_ALL_PRODUCTS, method = RequestMethod.GET)
-    private ResponseEntity<List<Product>> getProductList() {
+    private ResponseEntity<Page<Product>> getProductList(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "limit", required = false) Integer limit) {
         logger.info("Call method getProductList from ProductController");
-        List<Product> products = productService.getAll();
+        Page<Product> products = productService.getAll(page, limit);
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

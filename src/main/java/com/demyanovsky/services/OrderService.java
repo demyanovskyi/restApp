@@ -20,5 +20,4 @@ public interface OrderService {
      * @return Order
      */
     Order getOrder(UUID id);
-
 }

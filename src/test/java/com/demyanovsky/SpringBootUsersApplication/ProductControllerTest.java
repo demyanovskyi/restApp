@@ -19,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.demyanovsky.services.mappingConstants.ProductCRUDConstants.GET_ALL_PRODUCTS;
+import static com.demyanovsky.services.mappingConstants.UserCRUDConstants.GET_ALL_USERS;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,7 +57,6 @@ public class ProductControllerTest {
 
     @Test
     public void productById() throws Exception {
-        User user = userRepository.findByRestoreHash("5435ec678dbfda756579625f07bf7eec");
         Product tmp = productService.save(product2);
         mockMvc.perform(get("/product/{id}", tmp.getId()))
                 .andExpect(status().isOk())
@@ -70,10 +71,54 @@ public class ProductControllerTest {
 
     @Test
     public void getProductList() throws Exception {
+        Product tmp1 = productService.save(product1);
+        mockMvc.perform(get(GET_ALL_PRODUCTS).param("page", "0").param("limit", "10"))
+                .andExpect(handler().handlerType(ProductController.class))
+                .andExpect(handler().methodName("getProductList")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(10))
+                .andExpect(jsonPath("$.number").value(0))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        productService.deleteById(tmp1.getId());
+    }
+
+    @Test
+    public void getProductListNegativePageParam() throws Exception {
+        Product tmp1 = productService.save(product1);
+        mockMvc.perform(get(GET_ALL_PRODUCTS).param("page", "-1").param("limit", "10"))
+                .andExpect(status().is(400));
+        productService.deleteById(tmp1.getId());
+    }
+
+    @Test
+    public void getProductListNegativeLimitParam() throws Exception {
+        Product tmp1 = productService.save(product1);
+        mockMvc.perform(get(GET_ALL_PRODUCTS).param("page", "0").param("limit", "-10"))
+                .andExpect(status().is(400));
+        productService.deleteById(tmp1.getId());
+    }
+
+    @Test
+    public void getProductListWithoutParamIncorrectLimit() throws Exception {
+        Product tmp1 = productService.save(product1);
+        mockMvc.perform(get("/product/").param("page", "0").param("limit", "55"))
+                .andExpect(handler().handlerType(ProductController.class))
+                .andExpect(handler().methodName("getProductList")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(50))
+                .andExpect(jsonPath("$.number").value(0))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        productService.deleteById(tmp1.getId());
+    }
+
+    @Test
+    public void getProductListWithoutParam() throws Exception {
+        Product tmp1 = productService.save(product1);
         mockMvc.perform(get("/product/"))
                 .andExpect(handler().handlerType(ProductController.class))
                 .andExpect(handler().methodName("getProductList")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.size").value(25))
+                .andExpect(jsonPath("$.number").value(0))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE));
+        productService.deleteById(tmp1.getId());
     }
 
     @Test

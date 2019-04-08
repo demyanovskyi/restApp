@@ -3,8 +3,8 @@ package com.demyanovsky.services;
 
 import com.demyanovsky.domain.*;
 import com.demyanovsky.exceptions.UserNotFoundException;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -34,9 +34,11 @@ public interface UserService {
     /**
      * Get the list of users.
      *
+     * @param page
+     * @param limit
      * @return list of users
      */
-    List<User> getAll();
+    Page<User> getAll(Integer page, Integer limit);
 
     /**
      * Get the User by id.
@@ -50,6 +52,7 @@ public interface UserService {
      * Update the User.
      *
      * @param userDTO
+     * @param id
      * @return user
      */
     User modify(UserDTO userDTO, UUID id);
@@ -65,6 +68,7 @@ public interface UserService {
      * Confirm restore password.
      *
      * @param userPasswordRestoreDTO
+     * @param hash
      * @return User
      */
     User confirmationPasswordRestore(UserPasswordRestoreDTO userPasswordRestoreDTO, String hash);

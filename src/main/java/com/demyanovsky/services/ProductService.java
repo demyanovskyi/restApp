@@ -1,8 +1,8 @@
 package com.demyanovsky.services;
 
 import com.demyanovsky.domain.Product;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface ProductService {
@@ -23,9 +23,11 @@ public interface ProductService {
     /**
      * Get the list of products.
      *
+     * @param page
+     * @param limit
      * @return list of products
      */
-    List<Product> getAll();
+    Page<Product> getAll(Integer page, Integer limit);
 
     /**
      * Get the Product by id.

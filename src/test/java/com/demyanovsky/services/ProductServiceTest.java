@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -44,9 +45,8 @@ public class ProductServiceTest {
 
     @Test
     public void getAll() {
-        List<Product> tmp = new ArrayList();
-        tmp = productService.getAll();
-        assertEquals(tmp.size(), 3);
+        Page<Product> tmp = productService.getAll(0, 3);
+        assertEquals(tmp.getTotalElements(), 3);
     }
 
     @Test
@@ -58,9 +58,8 @@ public class ProductServiceTest {
     @Test
     public void deleteProductByID() {
         productService.deleteById(product2.getId());
-        List<Product> tmp = new ArrayList();
-        tmp = productService.getAll();
-        assertEquals(tmp.size(), 2);
+        Page<Product> tmp = productService.getAll(0, 2);
+        assertEquals(tmp.getTotalElements(), 2);
     }
 
     @Test
