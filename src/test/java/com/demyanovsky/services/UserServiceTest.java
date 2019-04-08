@@ -66,7 +66,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void deliteUserByID() throws UserNotFoundException {
+    public void deleteUserByID() throws UserNotFoundException {
         User user1 = userService.save(new UserDTO(user3.getName(), user3.getEmail(), user3.getPassword()), Role.USER_ROLE);
         User user2 = userService.save(new UserDTO(user1.getName(), user1.getEmail(), user1.getPassword()), Role.USER_ROLE);
         User user4 = userService.save(new UserDTO(user2.getName(), user2.getEmail(), user2.getPassword()), Role.USER_ROLE);

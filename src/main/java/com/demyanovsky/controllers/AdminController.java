@@ -24,7 +24,7 @@ public class AdminController {
 
     @RequestMapping(value = UserCRUDConstants.CREATE_ADMIN, method = RequestMethod.POST)
     private ResponseEntity<User> createNewUser(@RequestBody UserDTO userDTO) {
-        logger.info("Call method getOrder from OrderController");
+        logger.info("Call method createNewUser from AdminController");
         User user = userService.save(userDTO, Role.ADMIN_ROLE);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }

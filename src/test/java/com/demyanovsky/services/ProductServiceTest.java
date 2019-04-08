@@ -56,7 +56,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void deliteProductByID() {
+    public void deleteProductByID() {
         productService.deleteById(product2.getId());
         List<Product> tmp = new ArrayList();
         tmp = productService.getAll();
